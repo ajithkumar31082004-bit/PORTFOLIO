@@ -101,8 +101,27 @@
   }
   .btn.primary{background:var(--orange); color:#1a1200; font-weight:600;}
   .btn.primary:hover{background:#ffad33;}
+  .btn.secondary{background:transparent; border-color:var(--orange); color:var(--orange);}
+  .btn.secondary:hover{background:rgba(255,153,0,0.08);}
   .btn.ghost{border-color:var(--line); color:var(--text);}
   .btn.ghost:hover{border-color:var(--teal); color:var(--teal);}
+
+  .hero-stats{display:grid; grid-template-columns:repeat(4,minmax(120px,1fr)); gap:14px; margin-top:28px;}
+  .stat-card{background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:var(--radius); padding:18px;}
+  .stat-value{font-family:var(--display); font-size:28px; margin-bottom:8px; color:var(--orange);}
+  .stat-label{color:var(--muted); font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:0.8px;}
+
+  .skills-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;}
+  .skill-item{display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); color:var(--muted); font-size:13px; margin-bottom:8px;}
+  .progress{background:var(--surface-2); border:1px solid var(--line); border-radius:999px; height:10px; overflow:hidden;}
+  .progress-bar{height:100%; border-radius:999px; background:linear-gradient(90deg,var(--orange),var(--teal));}
+  .service-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px; margin-top:18px;}
+  .service-chip{padding:12px 14px; background:var(--surface-2); border:1px solid var(--line); border-radius:999px; color:var(--text); font-family:var(--mono); font-size:12px; text-align:center;}
+  .service-title{font-family:var(--mono); font-size:12px; color:var(--orange); text-transform:uppercase; letter-spacing:0.9px; margin-bottom:12px;}
+
+  .architecture{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:26px; display:grid; gap:16px;}
+  .arch-step{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface-2); font-family:var(--mono); color:var(--text);}
+  .arch-step span:last-child{color:var(--orange); font-weight:700;}
 
   /* VPC diagram */
   .vpc{border:1px dashed var(--line); border-radius:var(--radius); padding:20px; position:relative;}
@@ -169,6 +188,8 @@
   .stage-card .role{font-family:var(--display); font-weight:600; font-size:15px;}
   .stage-card .org{color:var(--teal); font-family:var(--mono); font-size:12px; margin-top:2px;}
   .stage-card .dates{color:var(--muted); font-family:var(--mono); font-size:11px; margin-top:2px;}
+  .stage-card .tech-row{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
+  .stage-card .tech-chip{font-family:var(--mono); font-size:11px; padding:5px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line); color:var(--text);}
   .stage-card ul{margin:10px 0 0; padding-left:18px; color:var(--muted); font-size:13px;}
   .stage-card li{margin-bottom:4px;}
 
@@ -224,13 +245,6 @@
     *{animation:none !important; transition:none !important;}
     html{scroll-behavior:auto;}
   }
-  /* Extra animations */
-  @keyframes floaty { 0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)} }
-  @keyframes pop { 0%{opacity:0; transform:translateY(8px) scale(.995)} 100%{opacity:1; transform:translateY(0) scale(1)} }
-  .hero-copy h1{animation:pop 700ms cubic-bezier(.2,.9,.2,1) both}
-  .terminal{animation:floaty 6s ease-in-out infinite}
-  .project-card{will-change:transform; transform:translateZ(0); transition:transform .32s cubic-bezier(.2,.9,.2,1), box-shadow .25s ease}
-  .project-card:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 14px 30px rgba(2,6,23,0.6)}
 </style>
 </head>
 <body>
@@ -243,8 +257,8 @@
       <a href="#skills">skills</a>
       <a href="#experience">experience</a>
       <a href="#projects">projects</a>
-      <a href="certifications.html">certs</a>
-      <a href="#documents">docs</a>
+      <a href="#architecture">architecture</a>
+      <a href="#certifications">certs</a>
       <a href="#contact">contact</a>
     </nav>
   </div>
@@ -253,14 +267,20 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <div class="eyebrow">// cloud & devops engineer</div>
-      <h1>Building secure, scalable infrastructure on AWS — one internship, one project at a time.</h1>
-      <p>Hands-on with EC2, S3, IAM, and VPC networking, plus Docker, Git and CI/CD pipelines. Currently a fresher looking for an entry-level Cloud/DevOps role.</p>
+    <div class="eyebrow">Hi, I'm Ajith Kumar 👋</div>
+      <h1>AWS Cloud & DevOps Engineer</h1>
+      <p>I build scalable cloud applications, automate deployments with CI/CD, and develop AI-powered solutions using AWS, Docker, Linux, and Python. I'm actively seeking opportunities where I can contribute to cloud infrastructure and DevOps engineering.</p>
       <div class="cta-row">
-        <a class="btn primary" href="#projects">See my work</a>
-        <a class="btn ghost" href="#contact">Get in touch</a>
-        <a class="btn ghost" href="profile.pdf" target="_blank" rel="noopener">View profile</a>
-        <a class="btn ghost" href="Ajithkumar_M_Resume_CloudDevOps.docx" download>Download resume</a>
+        <a class="btn primary" href="Ajithkumar_M_Resume_CloudDevOps.docx" download>Download Resume</a>
+        <a class="btn secondary" href="#projects">View Projects</a>
+        <a class="btn ghost" href="https://github.com/ajithkumar31082004-bit" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn ghost" href="https://linkedin.com/in/ajithkumar-m-3baaab2b7" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card"><div class="stat-value">3+</div><div class="stat-label">Internships</div></div>
+        <div class="stat-card"><div class="stat-value">10+</div><div class="stat-label">Projects</div></div>
+        <div class="stat-card"><div class="stat-value">15+</div><div class="stat-label">Certifications</div></div>
+        <div class="stat-card"><div class="stat-value">Top 20</div><div class="stat-label">AWS Hackathon</div></div>
       </div>
     </div>
 
@@ -302,51 +322,47 @@
     <div class="num">02</div>
     <h2>Skills</h2>
   </div>
-  <div class="wrap skills-grid reveal">
-    <div class="skill-card">
-      <h3>Cloud (AWS)</h3>
-      <div class="chip-row">
-        <span class="chip">EC2</span><span class="chip">VPC</span><span class="chip">IAM</span><span class="chip">S3</span>
-        <span class="chip">RDS</span><span class="chip">Lambda</span><span class="chip">CloudWatch</span>
-        <span class="chip">Auto Scaling</span><span class="chip">ELB</span><span class="chip">SNS</span>
-        <span class="chip">SQS</span><span class="chip">DynamoDB</span><span class="chip">Glue</span><span class="chip">Aurora</span>
+  <div class="wrap reveal">
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-item"><span>AWS</span><span>92%</span></div>
+        <div class="progress"><div class="progress-bar" style="width:92%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-item"><span>Docker</span><span>78%</span></div>
+        <div class="progress"><div class="progress-bar" style="width:78%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-item"><span>Linux</span><span>85%</span></div>
+        <div class="progress"><div class="progress-bar" style="width:85%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-item"><span>Python</span><span>68%</span></div>
+        <div class="progress"><div class="progress-bar" style="width:68%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-item"><span>SQL</span><span>72%</span></div>
+        <div class="progress"><div class="progress-bar" style="width:72%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-item"><span>CI/CD</span><span>80%</span></div>
+        <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
       </div>
     </div>
-    <div class="skill-card">
-      <h3>DevOps</h3>
-      <div class="chip-row">
-        <span class="chip">Docker</span><span class="chip">Git</span><span class="chip">GitHub</span>
-        <span class="chip">GitHub Actions</span><span class="chip">CI/CD</span><span class="chip">Linux</span><span class="chip">Shell Scripting</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <h3>Networking</h3>
-      <div class="chip-row">
-        <span class="chip">VPC</span><span class="chip">Security Groups</span><span class="chip">NACL</span>
-        <span class="chip">Route Tables</span><span class="chip">Internet Gateway</span><span class="chip">NAT Gateway</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <h3>Monitoring</h3>
-      <div class="chip-row">
-        <span class="chip">CloudWatch</span><span class="chip">CloudWatch Logs</span><span class="chip">CloudWatch Alarms</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <h3>Databases</h3>
-      <div class="chip-row">
-        <span class="chip">MySQL</span><span class="chip">Amazon RDS</span><span class="chip">DynamoDB</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <h3>Operating Systems</h3>
-      <div class="chip-row">
-        <span class="chip">Amazon Linux</span><span class="chip">Ubuntu</span><span class="chip">Windows</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <h3>Programming</h3>
-      <div class="chip-row"><span class="chip">Python</span></div>
+    <div class="service-title">AWS Services</div>
+    <div class="service-grid">
+      <span class="service-chip">⚡ EC2</span>
+      <span class="service-chip">🪣 S3</span>
+      <span class="service-chip">🔒 IAM</span>
+      <span class="service-chip">🗄️ RDS</span>
+      <span class="service-chip">📈 CloudWatch</span>
+      <span class="service-chip">⚙️ Lambda</span>
+      <span class="service-chip">✉️ SNS</span>
+      <span class="service-chip">📬 SQS</span>
+      <span class="service-chip">🌐 VPC</span>
+      <span class="service-chip">🐳 ECR</span>
+      <span class="service-chip">📦 ECS</span>
+      <span class="service-chip">🧱 CloudFormation</span>
     </div>
   </div>
 </section>
@@ -364,22 +380,35 @@
           <div class="role">Data Analyst Intern</div>
           <div class="org">VLOG Innovations LLP</div>
           <div class="dates">Jun 2025 – Jul 2025</div>
+          <div class="tech-row"><span class="tech-chip">Python</span><span class="tech-chip">SQL</span><span class="tech-chip">Power BI</span><span class="tech-chip">Excel</span></div>
           <ul>
-            <li>Hands-on exposure across NPD, manufacturing, health, AI, software and system integration domains.</li>
-            <li>Applied data analysis skills in a real-world, ISO 9001:2015-certified industrial setting.</li>
+            <li>Collected data from multiple business sources and validated accuracy before analysis.</li>
+            <li>Performed data cleaning, removed duplicates, handled missing values, corrected inconsistencies, and standardized formats.</li>
+            <li>Conducted Exploratory Data Analysis to uncover patterns, trends, and anomalies.</li>
+            <li>Used SQL to extract, filter, join, and aggregate business data from relational sources.</li>
+            <li>Developed interactive Power BI dashboards with charts, KPIs, slicers, and filters.</li>
+            <li>Automated repetitive reporting tasks using Python scripts and delivered weekly/monthly performance reports.</li>
+            <li>Analyzed customer behavior, operational performance, and sales trends to support decision-making.</li>
+            <li>Presented analytical findings to mentors while collaborating with interns and professionals on data-driven projects.</li>
+            <li><a href="https://drive.google.com/file/d/1dLiuM4I4gZl8S2lqNEnW47tLpA5ygCm6/view?usp=drive_link" target="_blank" rel="noopener">View internship certificate</a></li>
           </ul>
         </div>
       </div>
       <div class="stage">
         <div class="stage-marker">2</div>
         <div class="stage-card">
-          <div class="role">Intern — Google Generative AI</div>
+          <div class="role">Google Generative AI Intern</div>
           <div class="org">NASSCOM / SmartInternz</div>
           <div class="dates">Jul 2025 – Sep 2025</div>
+          <div class="tech-row"><span class="tech-chip">Generative AI</span><span class="tech-chip">Google AI</span><span class="tech-chip">Prompt Engineering</span><span class="tech-chip">Python</span></div>
           <ul>
-            <li>Worked on AI-driven automation and real-world data processing with Generative AI models.</li>
-            <li>Applied prompt engineering to improve workflow accuracy and reliability.</li>
-            <li>Designed automation pipelines to cut down repetitive manual tasks.</li>
+            <li>Learned the fundamentals of Generative AI, Large Language Models, and AI application development.</li>
+            <li>Designed and optimized prompts to improve AI response quality for content generation and workflows.</li>
+            <li>Built chatbot and automation prototypes while exploring NLP concepts and AI integration patterns.</li>
+            <li>Evaluated AI-generated outputs for accuracy, relevance, and ethical alignment.</li>
+            <li>Applied responsible AI principles focused on fairness, privacy, and model behavior.</li>
+            <li>Collaborated with mentors and fellow interns on AI-based mini projects and case studies.</li>
+            <li><a href="https://drive.google.com/file/d/1LSKiX3r5ztqG484BQiEwEvqm98swf3I_/view?usp=drive_link" target="_blank" rel="noopener">View internship certificate</a></li>
           </ul>
         </div>
       </div>
@@ -389,10 +418,15 @@
           <div class="role">AWS Cloud &amp; Generative AI Intern</div>
           <div class="org">SmartBridge</div>
           <div class="dates">Dec 2025 – Feb 2026</div>
+          <div class="tech-row"><span class="tech-chip">AWS</span><span class="tech-chip">Lambda</span><span class="tech-chip">DynamoDB</span><span class="tech-chip">CloudWatch</span></div>
           <ul>
-            <li>Hands-on training on EC2, S3, IAM and VPC networking fundamentals.</li>
-            <li>Configured cloud infrastructure, access management and end-to-end deployment workflows.</li>
-            <li>Gained exposure to integrating AI models with real-world cloud-based solutions.</li>
+            <li>Launched and configured Amazon EC2 instances, managed storage with Amazon S3, and set up IAM users, roles, and policies.</li>
+            <li>Built serverless applications using AWS Lambda and stored data using Amazon DynamoDB.</li>
+            <li>Monitored cloud resources with CloudWatch and learned VPC networking concepts including Security Groups.</li>
+            <li>Implemented cloud security best practices and participated in cloud deployment workflows.</li>
+            <li>Explored AI integration by combining Generative AI capabilities with cloud-hosted applications.</li>
+            <li>Worked on infrastructure management, deployment automation, troubleshooting, and technical demonstrations.</li>
+            <li><a href="https://skillwallet.smartinternz.com/certificate/virtual-internship/0ee8b1eafadac937e6e03d8866cef9bf" target="_blank" rel="noopener">View internship certificate</a></li>
           </ul>
         </div>
       </div>
@@ -407,14 +441,13 @@
   </div>
   <div class="wrap projects-grid reveal">
     <div class="project-card">
-      <div class="tag">React · Node.js · AWS · MongoDB</div>
-      <h3>Blissful Abodes — AI Hotel Booking Platform</h3>
+      <div class="tag">AWS · EC2 · S3 · IAM</div>
+      <h3>Blissful Abodes — AWS Cloud Deployment</h3>
       <ul>
-        <li>Built a scalable hotel booking platform with personalized AI recommendations for users based on preferences, travel history, budget and location.</li>
-        <li>Implemented secure JWT authentication, booking management, payment integration, reviews, and responsive user/admin dashboards.</li>
-        <li>Deployed on AWS with EC2 + Nginx hosting, S3 media storage, CloudFront delivery, and CloudWatch monitoring for reliability.</li>
+        <li>Designed and deployed a responsive website on AWS, using EC2 for hosting and S3 for static assets.</li>
+        <li>Configured secure access policies with least-privilege IAM permissions.</li>
+        <li>Gained hands-on experience in infrastructure setup, deployment and troubleshooting.</li>
       </ul>
-      <p style="margin-top:8px; color:var(--muted); font-size:13px;">Tech tags: React.js, Tailwind CSS, JavaScript, Node.js, Express, MongoDB, AWS EC2, S3, CloudFront, JWT, Nginx</p>
     </div>
     <div class="project-card">
       <div class="tag">GenAI · Amazon PartyRock</div>
@@ -426,43 +459,96 @@
     </div>
     <div class="project-card">
       <div class="tag">AWS · SQS · Lambda · DynamoDB</div>
-      <h3>Restaurant Order System — Cloud-Native Food Ordering Platform</h3>
-      <p>Designed an event-driven order processing platform using AWS SQS, Lambda, DynamoDB, and MySQL, with a Node.js/Express backend running on EC2.</p>
+      <h3>Restaurant Order System — Cloud-Native Food Ordering</h3>
       <ul>
-        <li>Asynchronous order processing with Amazon SQS and AWS Lambda</li>
-        <li>Hybrid data architecture: DynamoDB for session data, RDS MySQL for transactional storage</li>
-        <li>Order notifications via Amazon SNS and secure JWT authentication</li>
-        <li>Image uploads to S3 for catalog content and reliable storage</li>
+        <li>Delivered a full-stack food ordering platform with customer and admin interfaces, secure login, cart, checkout and order tracking.</li>
+        <li>Used event-driven AWS architecture: Amazon EC2 backend → Amazon SQS → AWS Lambda → DynamoDB + Amazon RDS MySQL.</li>
+        <li>Implemented scalable order processing, notifications via Amazon SNS, image hosting on S3, and hybrid relational/NoSQL storage.</li>
       </ul>
-      <p style="margin-top:8px; color:var(--muted); font-size:13px;">Tech tags: Node.js, Express, MySQL, DynamoDB, SQS, Lambda, EC2, S3, SNS, JWT</p>
+    </div>
+    <div class="project-card">
+      <div class="tag">AIoT · Web · Smart Parking</div>
+      <h3>AIoT Smart Parking System</h3>
+      <ul>
+        <li>Designed an AI-enabled parking platform with real-time booking, premium membership plans, admin access, and chat support.</li>
+        <li>Built the front-end experience using Canva AI with smart city, campus and mall parking use cases in mind.</li>
+        <li>Focused on reducing parking search time, traffic congestion, and manual parking management.</li>
+        <li><a href="https://aiot-smart-parking.my.canva.site" target="_blank" rel="noopener">View live website ↗</a></li>
+      </ul>
+    </div>
+    <div class="project-card">
+      <div class="tag">Power BI · Analytics · Sales</div>
+      <h3>Blinkit Grocery Sales Dashboard</h3>
+      <ul>
+        <li>Created an interactive Power BI dashboard to analyze Blinkit grocery sales data using self-directed YouTube learning.</li>
+        <li>Surface insights for total sales, average sales, ratings, outlet performance, item type, and fat content.</li>
+        <li>Included dynamic filters for better decision-making and a clean business-friendly design.</li>
+        <li>Strengthened skills in Power BI, data modeling, DAX, and data visualization.</li>
+      </ul>
+    </div>
+    <div class="project-card">
+      <div class="tag">Power BI · Customer Analytics</div>
+      <h3>Customer Shopping Behavior Analysis</h3>
+      <ul>
+        <li>Built a Power BI dashboard to analyze customer behavior and purchasing patterns across product categories.</li>
+        <li>Presented metrics for customer count, average purchase amount, subscription status, category revenue, ratings, and age distribution.</li>
+        <li>Added interactive filters for gender, subscription status, and product category.</li>
+        <li>Improved practical experience in Power Query, data modeling, DAX fundamentals, and business intelligence reporting.</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<section id="documents">
+<section id="architecture">
   <div class="wrap section-head reveal">
-    <div class="num">07</div>
-    <h2>Documents</h2>
+    <div class="num">05</div>
+    <h2>Architecture</h2>
   </div>
-  <div class="wrap docs-grid reveal">
-    <a class="doc-card" href="profile.pdf" target="_blank" rel="noopener">
-      <div class="doc-title">Profile PDF</div>
-      <div class="doc-copy">Open or download my profile document.</div>
-    </a>
-    <a class="doc-card" href="resume-main.docx" download>
-      <div class="doc-title">Resume DOCX</div>
-      <div class="doc-copy">Download my alternate resume in Word format.</div>
-    </a>
-    <a class="doc-card" href="Ajithkumar_M_Resume_CloudDevOps.docx" download>
-      <div class="doc-title">Cloud DevOps Resume</div>
-      <div class="doc-copy">Download the polished Cloud &amp; DevOps-focused resume.</div>
-    </a>
+  <div class="wrap reveal architecture">
+    <div class="arch-step"><span>User</span><span>→ Route53</span></div>
+    <div class="arch-step"><span>Route53</span><span>→ CloudFront</span></div>
+    <div class="arch-step"><span>CloudFront</span><span>→ EC2</span></div>
+    <div class="arch-step"><span>EC2</span><span>→ Lambda</span></div>
+    <div class="arch-step"><span>Lambda</span><span>→ SQS</span></div>
+    <div class="arch-step"><span>SQS</span><span>→ DynamoDB</span></div>
+    <div class="arch-step"><span>DynamoDB</span><span>→ CloudWatch</span></div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap section-head reveal">
+    <div class="num">06</div>
+    <h2>Certifications &amp; Achievements</h2>
+  </div>
+  <div class="wrap two-col reveal">
+    <div class="list-card">
+      <h3>Certifications</h3>
+      <ul>
+        <li><a href="https://drive.google.com/file/d/1SoZkMOziCQNnhlOQfi2fYvOyoS-1PK9n/view?usp=drive_link" target="_blank" rel="noopener">AWS Cloud Quest — Cloud Practitioner</a></li>
+        <li><a href="https://drive.google.com/file/d/1EgXyAj-7-w_OqoBF5iLQ-M06HW_DXcR0/view?usp=drive_link" target="_blank" rel="noopener">AWS Cloud Foundations</a></li>
+        <li>AWS Security Foundations</li>
+        <li>AWS Technical Essentials</li>
+        <li>NPTEL — Python for Data Science</li>
+        <li>Tata Group — GenAI Powered Data Analytics (Forage)</li>
+        <li><a href="https://drive.google.com/file/d/1vK_MZpA7_oQ-jWJeV69YYinyuXjyZ6rx/view?usp=drive_link" target="_blank" rel="noopener">Docker for Absolute Beginners</a></li>
+        <li><a href="https://drive.google.com/file/d/1Rei3eG41DdaLKB7FnL3QbO3S1X-2Lf_d/view?usp=drive_link" target="_blank" rel="noopener">Kubernetes For Absolute Beginners</a></li>
+      </ul>
+    </div>
+    <div class="list-card">
+      <h3>Achievements</h3>
+      <ul>
+        <li><a href="https://drive.google.com/file/d/1jEIRNnTCKpuz1IIa9CEiJ8bg3GnsZq1-/view?usp=drive_link" target="_blank" rel="noopener">Top 20 Finalist Institution (14th place) — AWS PartyRock Hackathon 2025</a></li>
+        <li>Research Paper Presentation — ITDECC 2025 International Conference</li>
+        <li>Secured 2nd place — Add-Zap Competition, Vel Tech University</li>
+        <li>Secured 2nd place — Circuit Debugging, Sriram Engineering College</li>
+      </ul>
+    </div>
   </div>
 </section>
 
 <section id="education">
   <div class="wrap section-head reveal">
-    <div class="num">08</div>
+    <div class="num">07</div>
     <h2>Education</h2>
   </div>
   <div class="wrap reveal">
@@ -500,10 +586,12 @@
   <div class="wrap contact-grid reveal">
     <a href="mailto:ajithkumar31082004@gmail.com">✉ ajithkumar31082004@gmail.com</a>
     <a href="tel:8778954899">☎ 8778954899</a>
+    <a href="Ajithkumar_M_Resume_CloudDevOps.docx" download>📄 Download Resume</a>
+    <a href="https://docs.google.com/document/d/1zKiEHGQ_5NN4IUrxoSuANQaKNooRaeWE/edit?usp=drive_link&ouid=118169719881246242881&rtpof=true&sd=true" target="_blank" rel="noopener">📄 View Resume</a>
     <a href="https://github.com/ajithkumar31082004-bit" target="_blank" rel="noopener">GitHub ↗</a>
     <a href="https://linkedin.com/in/ajithkumar-m-3baaab2b7" target="_blank" rel="noopener">LinkedIn ↗</a>
   </div>
-  <div class="foot-note">Uthukottai, Tiruvallur DT, Tamil Nadu — built with EC2, S3 &amp; a little bit of stubbornness.</div>
+  <div class="foot-note">Made with ❤️ · HTML · CSS · JavaScript · Hosted on GitHub Pages · © 2026 Ajith Kumar</div>
 </footer>
 
 <script>
@@ -557,11 +645,10 @@
         if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
       });
     }, { threshold: 0.15 });
-    revealEls.forEach((el, i) => { el.style.transitionDelay = (i * 100) + 'ms'; io.observe(el); });
+    revealEls.forEach(el => io.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('in'));
   }
-
 </script>
 
 </body>
