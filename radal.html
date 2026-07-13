@@ -1,0 +1,2745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RADAL – AI-Powered Health & Wellness Platform | Case Study</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Case study of RADAL: An AI-powered integrated health & wellness platform developed using AWS PartyRock and Amazon Bedrock. 14th Place National Finalist in AWS PartyRock Hackathon 2025.">
+  <meta name="keywords" content="AWS PartyRock, Amazon Bedrock, Generative AI, Portfolio, Case Study, Health & Wellness, Claude 3.5 Sonnet">
+  <meta name="author" content="Generative AI Developer">
+  
+  <!-- Google Fonts (Poppins & Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================
+       DESIGN SYSTEM & CSS VARIABLES
+       ========================================== */
+    :root {
+      --bg-color: #0F172A;
+      --bg-darker: #060B13;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      
+      /* Theme Accents */
+      --aws-orange: #FF9900;
+      --aws-orange-glow: rgba(255, 153, 0, 0.15);
+      --blue-accent: #38BDF8;
+      --blue-accent-glow: rgba(56, 189, 248, 0.15);
+      
+      /* Glassmorphism Styles */
+      --glass-bg: rgba(15, 23, 42, 0.65);
+      --glass-card-bg: rgba(30, 41, 59, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: rgba(0, 0, 0, 0.35);
+      
+      /* Typography */
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      
+      /* Layout & Animation */
+      --max-width: 1200px;
+      --transition-speed: 0.3s;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+    }
+
+    /* ==========================================
+       GLOBAL RESETS & SCROLLBAR
+       ========================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-darker);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 5px;
+      border: 2px solid var(--bg-darker);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--blue-accent);
+    }
+
+    /* Ambient Blur Backgrounds */
+    .ambient-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .ambient-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.25;
+    }
+    .glow-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--aws-orange);
+      top: -100px;
+      left: -100px;
+    }
+    .glow-2 {
+      width: 600px;
+      height: 600px;
+      background: var(--blue-accent);
+      top: 30%;
+      right: -200px;
+    }
+    .glow-3 {
+      width: 550px;
+      height: 550px;
+      background: var(--aws-orange);
+      bottom: 15%;
+      left: -150px;
+    }
+    .glow-4 {
+      width: 500px;
+      height: 500px;
+      background: var(--blue-accent);
+      bottom: -100px;
+      right: -100px;
+    }
+
+    /* Reading Progress Bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--aws-orange) 0%, var(--blue-accent) 100%);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s ease-out;
+    }
+
+    /* ==========================================
+       TYPOGRAPHY & REVEAL CLASSES
+       ========================================== */
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 2.25rem;
+      margin-bottom: 0.75rem;
+      text-align: center;
+      position: relative;
+    }
+    
+    h2 span {
+      background: linear-gradient(90deg, var(--aws-orange) 0%, var(--blue-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 3rem auto;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color var(--transition-speed);
+    }
+
+    /* Scroll Animation Target */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================
+       LAYOUT UTILITIES
+       ========================================== */
+    section {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+    
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-card-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      transition: transform var(--transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                  box-shadow var(--transition-speed), 
+                  border-color var(--transition-speed);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(56, 189, 248, 0.25);
+      box-shadow: 0 12px 40px 0 rgba(56, 189, 248, 0.15);
+    }
+
+    /* ==========================================
+       1. HERO BANNER
+       ========================================== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 8rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Badges */
+    .hero-badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .badge i {
+      font-size: 0.9rem;
+    }
+
+    .badge-primary {
+      background: rgba(255, 153, 0, 0.15);
+      border-color: rgba(255, 153, 0, 0.3);
+      color: var(--aws-orange);
+    }
+
+    .badge-secondary {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--blue-accent);
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      font-weight: 800;
+    }
+    
+    .hero-title span {
+      background: linear-gradient(135deg, var(--aws-orange) 0%, var(--blue-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+    }
+
+    /* Technology mini badges */
+    .tech-mini-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+    }
+
+    .tech-mini-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--transition-speed) ease;
+      font-family: var(--font-heading);
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--aws-orange) 0%, #E68A00 100%);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 153, 0, 0.55);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-tertiary {
+      background: transparent;
+      color: var(--blue-accent);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .btn-tertiary:hover {
+      background: var(--blue-accent-glow);
+      border-color: var(--blue-accent);
+      transform: translateY(-2px);
+    }
+
+    /* Mockup Container */
+    .hero-mockup {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mockup-wrapper {
+      width: 100%;
+      background: #1E293B;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16 / 10;
+    }
+
+    .mockup-header {
+      height: 30px;
+      background: #0F172A;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      gap: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .mockup-dot:nth-child(1) { background: #FF5F56; }
+    .mockup-dot:nth-child(2) { background: #FFBD2E; }
+    .mockup-dot:nth-child(3) { background: #27C93F; }
+
+    .mockup-img {
+      width: 100%;
+      height: calc(100% - 30px);
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .mockup-wrapper:hover .mockup-img {
+      transform: scale(1.03);
+    }
+
+    .mockup-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 110%;
+      height: 110%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(56, 189, 248, 0) 65%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ==========================================
+       2. PROJECT OVERVIEW
+       ========================================== */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 3rem;
+      margin-top: 1rem;
+    }
+
+    .overview-text p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .overview-text .platform-highlight {
+      border-left: 4px solid var(--aws-orange);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+    }
+
+    .overview-metrics-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .overview-metric-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .overview-metric-item i {
+      font-size: 1.5rem;
+      color: var(--blue-accent);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .overview-metric-info h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-primary);
+    }
+
+    .overview-metric-info p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    /* ==========================================
+       3. PROJECT HIGHLIGHTS
+       ========================================== */
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .highlight-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .highlight-card .icon-box {
+      font-size: 2rem;
+      background: linear-gradient(135deg, rgba(255, 153, 0, 0.15) 0%, rgba(56, 189, 248, 0.15) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      min-width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--transition-speed);
+    }
+
+    .highlight-card:hover .icon-box {
+      transform: scale(1.1) rotate(5deg);
+      border-color: var(--blue-accent);
+    }
+
+    .highlight-card-orange:hover .icon-box {
+      border-color: var(--aws-orange);
+    }
+
+    .highlight-card .icon-box i {
+      background: linear-gradient(135deg, var(--aws-orange) 0%, var(--blue-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .highlight-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .highlight-card p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================================
+       4. PROBLEM STATEMENT & 5. SOLUTION
+       ========================================== */
+    .problem-solution-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .problem-card {
+      border-top: 4px solid #EF4444;
+      background: rgba(239, 68, 68, 0.03);
+    }
+    
+    .problem-card:hover {
+      border-color: #EF4444;
+      box-shadow: 0 12px 40px 0 rgba(239, 68, 68, 0.1);
+    }
+
+    .solution-card {
+      border-top: 4px solid var(--blue-accent);
+      background: rgba(56, 189, 248, 0.03);
+    }
+    
+    .solution-card:hover {
+      border-color: var(--blue-accent);
+    }
+
+    .prob-sol-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .prob-sol-header i {
+      font-size: 1.5rem;
+    }
+
+    .problem-card i {
+      color: #EF4444;
+    }
+
+    .solution-card i {
+      color: var(--blue-accent);
+    }
+
+    .prob-sol-header h3 {
+      font-size: 1.4rem;
+    }
+
+    .prob-sol-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .prob-sol-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .prob-sol-list li i {
+      font-size: 1.1rem;
+      margin-top: 0.2rem;
+    }
+
+    .problem-card .prob-sol-list li i {
+      color: rgba(239, 68, 68, 0.7);
+    }
+
+    .solution-card .prob-sol-list li i {
+      color: rgba(56, 189, 248, 0.7);
+    }
+
+    /* ==========================================
+       6. SYSTEM WORKFLOW & ARCHITECTURE
+       ========================================== */
+    .arch-wrapper {
+      overflow-x: auto;
+      padding: 2rem 0;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 950px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .arch-node {
+      flex: 1;
+      max-width: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .arch-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--glass-card-bg);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transition: all var(--transition-speed) ease;
+      color: var(--blue-accent);
+    }
+
+    .arch-node:hover .arch-box {
+      transform: scale(1.12);
+      border-color: var(--blue-accent);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+      color: var(--text-primary);
+    }
+
+    /* Target specific nodes for AWS Orange */
+    .arch-node-aws .arch-box {
+      color: var(--aws-orange);
+    }
+    .arch-node-aws:hover .arch-box {
+      border-color: var(--aws-orange);
+      box-shadow: 0 0 25px rgba(255, 153, 0, 0.35);
+    }
+
+    .arch-node p {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+    }
+
+    .arch-node span {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .arch-connector {
+      flex-grow: 1;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05), var(--blue-accent), rgba(255,255,255,0.05));
+      margin: 0 -20px;
+      position: relative;
+      z-index: -1;
+      transform: translateY(-30px);
+    }
+
+    /* Animation on connector arrow */
+    .arch-connector::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid var(--blue-accent);
+      border-right: 2px solid var(--blue-accent);
+      transform: rotate(45deg) translateY(-50%);
+      top: 50%;
+      right: 15px;
+      animation: flow-arrow 2s infinite linear;
+    }
+
+    @keyframes flow-arrow {
+      0% {
+        right: 80%;
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% {
+        right: 15px;
+        opacity: 0;
+      }
+    }
+
+    /* ==========================================
+       7. TECHNOLOGIES USED
+       ========================================== */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tech-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.5rem;
+    }
+
+    .tech-icon-wrapper {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--blue-accent);
+      transition: all var(--transition-speed);
+    }
+
+    .tech-card:hover .tech-icon-wrapper {
+      background: var(--blue-accent);
+      color: #000;
+      transform: scale(1.08);
+    }
+
+    /* Tech AWS Special */
+    .tech-card-aws:hover .tech-icon-wrapper {
+      background: var(--aws-orange);
+      color: #000;
+    }
+
+    .tech-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .tech-card p {
+      font-size: 0.85rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================================
+       8. FEATURES
+       ========================================== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--aws-orange) 0%, var(--blue-accent) 100%);
+      opacity: 0;
+      transition: opacity var(--transition-speed);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      font-size: 1.75rem;
+      color: var(--blue-accent);
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-card:hover .feature-icon {
+      color: var(--aws-orange);
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================================
+       9. MY RESPONSIBILITIES (TIMELINE)
+       ========================================== */
+    .timeline-container {
+      position: relative;
+      max-width: 900px;
+      margin: 2rem auto 0 auto;
+      padding: 2rem 0;
+    }
+
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--aws-orange), var(--blue-accent));
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 3.5rem;
+      position: relative;
+      width: 50%;
+    }
+
+    .timeline-item:nth-child(even) {
+      align-self: flex-end;
+      margin-left: 50%;
+      justify-content: flex-start;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      right: -10px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      border: 3px solid var(--aws-orange);
+      z-index: 10;
+      transition: transform var(--transition-speed);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: -10px;
+      border-color: var(--blue-accent);
+    }
+
+    .timeline-item:hover .timeline-dot {
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(255,153,0,0.8);
+    }
+    
+    .timeline-item:nth-child(even):hover .timeline-dot {
+      box-shadow: 0 0 10px rgba(56,189,248,0.8);
+    }
+
+    .timeline-card {
+      width: 90%;
+      background: var(--glass-card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    /* Arrows on timeline cards */
+    .timeline-card::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: -10px;
+      border-width: 10px 0 10px 10px;
+      border-style: solid;
+      border-color: transparent transparent transparent var(--glass-card-bg);
+      transform: rotate(0deg);
+    }
+
+    .timeline-item:nth-child(even) .timeline-card::after {
+      left: -10px;
+      right: auto;
+      border-width: 10px 10px 10px 0;
+      border-color: transparent var(--glass-card-bg) transparent transparent;
+    }
+
+    .timeline-item:nth-child(even) {
+      padding-left: 2rem;
+    }
+
+    .timeline-item:nth-child(odd) {
+      padding-right: 2rem;
+    }
+
+    .timeline-phase {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--aws-orange);
+      margin-bottom: 0.25rem;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-phase {
+      color: var(--blue-accent);
+    }
+
+    .timeline-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-card p {
+      font-size: 0.88rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================================
+       10. CHALLENGES & SOLUTIONS
+       ========================================== */
+    .ch-sol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .ch-sol-card {
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .ch-sol-header {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ch-sol-header h4 {
+      font-size: 1.1rem;
+      color: var(--blue-accent);
+    }
+
+    .ch-sol-header span {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--aws-orange);
+      background: rgba(255, 153, 0, 0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .ch-sol-body {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      flex-grow: 1;
+      background: var(--glass-card-bg);
+    }
+
+    .ch-sol-section {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .ch-sol-section i {
+      font-size: 1.1rem;
+      margin-top: 0.25rem;
+    }
+
+    .ch-sol-section.challenge i { color: #EF4444; }
+    .ch-sol-section.solution i { color: #10B981; }
+    .ch-sol-section.result i { color: var(--blue-accent); }
+
+    .ch-sol-text h5 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text-primary);
+    }
+
+    .ch-sol-text p {
+      font-size: 0.88rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================================
+       11. SKILLS DEMONSTRATED
+       ========================================== */
+    .skills-section-box {
+      text-align: center;
+    }
+
+    .skills-badges-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .skill-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.6rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--glass-card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all var(--transition-speed);
+      cursor: default;
+    }
+
+    .skill-badge i {
+      font-size: 1.1rem;
+      color: var(--blue-accent);
+    }
+
+    .skill-badge:hover {
+      border-color: var(--aws-orange);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px var(--aws-orange-glow);
+    }
+    
+    .skill-badge:hover i {
+      color: var(--aws-orange);
+    }
+
+    /* ==========================================
+       12. ACHIEVEMENT SECTION
+       ========================================== */
+    .achievement-showcase {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .award-card {
+      max-width: 750px;
+      width: 100%;
+      border: 1px solid rgba(255, 153, 0, 0.25);
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+      box-shadow: 0 20px 45px rgba(255, 153, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .award-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--aws-orange);
+    }
+
+    .award-trophy-wrapper {
+      margin-bottom: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .award-trophy {
+      font-size: 4rem;
+      color: var(--aws-orange);
+      animation: trophy-bounce 3s infinite ease-in-out;
+    }
+
+    @keyframes trophy-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.05); filter: drop-shadow(0 0 15px rgba(255,153,0,0.6)); }
+    }
+
+    .award-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .award-card h4 {
+      font-size: 1.3rem;
+      color: var(--blue-accent);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .award-specs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+    }
+
+    .award-spec-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .award-spec-item span {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .award-spec-item p {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .award-spec-item p.rank-number {
+      font-size: 2.2rem;
+      color: var(--aws-orange);
+      line-height: 1.1;
+      font-family: var(--font-heading);
+    }
+
+    .award-desc {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+    }
+
+    .award-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      background: rgba(255, 153, 0, 0.1);
+      border: 1px solid rgba(255, 153, 0, 0.3);
+      color: var(--aws-orange);
+      font-weight: 600;
+      transition: all var(--transition-speed);
+    }
+
+    .award-cta:hover {
+      background: var(--aws-orange);
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 153, 0, 0.2);
+    }
+
+    /* ==========================================
+       13. IMAGE GALLERY
+       ========================================== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(2, 220px);
+      gap: 1.5rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .gallery-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.3) 60%, rgba(15, 23, 42, 0) 100%);
+      z-index: 2;
+      opacity: 0.8;
+      transition: opacity var(--transition-speed);
+    }
+
+    .gallery-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem;
+      z-index: 3;
+      transform: translateY(10px);
+      transition: transform var(--transition-speed) ease-out;
+    }
+
+    .gallery-info h4 {
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .gallery-info p {
+      font-size: 0.8rem;
+      color: var(--blue-accent);
+      margin-bottom: 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* Gallery Hover */
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .gallery-item:hover::before {
+      opacity: 0.95;
+    }
+
+    .gallery-item:hover .gallery-info {
+      transform: translateY(0);
+    }
+
+    /* Grid Span Configurations */
+    .gallery-item-1 { grid-column: span 3; }
+    .gallery-item-2 { grid-column: span 3; }
+    .gallery-item-3 { grid-column: span 2; }
+    .gallery-item-4 { grid-column: span 2; }
+    .gallery-item-5 { grid-column: span 2; }
+
+    /* ==========================================
+       14. PROJECT STATISTICS (COUNTERS)
+       ========================================== */
+    .stats-section {
+      background: var(--bg-darker);
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 4.5rem 2rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stats-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .stats-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -1rem;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.08), rgba(255,255,255,0));
+    }
+
+    .stats-icon {
+      font-size: 2.2rem;
+      color: var(--blue-accent);
+      margin-bottom: 1rem;
+    }
+
+    .stats-item-orange .stats-icon {
+      color: var(--aws-orange);
+    }
+
+    .stats-number {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-family: var(--font-heading);
+    }
+
+    .stats-label {
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ==========================================
+       15. FUTURE IMPROVEMENTS
+       ========================================== */
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .future-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .future-icon {
+      font-size: 1.75rem;
+      color: var(--blue-accent);
+    }
+    
+    .future-card:hover .future-icon {
+      color: var(--aws-orange);
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.15); }
+    }
+
+    .future-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .future-card p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================================
+       16. RECRUITER SUMMARY
+       ========================================== */
+    .recruiter-container {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .recruiter-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(30, 41, 59, 0.5) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      box-shadow: 0 15px 40px rgba(56, 189, 248, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 3.5rem;
+      position: relative;
+    }
+
+    .recruiter-card::before {
+      content: '“';
+      position: absolute;
+      top: -20px;
+      left: 40px;
+      font-size: 8rem;
+      color: rgba(56, 189, 248, 0.1);
+      font-family: var(--font-heading);
+      line-height: 1;
+    }
+
+    .recruiter-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .recruiter-header i {
+      font-size: 2.5rem;
+      color: var(--aws-orange);
+    }
+
+    .recruiter-header h3 {
+      font-size: 1.6rem;
+    }
+
+    .recruiter-points {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .recruiter-point {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .recruiter-point i {
+      font-size: 1.15rem;
+      color: var(--blue-accent);
+      margin-top: 0.2rem;
+    }
+
+    .recruiter-point h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-primary);
+    }
+
+    .recruiter-point p {
+      font-size: 0.88rem;
+      margin-bottom: 0;
+    }
+
+    .recruiter-highlight-box {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 2rem;
+      text-align: center;
+    }
+
+    .recruiter-highlight-box h5 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--aws-orange);
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+
+    .recruiter-pitch {
+      font-size: 1.2rem;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--text-primary);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* ==========================================
+       17. FOOTER
+       ========================================== */
+    footer {
+      background: var(--bg-darker);
+      border-top: 1px solid var(--glass-border);
+      padding: 4rem 2rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .footer-logo {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .footer-logo span {
+      background: linear-gradient(90deg, var(--aws-orange) 0%, var(--blue-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      width: 100%;
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ==========================================
+       RESPONSIVE MEDIA QUERIES
+       ========================================== */
+    @media (max-width: 1024px) {
+      section {
+        padding: 5rem 1.5rem;
+      }
+      
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+      }
+
+      .hero-info {
+        align-items: center;
+      }
+
+      .hero-badge-container {
+        justify-content: center;
+      }
+
+      .tech-mini-badges {
+        justify-content: center;
+      }
+
+      .button-group {
+        justify-content: center;
+      }
+
+      .overview-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .timeline-container::before {
+        left: 20px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        justify-content: flex-start;
+        padding-left: 3rem !important;
+        padding-right: 0 !important;
+      }
+
+      .timeline-item:nth-child(even) {
+        margin-left: 0;
+      }
+
+      .timeline-dot {
+        left: 10px !important;
+        right: auto !important;
+      }
+
+      .timeline-card::after {
+        left: -10px !important;
+        right: auto !important;
+        border-width: 10px 10px 10px 0 !important;
+        border-color: transparent var(--glass-card-bg) transparent transparent !important;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: auto;
+      }
+      .gallery-item-1 { grid-column: span 2; aspect-ratio: 4/3; }
+      .gallery-item-2 { grid-column: span 2; aspect-ratio: 4/3; }
+      .gallery-item-3 { grid-column: span 2; aspect-ratio: 4/3; }
+      .gallery-item-4 { grid-column: span 2; aspect-ratio: 4/3; }
+      .gallery-item-5 { grid-column: span 4; aspect-ratio: 16/9; }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem 1.5rem;
+      }
+
+      .stats-item:nth-child(2)::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .problem-solution-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .award-specs {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .recruiter-points {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .recruiter-card {
+        padding: 2rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-item::after {
+        display: none;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+      .gallery-item {
+        grid-column: span 1 !important;
+        aspect-ratio: 16/10;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Reading Progress Indicator -->
+  <div class="scroll-progress" id="progressBar"></div>
+
+  <!-- Background Ambient Glow Effects -->
+  <div class="ambient-container">
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+    <div class="ambient-glow glow-4"></div>
+  </div>
+
+  <!-- Main Showcase Container -->
+  <main class="container">
+
+    <!-- ==========================================
+       1. HERO BANNER
+       ========================================== -->
+    <section id="hero">
+      <div class="hero-content">
+        <div class="hero-info reveal">
+          <div class="hero-badge-container">
+            <span class="badge badge-primary"><i class="fa-solid fa-trophy"></i> AWS PartyRock Hackathon 2025</span>
+            <span class="badge badge-secondary"><i class="fa-solid fa-code"></i> Generative AI Developer</span>
+            <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Project Completed</span>
+          </div>
+          
+          <h1 class="hero-title">
+            <span>RADAL</span> – AI Health & Wellness Platform
+          </h1>
+          
+          <p class="hero-tagline">
+            An intelligent, cloud-native wellness platform combining customized fitness, precise meal planning, emotional wellbeing, and sleep tracking into a cohesive AI-powered user journey.
+          </p>
+
+          <div class="tech-mini-badges">
+            <span class="tech-mini-badge">AWS PartyRock</span>
+            <span class="tech-mini-badge">Amazon Bedrock</span>
+            <span class="tech-mini-badge">Claude 3.5 Sonnet</span>
+            <span class="tech-mini-badge">Stable Image Core</span>
+            <span class="tech-mini-badge">Prompt Engineering</span>
+          </div>
+
+          <div class="button-group">
+            <a href="https://partyrock.aws/u/LAVANYA1/4ujkt6rCk/RADAL" target="_blank" class="btn btn-primary">
+              <i class="fa-solid fa-rocket"></i> Live Application
+            </a>
+            <a href="#architecture" class="btn btn-secondary">
+              <i class="fa-solid fa-diagram-project"></i> Architecture
+            </a>
+            <a href="https://drive.google.com/file/d/1jEIRNnTCKpuz1IIa9CEiJ8bg3GnsZq1-/view?usp=drive_link" target="_blank" class="btn btn-tertiary">
+              <i class="fa-solid fa-award"></i> Verification Link
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-mockup reveal" style="transition-delay: 0.15s;">
+          <div class="mockup-wrapper">
+            <div class="mockup-header">
+              <div class="mockup-dot"></div>
+              <div class="mockup-dot"></div>
+              <div class="mockup-dot"></div>
+            </div>
+            <img src="assets/dashboard-mockup.png" alt="RADAL AI Health & Wellness Platform Dashboard Mockup" class="mockup-img">
+          </div>
+          <div class="mockup-glow"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       2. PROJECT OVERVIEW
+       ========================================== -->
+    <section id="overview" class="reveal">
+      <h2>Project <span>Overview</span></h2>
+      <p class="section-subtitle">The Ecosystem Blueprint</p>
+      
+      <div class="overview-grid">
+        <div class="overview-text">
+          <p>
+            <strong>RADAL</strong> is a cutting-edge, AI-powered health and wellness platform built during the prestigious <strong>AWS PartyRock Hackathon 2025</strong>. Unifying multiple core dimensions of health—fitness, nutrition, mental wellness, and sleep—into a single responsive environment, RADAL delivers comprehensive, personalized recommendations tailored dynamically to users' lifestyles.
+          </p>
+          <p class="platform-highlight">
+            "By harnessing Amazon Bedrock and AWS PartyRock, RADAL serves as a seamless digital companion that eliminates the friction of switching between multiple single-purpose wellness apps."
+          </p>
+          <p>
+            The project demonstrates the practical applications of advanced LLMs and stable image generation inside a rapid-prototyping cloud workspace, providing verified utility and exceptional user experience design.
+          </p>
+        </div>
+
+        <div class="glass-card overview-metrics-card">
+          <div class="overview-metric-item">
+            <i class="fa-solid fa-bullseye"></i>
+            <div class="overview-metric-info">
+              <h4>Objective</h4>
+              <p>Create a centralized AI application that provides tailored health coaching and actionable daily wellness plans.</p>
+            </div>
+          </div>
+          <div class="overview-metric-item">
+            <i class="fa-solid fa-users"></i>
+            <div class="overview-metric-info">
+              <h4>Target Users</h4>
+              <p>Busy professionals, fitness enthusiasts, and individuals looking for a consolidated wellness tracking utility.</p>
+            </div>
+          </div>
+          <div class="overview-metric-item">
+            <i class="fa-solid fa-chart-line"></i>
+            <div class="overview-metric-info">
+              <h4>Business Value</h4>
+              <p>Showcases rapid SaaS deployment capabilities using GenAI foundation models to reduce software development overhead.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       3. PROJECT HIGHLIGHTS
+       ========================================== -->
+    <section id="highlights">
+      <h2>Project <span>Highlights</span></h2>
+      <p class="section-subtitle">Ecosystem Innovations</p>
+      
+      <div class="highlights-grid">
+        <div class="glass-card highlight-card reveal">
+          <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
+          <div>
+            <h3>AI Powered</h3>
+            <p>Runs on top-tier generative foundation models, adjusting suggestions contextually in real-time.</p>
+          </div>
+        </div>
+
+        <div class="glass-card highlight-card highlight-card-orange reveal" style="transition-delay: 0.1s;">
+          <div class="icon-box"><i class="fa-brands fa-aws"></i></div>
+          <div>
+            <h3>AWS Bedrock</h3>
+            <p>Accesses secure and robust enterprise API foundation models via AWS cloud backend integrations.</p>
+          </div>
+        </div>
+
+        <div class="glass-card highlight-card reveal" style="transition-delay: 0.2s;">
+          <div class="icon-box"><i class="fa-solid fa-sliders"></i></div>
+          <div>
+            <h3>Personalized Recommendations</h3>
+            <p>Generates tailored routines by evaluating user age, restrictions, levels, goals, and habits.</p>
+          </div>
+        </div>
+
+        <div class="glass-card highlight-card reveal" style="transition-delay: 0.3s;">
+          <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div>
+            <h3>Health & Wellness</h3>
+            <p>Provides deep support across fitness workouts, custom diets, meditation logs, and sleep cycles.</p>
+          </div>
+        </div>
+
+        <div class="glass-card highlight-card highlight-card-orange reveal" style="transition-delay: 0.4s;">
+          <div class="icon-box"><i class="fa-solid fa-table-cells"></i></div>
+          <div>
+            <h3>Interactive Widgets</h3>
+            <p>Features intuitive sliders, selectors, and panels that make user customization fast and engaging.</p>
+          </div>
+        </div>
+
+        <div class="glass-card highlight-card reveal" style="transition-delay: 0.5s;">
+          <div class="icon-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div>
+            <h3>Prompt Engineering</h3>
+            <p>Utilizes advanced system instructions to output strictly structured, reliable, and clean advice.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       4. PROBLEM STATEMENT & 5. SOLUTION
+       ========================================== -->
+    <section id="problem-solution" class="reveal">
+      <h2>The <span>Challenge</span> & The <span>Solution</span></h2>
+      <p class="section-subtitle">Bridging Fragmented Health Tracks</p>
+      
+      <div class="problem-solution-container">
+        <!-- Problem -->
+        <div class="glass-card problem-card">
+          <div class="prob-sol-header">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <h3>The Problem</h3>
+          </div>
+          <p>
+            Health tracking tools today are overwhelmingly disjointed. Users are forced to switch between calorie logs, training programs, mindfulness players, and smart sleep trackers.
+          </p>
+          <ul class="prob-sol-list">
+            <li>
+              <i class="fa-solid fa-circle-xmark"></i>
+              <div>
+                <strong>Fragmented Data Silos:</strong> Sleep data is locked in one app while diet plans reside in another, preventing a holistic understanding of health.
+              </div>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-xmark"></i>
+              <div>
+                <strong>Generic Advice:</strong> Many apps generate static plans that fail to reflect immediate physical parameters or specific dietary needs.
+              </div>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-xmark"></i>
+              <div>
+                <strong>Friction & Fatigue:</strong> Navigating multiple subscription charges and user interfaces reduces long-term user consistency and tracking adherence.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Solution -->
+        <div class="glass-card solution-card">
+          <div class="prob-sol-header">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3>The Solution</h3>
+          </div>
+          <p>
+            <strong>RADAL</strong> bridges these gaps by consolidating core tracking workflows under a cohesive AI core. It offers dynamic recommendations based on collective profile data.
+          </p>
+          <ul class="prob-sol-list">
+            <li>
+              <i class="fa-solid fa-square-check"></i>
+              <div>
+                <strong>Unified Wellness Model:</strong> Evaluates health parameters globally. Sleep indicators automatically modify fitness difficulty recommendations the following morning.
+              </div>
+            </li>
+            <li>
+              <i class="fa-solid fa-square-check"></i>
+              <div>
+                <strong>Cognitive AI Insights:</strong> Powered by Claude 3.5 Sonnet to provide precise, highly contextual recommendations based on the user's direct inputs.
+              </div>
+            </li>
+            <li>
+              <i class="fa-solid fa-square-check"></i>
+              <div>
+                <strong>Structured Prototypes:</strong> Uses AWS PartyRock's interactive layout to iterate rapidly on layout ideas and generate real-time feedback loops.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       6. ARCHITECTURE SECTION
+       ========================================== -->
+    <section id="architecture" class="reveal">
+      <h2>System <span>Architecture</span></h2>
+      <p class="section-subtitle">Generative AI Pipeline Workflow</p>
+
+      <div class="arch-wrapper glass-card">
+        <div class="arch-flow">
+          <!-- Node 1 -->
+          <div class="arch-node">
+            <div class="arch-box"><i class="fa-solid fa-user-gear"></i></div>
+            <p>User Inputs</p>
+            <span>Goals & Habits</span>
+          </div>
+
+          <div class="arch-connector"></div>
+
+          <!-- Node 2 -->
+          <div class="arch-node arch-node-aws">
+            <div class="arch-box"><i class="fa-solid fa-cloud"></i></div>
+            <p>AWS PartyRock</p>
+            <span>App Environment</span>
+          </div>
+
+          <div class="arch-connector"></div>
+
+          <!-- Node 3 -->
+          <div class="arch-node arch-node-aws">
+            <div class="arch-box"><i class="fa-solid fa-cubes"></i></div>
+            <p>Amazon Bedrock</p>
+            <span>Model Gateway API</span>
+          </div>
+
+          <div class="arch-connector"></div>
+
+          <!-- Node 4 -->
+          <div class="arch-node">
+            <div class="arch-box"><i class="fa-solid fa-bolt"></i></div>
+            <p>Claude 3.5 Sonnet</p>
+            <span>Personalized Logic</span>
+          </div>
+
+          <div class="arch-connector"></div>
+
+          <!-- Node 5 -->
+          <div class="arch-node">
+            <div class="arch-box"><i class="fa-solid fa-image"></i></div>
+            <p>Stable Image Core</p>
+            <span>Visual Outputs</span>
+          </div>
+
+          <div class="arch-connector"></div>
+
+          <!-- Node 6 -->
+          <div class="arch-node">
+            <div class="arch-box"><i class="fa-solid fa-reply-all"></i></div>
+            <p>AI Output</p>
+            <span>Unified Response</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       7. TECHNOLOGIES USED
+       ========================================== -->
+    <section id="technologies" class="reveal">
+      <h2>Technologies <span>Used</span></h2>
+      <p class="section-subtitle">Under The Hood</p>
+      
+      <div class="tech-grid">
+        <!-- 1. AWS PartyRock -->
+        <div class="glass-card tech-card tech-card-aws">
+          <div class="tech-icon-wrapper"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div>
+            <h4>AWS PartyRock</h4>
+            <p>Serverless playground used to lay out modular widgets, user fields, and bind LLM pipelines.</p>
+          </div>
+        </div>
+
+        <!-- 2. Amazon Bedrock -->
+        <div class="glass-card tech-card tech-card-aws">
+          <div class="tech-icon-wrapper"><i class="fa-solid fa-server"></i></div>
+          <div>
+            <h4>Amazon Bedrock</h4>
+            <p>Enterprise interface layer that routes queries to foundational models with low latency.</p>
+          </div>
+        </div>
+
+        <!-- 3. Claude 3.5 Sonnet -->
+        <div class="glass-card tech-card">
+          <div class="tech-icon-wrapper"><i class="fa-solid fa-brain"></i></div>
+          <div>
+            <h4>Claude 3.5 Sonnet</h4>
+            <p>High-reasoning foundation LLM utilized to output customized fitness and dietary instructions.</p>
+          </div>
+        </div>
+
+        <!-- 4. Stable Image Core -->
+        <div class="glass-card tech-card">
+          <div class="tech-icon-wrapper"><i class="fa-solid fa-image-portrait"></i></div>
+          <div>
+            <h4>Stable Image Core</h4>
+            <p>Generates contextual graphics corresponding to meal ingredients and custom daily tasks.</p>
+          </div>
+        </div>
+
+        <!-- 5. Prompt Engineering -->
+        <div class="glass-card tech-card">
+          <div class="tech-icon-wrapper"><i class="fa-solid fa-gears"></i></div>
+          <div>
+            <h4>Prompt Engineering</h4>
+            <p>Advanced system role-play, structured tags, and output styling constraints applied to text outputs.</p>
+          </div>
+        </div>
+
+        <!-- 6. Interactive Widgets -->
+        <div class="glass-card tech-card">
+          <div class="tech-icon-wrapper"><i class="fa-solid fa-sliders"></i></div>
+          <div>
+            <h4>Interactive Widgets</h4>
+            <p>AWS widgets (sliders, text inputs, output panes) configured to build dynamic state triggers.</p>
+          </div>
+        </div>
+
+        <!-- 7. HTML5 -->
+        <div class="glass-card tech-card">
+          <div class="tech-icon-wrapper"><i class="fa-brands fa-html5"></i></div>
+          <div>
+            <h4>HTML5 Semantic Structure</h4>
+            <p>Structured semantic building blocks ensuring excellent SEO performance and clear document logic.</p>
+          </div>
+        </div>
+
+        <!-- 8. CSS3 -->
+        <div class="glass-card tech-card">
+          <div class="tech-icon-wrapper"><i class="fa-brands fa-css3-alt"></i></div>
+          <div>
+            <h4>CSS3 Variables & Grid</h4>
+            <p>Custom styling system using flexbox grids, CSS variables, and modern glassmorphic glass design tokens.</p>
+          </div>
+        </div>
+
+        <!-- 9. JavaScript -->
+        <div class="glass-card tech-card">
+          <div class="tech-icon-wrapper"><i class="fa-brands fa-js"></i></div>
+          <div>
+            <h4>Vanilla JavaScript</h4>
+            <p>Handles lightweight page events, animated counters, reading progress triggers, and dynamic scroll effects.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       8. FEATURES
+       ========================================== -->
+    <section id="features" class="reveal">
+      <h2>Platform <span>Features</span></h2>
+      <p class="section-subtitle">Designed for Whole-Body Health</p>
+      
+      <div class="features-grid">
+        <!-- 1. Personalized Fitness -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-dumbbell feature-icon"></i>
+          <h3>Personalized Fitness</h3>
+          <p>Generates weekly workout plans tailored to muscle-building or fat-loss goals, adjusting workouts dynamically based on previous performance.</p>
+        </div>
+
+        <!-- 2. Meal Planning -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-utensils feature-icon"></i>
+          <h3>Meal Planning</h3>
+          <p>Creates customized nutrition suggestions, ingredient checklists, and meal plans aligned with diet restrictions (Keto, Vegan, etc.).</p>
+        </div>
+
+        <!-- 3. Mental Wellness -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-spa feature-icon"></i>
+          <h3>Mental Wellness</h3>
+          <p>Features breathwork visualizers, stress trackers, and cognitive journal feedback loops to reduce screen-time fatigue.</p>
+        </div>
+
+        <!-- 4. Sleep Optimization -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-bed feature-icon"></i>
+          <h3>Sleep Optimization</h3>
+          <p>Translates bedtime logs into functional wellness tips, calculating optimal wake-up times for healthy sleep hygiene.</p>
+        </div>
+
+        <!-- 5. Daily Challenges -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-calendar-check feature-icon"></i>
+          <h3>Daily Challenges</h3>
+          <p>Generates contextual challenges (hydration checkpoints, desk stretches) with motivational rewards to drive habit consistency.</p>
+        </div>
+
+        <!-- 6. AI Recommendations -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-robot feature-icon"></i>
+          <h3>AI Recommendations</h3>
+          <p>Connects sleep indices and workout exhaustion metrics using AWS LLMs to suggest rest or intensity changes.</p>
+        </div>
+
+        <!-- 7. Interactive UI -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-computer-mouse feature-icon"></i>
+          <h3>Interactive UI</h3>
+          <p>Organized in user panels, providing a clean dashboard look without cluttering the screen or confusing settings.</p>
+        </div>
+
+        <!-- 8. Cloud AI -->
+        <div class="glass-card feature-card">
+          <i class="fa-solid fa-cloud-arrow-up feature-icon"></i>
+          <h3>Cloud AI Backend</h3>
+          <p>Operates entirely in serverless environments, making access fast and secure, without heavy system specifications.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       9. MY RESPONSIBILITIES (TIMELINE)
+       ========================================== -->
+    <section id="responsibilities" class="reveal">
+      <h2>My <span>Responsibilities</span></h2>
+      <p class="section-subtitle">Hackathon Contribution Timeline</p>
+      
+      <div class="timeline-container">
+        <!-- Phase 1 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-phase">Phase 1</span>
+            <h3>Planning & Scope Definition</h3>
+            <p>Collaborated on platform requirements, analyzed wellness application fragmentation patterns, and designed the application's multi-module architecture diagram.</p>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-phase">Phase 2</span>
+            <h3>Prompt Engineering</h3>
+            <p>Designed, tested, and optimized system prompts for Claude 3.5 Sonnet to ensure wellness answers were formatted with clean headers, markdown, and precise data outputs.</p>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-phase">Phase 3</span>
+            <h3>Application Design</h3>
+            <p>Wired the workspace layout in AWS PartyRock. Arranged text inputs, dropdown selects, range sliders, and image slots into a clean, modern user dashboard.</p>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-phase">Phase 4</span>
+            <h3>Testing & Output Validation</h3>
+            <p>Created test personas to review recommendations for safety and consistency, ensuring the models handled dietary restriction edge cases accurately.</p>
+          </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-phase">Phase 5</span>
+            <h3>Workflow Optimization</h3>
+            <p>Refined state connections in AWS PartyRock to reduce processing times and tweaked image prompts for Stable Image Core to align with meal visuals.</p>
+          </div>
+        </div>
+
+        <!-- Phase 6 -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-phase">Phase 6</span>
+            <h3>Presentation & Submission</h3>
+            <p>Authored the technical case study, recorded interactive demo flows, and structured final assets for the AWS PartyRock Hackathon evaluation committee.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       10. CHALLENGES & SOLUTIONS
+       ========================================== -->
+    <section id="challenges" class="reveal">
+      <h2>Challenges & <span>Solutions</span></h2>
+      <p class="section-subtitle">Overcoming Obstacles In Rapid Prototyping</p>
+      
+      <div class="ch-sol-grid">
+        <!-- Card 1 -->
+        <div class="ch-sol-card">
+          <div class="ch-sol-header">
+            <h4>Personalization Quality</h4>
+            <span>GenAI Output</span>
+          </div>
+          <div class="ch-sol-body">
+            <div class="ch-sol-section challenge">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <div class="ch-sol-text">
+                <h5>Challenge</h5>
+                <p>Generating wellness advice that felt specifically tailored rather than returning generalized health articles.</p>
+              </div>
+            </div>
+            <div class="ch-sol-section solution">
+              <i class="fa-solid fa-circle-check"></i>
+              <div class="ch-sol-text">
+                <h5>Solution</h5>
+                <p>Built complex system prompts utilizing user-specific parameter tokens (e.g. fitness level, exact dietary tags, sleep logs).</p>
+              </div>
+            </div>
+            <div class="ch-sol-section result">
+              <i class="fa-solid fa-chart-line"></i>
+              <div class="ch-sol-text">
+                <h5>Result</h5>
+                <p>Output dynamic routines that adapt directly to the user's specific context (e.g., custom recipes with specific restrictions).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="ch-sol-card">
+          <div class="ch-sol-header">
+            <h4>Data Integration</h4>
+            <span>Workflow Mapping</span>
+          </div>
+          <div class="ch-sol-body">
+            <div class="ch-sol-section challenge">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <div class="ch-sol-text">
+                <h5>Challenge</h5>
+                <p>Unifying multiple, isolated health categories (fitness, nutrition, sleep) inside a single, simple sandbox framework.</p>
+              </div>
+            </div>
+            <div class="ch-sol-section solution">
+              <i class="fa-solid fa-circle-check"></i>
+              <div class="ch-sol-text">
+                <h5>Solution</h5>
+                <p>Configured modular pipelines that pull inputs globally, allowing sleep indicators to adjust next-day workout intensities.</p>
+              </div>
+            </div>
+            <div class="ch-sol-section result">
+              <i class="fa-solid fa-chart-line"></i>
+              <div class="ch-sol-text">
+                <h5>Result</h5>
+                <p>A unified wellness portal showing clear relationships between daily lifestyle activities.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="ch-sol-card">
+          <div class="ch-sol-header">
+            <h4>Hackathon Deadlines</h4>
+            <span>Project Velocity</span>
+          </div>
+          <div class="ch-sol-body">
+            <div class="ch-sol-section challenge">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <div class="ch-sol-text">
+                <h5>Challenge</h5>
+                <p>Engineering a working application with full multi-module integrations within a limited timeline.</p>
+              </div>
+            </div>
+            <div class="ch-sol-section solution">
+              <i class="fa-solid fa-circle-check"></i>
+              <div class="ch-sol-text">
+                <h5>Solution</h5>
+                <p>Prioritized core features, automated prompt testing, and used AWS PartyRock's layout system for rapid validation.</p>
+              </div>
+            </div>
+            <div class="ch-sol-section result">
+              <i class="fa-solid fa-chart-line"></i>
+              <div class="ch-sol-text">
+                <h5>Result</h5>
+                <p>Delivered a polished, functional prototype on schedule, ranking in the top 20 nationally across India.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       11. SKILLS DEMONSTRATED
+       ========================================== -->
+    <section id="skills" class="reveal">
+      <h2>Skills <span>Demonstrated</span></h2>
+      <p class="section-subtitle">Technical & Professional Growth</p>
+      
+      <div class="skills-section-box">
+        <div class="skills-badges-container">
+          <div class="skill-badge"><i class="fa-solid fa-brain"></i> Generative AI</div>
+          <div class="skill-badge"><i class="fa-brands fa-aws"></i> AWS Cloud Services</div>
+          <div class="skill-badge"><i class="fa-solid fa-terminal"></i> Prompt Engineering</div>
+          <div class="skill-badge"><i class="fa-solid fa-lightbulb"></i> Problem Solving</div>
+          <div class="skill-badge"><i class="fa-solid fa-users"></i> Team Collaboration</div>
+          <div class="skill-badge"><i class="fa-solid fa-bezier-curve"></i> UI/UX Design</div>
+          <div class="skill-badge"><i class="fa-solid fa-bolt-lightning"></i> Rapid Prototyping</div>
+          <div class="skill-badge"><i class="fa-solid fa-network-wired"></i> Cloud Computing</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       12. ACHIEVEMENT SECTION
+       ========================================== -->
+    <section id="achievements" class="reveal">
+      <h2>Hackathon <span>Achievement</span></h2>
+      <p class="section-subtitle">National-Level Validation</p>
+      
+      <div class="achievement-showcase">
+        <div class="glass-card award-card">
+          <div class="award-trophy-wrapper">
+            <i class="fa-solid fa-trophy award-trophy"></i>
+          </div>
+          <h3>AWS PartyRock Hackathon 2025</h3>
+          <h4>Top 20 Finalist Institution</h4>
+          
+          <div class="award-specs">
+            <div class="award-spec-item">
+              <span>National Rank</span>
+              <p class="rank-number">14</p>
+            </div>
+            <div class="award-spec-item">
+              <span>Institution</span>
+              <p>GRT Institute of Engineering and Technology</p>
+            </div>
+            <div class="award-spec-item">
+              <span>Competition Scope</span>
+              <p>Pan-India Hackathon</p>
+            </div>
+          </div>
+          
+          <p class="award-desc">
+            Placed 14th across India. Selected based on technical prototype execution, original prompt engineering workflows, interface completeness, and real-world value.
+          </p>
+          
+          <a href="https://drive.google.com/file/d/1jEIRNnTCKpuz1IIa9CEiJ8bg3GnsZq1-/view?usp=drive_link" target="_blank" class="award-cta">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> View Official Certificate
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       13. IMAGE GALLERY
+       ========================================== -->
+    <section id="gallery" class="reveal">
+      <h2>Project <span>Gallery</span></h2>
+      <p class="section-subtitle">Interactive Interface Modules</p>
+      
+      <div class="gallery-grid">
+        <!-- Item 1: Dashboard -->
+        <div class="gallery-item gallery-item-1">
+          <img src="assets/dashboard-mockup.png" alt="RADAL Unified Dashboard Mockup">
+          <div class="gallery-info">
+            <h4>Unified Dashboard</h4>
+            <p>Ecosystem Overview</p>
+          </div>
+        </div>
+
+        <!-- Item 2: Fitness Module -->
+        <div class="gallery-item gallery-item-2">
+          <img src="assets/fitness-module.png" alt="RADAL Fitness Coaching Module Screen">
+          <div class="gallery-info">
+            <h4>Personalized Fitness</h4>
+            <p>Custom Workouts</p>
+          </div>
+        </div>
+
+        <!-- Item 3: Meal Planner -->
+        <div class="gallery-item gallery-item-3">
+          <img src="assets/meal-planner.png" alt="RADAL AI Meal Planner and nutrition tracker screen">
+          <div class="gallery-info">
+            <h4>Meal Planner</h4>
+            <p>Dietary Planning</p>
+          </div>
+        </div>
+
+        <!-- Item 4: Mental Wellness -->
+        <div class="gallery-item gallery-item-4">
+          <img src="assets/mental-wellness.png" alt="RADAL Stress relief and breathing visualizer module">
+          <div class="gallery-info">
+            <h4>Mental Wellness</h4>
+            <p>Mindfulness & Recovery</p>
+          </div>
+        </div>
+
+        <!-- Item 5: Sleep Module -->
+        <div class="gallery-item gallery-item-5">
+          <img src="assets/sleep-module.png" alt="RADAL Sleep analysis and suggestions screen">
+          <div class="gallery-info">
+            <h4>Sleep Analysis</h4>
+            <p>Sleep Optimization</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+     14. PROJECT STATISTICS (COUNTERS)
+     ========================================== -->
+  <section class="stats-section">
+    <div class="container stats-grid">
+      <!-- Stat 1 -->
+      <div class="stats-item">
+        <i class="fa-solid fa-cubes stats-icon"></i>
+        <div class="stats-number" data-target="5">0</div>
+        <div class="stats-label">Integrated Modules</div>
+      </div>
+
+      <!-- Stat 2 -->
+      <div class="stats-item stats-item-orange">
+        <i class="fa-solid fa-screwdriver-wrench stats-icon"></i>
+        <div class="stats-number" data-target="6">0</div>
+        <div class="stats-label">Core Technologies</div>
+      </div>
+
+      <!-- Stat 3 -->
+      <div class="stats-item">
+        <i class="fa-solid fa-robot stats-icon"></i>
+        <div class="stats-number" data-target="2">0</div>
+        <div class="stats-label">AI Models Bound</div>
+      </div>
+
+      <!-- Stat 4 -->
+      <div class="stats-item stats-item-orange">
+        <i class="fa-solid fa-flag stats-icon"></i>
+        <div class="stats-number" data-target="14">0</div>
+        <div class="stats-label">National Hackathon Rank</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- ==========================================
+       15. FUTURE IMPROVEMENTS
+       ========================================== -->
+    <section id="future-scope" class="reveal">
+      <h2>Future <span>Improvements</span></h2>
+      <p class="section-subtitle">Expanding The Health Horizon</p>
+      
+      <div class="future-grid">
+        <!-- 1 -->
+        <div class="glass-card future-card">
+          <i class="fa-solid fa-microphone-lines future-icon"></i>
+          <h3>Voice Assistant</h3>
+          <p>Integrate conversational audio APIs to provide eyes-free morning wellness briefs and verbal instructions.</p>
+        </div>
+
+        <!-- 2 -->
+        <div class="glass-card future-card">
+          <i class="fa-solid fa-mobile-screen-button future-icon"></i>
+          <h3>Mobile App Release</h3>
+          <p>Wrap the interface as a Progressive Web App (PWA) to allow mobile push alerts and instant access offline.</p>
+        </div>
+
+        <!-- 3 -->
+        <div class="glass-card future-card">
+          <i class="fa-solid fa-route-interstate future-icon"></i>
+          <h3>Enhanced Trackers</h3>
+          <p>Support detailed calendar history tracking to log weeks of workout completion rates and diet choices.</p>
+        </div>
+
+        <!-- 4 -->
+        <div class="glass-card future-card">
+          <i class="fa-solid fa-user-doctor future-icon"></i>
+          <h3>Doctor Portal Link</h3>
+          <p>Allow users to export wellness reports into secure PDF formats to present during medical consultations.</p>
+        </div>
+
+        <!-- 5 -->
+        <div class="glass-card future-card">
+          <i class="fa-solid fa-clock-rotate-left future-icon"></i>
+          <h3>Wearable Devices</h3>
+          <p>Connect Garmin, Apple Health, or Fitbit data APIs directly to feed heart rate and step telemetry into prompts.</p>
+        </div>
+
+        <!-- 6 -->
+        <div class="glass-card future-card">
+          <i class="fa-solid fa-database future-icon"></i>
+          <h3>Cloud Database Store</h3>
+          <p>Implement secure AWS DynamoDB user storage to securely track parameters over months of usage.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+       16. RECRUITER SUMMARY
+       ========================================== -->
+    <section id="recruiter-summary" class="reveal">
+      <div class="recruiter-container">
+        <div class="recruiter-card">
+          <div class="recruiter-header">
+            <i class="fa-solid fa-circle-nodes"></i>
+            <h3>Why This Project Matters</h3>
+          </div>
+          
+          <div class="recruiter-points">
+            <div class="recruiter-point">
+              <i class="fa-solid fa-brain"></i>
+              <div>
+                <h4>Generative AI Application</h4>
+                <p>Demonstrates deep prompt architecture design, token formatting, and coordination of model outputs.</p>
+              </div>
+            </div>
+            
+            <div class="recruiter-point">
+              <i class="fa-brands fa-aws"></i>
+              <div>
+                <h4>AWS Ecosystem Competency</h4>
+                <p>Shows practical experience integrating AWS Bedrock and PartyRock features to build zero-management software.</p>
+              </div>
+            </div>
+
+            <div class="recruiter-point">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+              <div>
+                <h4>UX Engineering & Design</h4>
+                <p>Presents high aesthetic standards using glassmorphism, responsive elements, and clean grid layouts.</p>
+              </div>
+            </div>
+
+            <div class="recruiter-point">
+              <i class="fa-solid fa-hourglass-half"></i>
+              <div>
+                <h4>Rapid Iteration Under Pressure</h4>
+                <p>Validates capability to architect, test, refine, and present high-performance software within brief timelines.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="recruiter-highlight-box">
+            <h5>Recruiter Portfolio Pitch</h5>
+            <p class="recruiter-pitch">
+              "Developed RADAL, an AI-powered integrated health & wellness platform using AWS PartyRock and Amazon Bedrock, and achieved Top 20 finalist recognition (14th place nationally) in the AWS PartyRock Hackathon 2025."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+     17. FOOTER
+     ========================================== -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <span>RADAL</span> Platform
+      </div>
+      
+      <div class="footer-links">
+        <a href="https://partyrock.aws/u/LAVANYA1/4ujkt6rCk/RADAL" target="_blank"><i class="fa-solid fa-rocket"></i> Live Application</a>
+        <a href="https://drive.google.com/file/d/1jEIRNnTCKpuz1IIa9CEiJ8bg3GnsZq1-/view?usp=drive_link" target="_blank"><i class="fa-solid fa-award"></i> Achievement Verification</a>
+        <a href="#hero"><i class="fa-solid fa-arrow-up"></i> Back to Top</a>
+        <a href="#" onclick="history.back(); return false;"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 AWS PartyRock Hackathon Submission. Developed by Generative AI Developer.</p>
+        <p>Built with Semantic HTML5, CSS Variables, and Vanilla JS.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+     VANILLA JAVASCRIPT LOGIC
+     ========================================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      /* ==========================================
+         SCROLL PROGRESS INDICATOR
+         ========================================== */
+      const progressBar = document.getElementById('progressBar');
+      window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+      });
+
+      /* ==========================================
+         INTERSECTION OBSERVER FOR REVEAL ANIMATIONS
+         ========================================== */
+      const reveals = document.querySelectorAll('.reveal');
+      
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target); // Trigger animation once
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      reveals.forEach(reveal => {
+        revealObserver.observe(reveal);
+      });
+
+      /* ==========================================
+         STATS COUNTER ANIMATION
+         ========================================== */
+      const statsNumbers = document.querySelectorAll('.stats-number');
+      
+      const countUp = (element) => {
+        const target = parseInt(element.getAttribute('data-target'), 10);
+        const duration = 2000; // 2 seconds
+        const stepTime = Math.max(Math.floor(duration / target), 30);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+          current += 1;
+          element.textContent = current;
+          if (current >= target) {
+            element.textContent = target;
+            clearInterval(timer);
+          }
+        }, stepTime);
+      };
+
+      const statsObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const numElement = entry.target;
+            countUp(numElement);
+            observer.unobserve(numElement); // Run counter once
+          }
+        });
+      }, {
+        threshold: 0.8
+      });
+
+      statsNumbers.forEach(number => {
+        statsObserver.observe(number);
+      });
+
+      /* ==========================================
+         SMOOTH ANCHOR LINK INTERACTION
+         ========================================== */
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href !== '#') {
+            e.preventDefault();
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+              const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+              window.scrollTo({
+                top: offsetTop - 40, // offset for top visual balance
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
