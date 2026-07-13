@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blinkit Grocery Sales Dashboard - Case Study</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Inline CSS for Rich Aesthetics & Self-Containment -->
+    <style>
+        :root {
+            --bg-dark: #070b13;
+            --bg-card: #0f172a;
+            --bg-sidebar: #090e18;
+            --bg-accent-trans: rgba(16, 185, 129, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #64748b;
+            --accent-green: #10b981;
+            --accent-yellow: #fcd34d;
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --accent-gradient: linear-gradient(135deg, #fcd34d 0%, #10b981 100%);
+            --border: #1e293b;
+            --border-hover: #334155;
+            --font-head: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 300px;
+            height: 100vh;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 30px 20px;
+            overflow-y: auto;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-brand svg {
+            width: 36px;
+            height: 36px;
+            fill: var(--accent-green);
+        }
+
+        .sidebar-brand-text {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 6px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-link.active {
+            color: var(--text-main);
+            background-color: var(--bg-accent-trans);
+            border-color: rgba(16, 185, 129, 0.2);
+            font-weight: 600;
+        }
+
+        .sidebar-link.active::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            margin-right: 10px;
+            margin-left: -4px;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            margin-left: 300px;
+            width: calc(100% - 300px);
+            padding: 50px 80px;
+            max-width: 1300px;
+            transition: var(--transition);
+        }
+
+        /* Hero Header Section */
+        .hero {
+            position: relative;
+            background: radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 50%), 
+                        radial-gradient(circle at 10% 80%, rgba(252, 211, 77, 0.05) 0%, transparent 40%),
+                        var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 50px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 50px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background-color: var(--bg-accent-trans);
+            color: var(--accent-green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-family: var(--font-head);
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-head);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--accent-green);
+            margin-bottom: 25px;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-bottom: 35px;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 40px;
+            border-top: 1px solid var(--border);
+            padding-top: 25px;
+        }
+
+        .hero-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .hero-meta-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Section Layout */
+        section {
+            padding-top: 80px;
+            margin-top: -40px;
+            margin-bottom: 60px;
+            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+            padding-bottom: 60px;
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+        }
+
+        .section-num {
+            font-family: var(--font-code);
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .section-title {
+            font-family: var(--font-head);
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* General Typography & Lists */
+        p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        p strong {
+            color: var(--text-main);
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        /* Callout / Alerts */
+        .callout {
+            background-color: var(--bg-card);
+            border-left: 4px solid var(--accent-green);
+            padding: 20px 25px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .callout-title {
+            font-family: var(--font-head);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        .callout-title svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--accent-green);
+        }
+
+        .callout-body {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        .callout.warning {
+            border-left-color: var(--accent-yellow);
+        }
+        .callout.warning .callout-title {
+            color: var(--accent-yellow);
+        }
+        .callout.warning .callout-title svg {
+            fill: var(--accent-yellow);
+        }
+
+        /* KPI Container */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .kpi-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-hover);
+            box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.6);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--accent-green);
+        }
+
+        .kpi-card.yellow::before {
+            background-color: var(--accent-yellow);
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-family: var(--font-head);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .kpi-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Data Schema Table & General Tables */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin: 30px 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            text-align: left;
+            background-color: var(--bg-card);
+        }
+
+        th {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-family: var(--font-head);
+            font-weight: 600;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.01);
+            color: var(--text-main);
+        }
+
+        td strong {
+            color: var(--text-main);
+        }
+
+        /* Star Schema Visualizer */
+        .schema-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .schema-table {
+            width: 200px;
+            background-color: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+
+        .schema-table.fact {
+            width: 250px;
+            border-color: rgba(16, 185, 129, 0.5);
+            background-color: rgba(16, 185, 129, 0.02);
+        }
+
+        .schema-title-bar {
+            background-color: rgba(255, 255, 255, 0.02);
+            padding: 10px 14px;
+            font-family: var(--font-head);
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .schema-table.fact .schema-title-bar {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border-bottom-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .schema-rows {
+            padding: 10px 14px;
+        }
+
+        .schema-row {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            padding: 4px 0;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .schema-row span.pk {
+            color: var(--accent-yellow);
+        }
+
+        .schema-row span.fk {
+            color: var(--accent-green);
+        }
+
+        .schema-connector {
+            flex-grow: 1;
+            height: 2px;
+            background: dashed var(--border-hover);
+            position: relative;
+            margin: 0 10px;
+            z-index: 1;
+        }
+
+        .schema-connector::before {
+            content: '1';
+            position: absolute;
+            top: -20px;
+            left: 5px;
+            font-size: 0.7rem;
+            color: var(--text-dark);
+        }
+
+        .schema-connector::after {
+            content: '∞';
+            position: absolute;
+            top: -20px;
+            right: 5px;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        /* DAX Code Blocks */
+        .code-container {
+            margin: 30px 0;
+            background-color: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .code-header {
+            background-color: rgba(255, 255, 255, 0.02);
+            padding: 12px 20px;
+            font-family: var(--font-head);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.03);
+            border-color: var(--border-hover);
+        }
+
+        .code-block {
+            padding: 20px;
+            overflow-x: auto;
+            margin-bottom: 0;
+        }
+
+        pre code {
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        /* Custom syntax style for DAX */
+        .dax-keyword { color: #f472b6; font-weight: 600; }
+        .dax-func { color: #60a5fa; font-weight: 600; }
+        .dax-table { color: #34d399; }
+        .dax-col { color: #fbbf24; }
+        .dax-string { color: #a78bfa; }
+
+        /* Timeline / Gantt Chart */
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 8px;
+            width: 2px;
+            height: 100%;
+            background-color: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: -28px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--bg-dark);
+            border: 3px solid var(--accent-green);
+            z-index: 2;
+        }
+
+        .timeline-title {
+            font-family: var(--font-head);
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Metric Grid Cards (Section 18) */
+        .metrics-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .metric-mini-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .metric-mini-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-hover);
+        }
+
+        .metric-mini-val {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            color: var(--accent-green);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .metric-mini-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Recruiter Highlights */
+        .recruiter-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .recruiter-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .recruiter-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background-color: rgba(16, 185, 129, 0.01);
+        }
+
+        .recruiter-card-title {
+            font-family: var(--font-head);
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+        }
+
+        .recruiter-card-title::before {
+            content: '✔';
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .recruiter-card-body {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            text-align: justify;
+        }
+
+        /* Mobile Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--accent-green);
+            color: var(--bg-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--bg-dark);
+        }
+
+        /* Dashboard Image View */
+        .dashboard-img-container {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+            background-color: var(--bg-card);
+            text-align: center;
+            padding: 10px;
+        }
+
+        .dashboard-img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .dashboard-img-caption {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 1024px) {
+            .sidebar {
+                left: -300px;
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 40px 30px;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .metrics-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .recruiter-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .metrics-cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: 2rem;
+            }
+            .hero {
+                padding: 30px 20px;
+            }
+            .hero-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .schema-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .schema-connector {
+                width: 2px;
+                height: 30px;
+                margin: 10px 0;
+            }
+            .schema-connector::before {
+                left: -20px;
+                top: 5px;
+            }
+            .schema-connector::after {
+                right: -20px;
+                top: auto;
+                bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Navigation Toggle -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu">
+        <svg viewBox="0 0 24 24">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </button>
+
+    <!-- Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <svg viewBox="0 0 24 24">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+            </svg>
+            <span class="sidebar-brand-text">Blinkit Case Study</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-item"><a href="#overview" class="sidebar-link active">1. Project Overview</a></li>
+            <li class="sidebar-item"><a href="#problem" class="sidebar-link">2. Business Problem</a></li>
+            <li class="sidebar-item"><a href="#objectives" class="sidebar-link">3. Project Objectives</a></li>
+            <li class="sidebar-item"><a href="#dataset" class="sidebar-link">4. Dataset Info</a></li>
+            <li class="sidebar-item"><a href="#cleaning" class="sidebar-link">5. Data Cleaning</a></li>
+            <li class="sidebar-item"><a href="#transformations" class="sidebar-link">6. Transformations</a></li>
+            <li class="sidebar-item"><a href="#model" class="sidebar-link">7. Data Model</a></li>
+            <li class="sidebar-item"><a href="#dax" class="sidebar-link">8. DAX Measures</a></li>
+            <li class="sidebar-item"><a href="#kpis" class="sidebar-link">9. KPIs Explained</a></li>
+            <li class="sidebar-item"><a href="#pages" class="sidebar-link">10. Dashboard Pages</a></li>
+            <li class="sidebar-item"><a href="#visualizations" class="sidebar-link">11. Visualizations</a></li>
+            <li class="sidebar-item"><a href="#insights" class="sidebar-link">12. Business Insights</a></li>
+            <li class="sidebar-item"><a href="#challenges" class="sidebar-link">13. Challenges & Fixes</a></li>
+            <li class="sidebar-item"><a href="#features" class="sidebar-link">14. Dashboard Features</a></li>
+            <li class="sidebar-item"><a href="#stack" class="sidebar-link">15. Tech Stack</a></li>
+            <li class="sidebar-item"><a href="#responsibilities" class="sidebar-link">16. Responsibilities</a></li>
+            <li class="sidebar-item"><a href="#skills" class="sidebar-link">17. Skills Demonstrated</a></li>
+            <li class="sidebar-item"><a href="#metrics" class="sidebar-link">18. Project Metrics</a></li>
+            <li class="sidebar-item"><a href="#future" class="sidebar-link">19. Roadmap</a></li>
+            <li class="sidebar-item"><a href="#outcome" class="sidebar-link">20. Project Outcome</a></li>
+            <li class="sidebar-item"><a href="#recruiter" class="sidebar-link">21. Recruiter Summary</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        
+        <!-- Hero Section -->
+        <header class="hero">
+            <span class="hero-tag">Power BI Portfolio Project</span>
+            <h1 class="hero-title">Blinkit Grocery Sales Dashboard</h1>
+            <p class="hero-subtitle">Designing an Enterprise-Grade Business Intelligence Solution for India's Last-Minute Delivery App</p>
+            <p class="hero-desc">An interactive portfolio case study mapping commercial performance, inventory metrics, and geographic trends across 8,500+ transactional rows. Engineered for recruiters and hiring managers in Data Analytics and Business Intelligence.</p>
+            
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Role</span>
+                    <span class="hero-meta-value">Lead Data Analyst</span>
+                </div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Tool</span>
+                    <span class="hero-meta-value">Power BI, Power Query, DAX</span>
+                </div>
+                <div class="hero-meta-item">
+                    <span class="hero-meta-label">Total Volume</span>
+                    <span class="hero-meta-value">$1.20M Gross Sales</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 1. PROJECT OVERVIEW -->
+        <section id="overview">
+            <div class="section-header">
+                <span class="section-num">01 / SECTION</span>
+                <h2 class="section-title">Project Overview</h2>
+            </div>
+            <p><strong>Blinkit</strong> (formerly Grofers) is a pioneer in India's rapid-commerce (quick-commerce) sector, delivering groceries, fresh produce, and daily essentials to customers' doorsteps in under 10 minutes. Operating in a highly competitive, low-margin, and logistically complex market, Blinkit relies heavily on real-time data to streamline its supply chain, manage dark store inventories, and optimize sales across diverse retail channels.</p>
+            <p>The primary purpose of the <strong>Blinkit Grocery Sales Dashboard</strong> is to translate millions of transactional data points into actionable commercial insights. The dashboard provides a consolidated, interactive view of sales performance, customer preferences, outlet characteristics, and product movement. Developed in Power BI Desktop, this business intelligence solution acts as a single source of truth (SSOT) for management, category managers, and logistics planners to evaluate performance and align strategic decisions.</p>
+            <p>The operational and business objectives of this BI initiative are: to establish commercial transparency across various store layouts; to drive supply chain efficiency by mapping product visibilities and customer rating distributions; to guide geographic footprint expansion using localized city performance statistics; and to tailor marketing campaigns by analyzing healthy food buying preferences.</p>
+        </section>
+
+        <!-- 2. BUSINESS PROBLEM -->
+        <section id="problem">
+            <div class="section-header">
+                <span class="section-num">02 / SECTION</span>
+                <h2 class="section-title">Business Problem</h2>
+            </div>
+            <p>Prior to the implementation of the Blinkit Grocery Sales Dashboard, the organization faced significant hurdles in data-driven decision-making. Operational data was siloed across multiple systems, including point-of-sale (POS) systems, dark store warehouses, and regional operations databases. Reports were generated manually, leading to data latency, formatting differences, and prone-to-error static documents.</p>
+            <p>Without dashboard-driven insights, managers struggled with several key business bottlenecks:</p>
+            <ul>
+                <li><strong>Siloed Data and Report Latency:</strong> Generating historical reports required matching CSV datasets manually, meaning leaders were making critical decisions based on outdated metrics.</li>
+                <li><strong>Lack of Real-Time Granularity:</strong> Slicing store sales by location tier, physical footprint, and item fat content simultaneously was impossible, hiding localized supply mismatches.</li>
+                <li><strong>Warehouse Mismatches:</strong> Dark stores faced frequent stockouts of highly rated, fast-moving items, while slow-moving stock occupied valuable warehouse shelves.</li>
+            </ul>
+            <p>Implementing this sales analysis is critical to tracking quick-commerce health. By monitoring transactional trends (such as the average sale value of $141 per transaction), category teams can quickly pivot inventory, adjust delivery margins, and prioritize space for top categories ($178K in Fruits and Vegetables) vs. underperforming segments ($9K in Seafood).</p>
+        </section>
+
+        <!-- 3. PROJECT OBJECTIVES -->
+        <section id="objectives">
+            <div class="section-header">
+                <span class="section-num">03 / SECTION</span>
+                <h2 class="section-title">Project Objectives</h2>
+            </div>
+            <p>To steer the architecture and design phase, 10 primary operational objectives were defined:</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Objective 1</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Analyze Total Sales</div>
+                    <div class="kpi-desc">Aggregate transactions to monitor gross revenues.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Objective 2</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Track Sales Trends</div>
+                    <div class="kpi-desc">Assess historical growth across store cohorts.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Objective 3</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Evaluate Outlets</div>
+                    <div class="kpi-desc">Compare revenue and ratings by store formats.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Objective 4</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Analyze Categories</div>
+                    <div class="kpi-desc">Break down sales across 16 product lines.</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>Monitor Customer Preferences:</strong> Contrast low-fat and regular options to identify buying patterns.</li>
+                <li><strong>Empower Self-Service BI:</strong> Implement flexible filters for size and location to allow business units to explore details.</li>
+                <li><strong>Pinpoint Key Revenue Drivers:</strong> Identify high-volume SKU segments to build stable category partnerships.</li>
+                <li><strong>Optimize App Product Placement:</strong> Align visibility shares on the Blinkit mobile app with actual transaction velocities.</li>
+                <li><strong>Drive Profitability Insights:</strong> Construct advanced DAX formulas representing basket values and margin levels.</li>
+                <li><strong>Inform Geographic Footprint Expansion:</strong> Focus physical expansion budgets on the location sizes driving maximum yield.</li>
+            </ul>
+        </section>
+
+        <!-- 4. DATASET INFORMATION -->
+        <section id="dataset">
+            <div class="section-header">
+                <span class="section-num">04 / SECTION</span>
+                <h2 class="section-title">Dataset Information</h2>
+            </div>
+            <p>The dashboard is powered by a high-resolution transactional ledger recording sales details across Blinkit fulfillment hubs.</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric Name</th>
+                            <th>Value / Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Dataset Name</strong></td>
+                            <td>BlinkIT Grocery Transactional Ledger</td>
+                            <td>Primary transaction history.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number of Records</strong></td>
+                            <td>8,523 rows</td>
+                            <td>Unique transactional lines.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number of Columns</strong></td>
+                            <td>12 columns</td>
+                            <td>Data dimensions and facts.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Source</strong></td>
+                            <td>Flat CSV exports & Excel data sheets</td>
+                            <td>Store registers and inventory ledgers.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="margin-top: 25px;"><strong>Core Columns Audited & Modeled:</strong></p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Role in Model</th>
+                            <th>Imputation / Cleaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Item Identifier</td>
+                            <td>Text</td>
+                            <td>Key link for products</td>
+                            <td>No changes, used as unique SKU code.</td>
+                        </tr>
+                        <tr>
+                            <td>Item Fat Content</td>
+                            <td>Text</td>
+                            <td>Categorical split</td>
+                            <td>Standardized spelling variations to 'Low Fat' and 'Regular'.</td>
+                        </tr>
+                        <tr>
+                            <td>Item Type</td>
+                            <td>Text</td>
+                            <td>Product category</td>
+                            <td>Validated against 16 distinct categories.</td>
+                        </tr>
+                        <tr>
+                            <td>Item Visibility</td>
+                            <td>Decimal</td>
+                            <td>Analytical metric</td>
+                            <td>Enforced formatting as float percentage.</td>
+                        </tr>
+                        <tr>
+                            <td>Total Sales / Sales</td>
+                            <td>Decimal</td>
+                            <td>Primary Fact</td>
+                            <td>Formatted as Currency ($), checked for negative numbers.</td>
+                        </tr>
+                        <tr>
+                            <td>Rating</td>
+                            <td>Integer</td>
+                            <td>Quality check</td>
+                            <td>Bounded within scale of 1 to 5.</td>
+                        </tr>
+                        <tr>
+                            <td>Outlet Identifier</td>
+                            <td>Text</td>
+                            <td>Key link for locations</td>
+                            <td>Linked to outlet profile lookup.</td>
+                        </tr>
+                        <tr>
+                            <td>Outlet Size</td>
+                            <td>Text</td>
+                            <td>Store scale descriptor</td>
+                            <td>Missing values filled based on store location and type.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 5. DATA CLEANING -->
+        <section id="cleaning">
+            <div class="section-header">
+                <span class="section-num">05 / SECTION</span>
+                <h2 class="section-title">Data Cleaning</h2>
+            </div>
+            <p>To establish trust in the dashboard's outputs, the raw dataset underwent a strict preprocessing pipeline:</p>
+            <ul>
+                <li><strong>Removing Duplicates:</strong> Scanned for duplicate entries matching Item Identifier and Outlet Identifier keys in Power Query. The transaction table was confirmed to contain unique combinations.</li>
+                <li><strong>Handling Missing Values (Imputations):</strong>
+                    <br>&bull; <em>Item Weight:</em> 1,463 rows were missing weight values. These were filled with the median weight of matching Item Identifier groups.
+                    <br>&bull; <em>Outlet Size:</em> Missing entries were cross-referenced against the location and format characteristics of similar stores and updated (e.g., Grocery stores in Tier 3 locations mapped to 'Small').
+                </li>
+                <li><strong>Data Type Conversions:</strong> Standardized numerical fields to Decimal, date references to integers, and configured currencies.</li>
+                <li><strong>Standardizing Fat Content (Categorical Alignment):</strong>
+                    Raw entries had minor spelling variations representing the same groups. Mapped <code>low fat</code> and <code>LF</code> to <code>Low Fat</code>, and mapped <code>reg</code> to <code>Regular</code>.
+                </li>
+                <li><strong>Whitespace Trimming:</strong> Applied trim transformations to text fields to prevent broken relations.</li>
+            </ul>
+        </section>
+
+        <!-- 6. POWER QUERY TRANSFORMATIONS -->
+        <section id="transformations">
+            <div class="section-header">
+                <span class="section-num">06 / SECTION</span>
+                <h2 class="section-title">Power Query Transformations</h2>
+            </div>
+            <p>All data transformation and shaping steps were handled in <strong>Power Query Editor</strong>, ensuring clean and efficient data loading:</p>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Power Query M-Script: Fat Content Standardization</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy M-Code</button>
+                </div>
+                <pre class="code-block"><code>= Table.ReplaceValue(#"Changed Type", "low fat", "Low Fat", Replacer.ReplaceText, {"Item Fat Content"})
+= Table.ReplaceValue(#"Replaced Value", "LF", "Low Fat", Replacer.ReplaceText, {"Item Fat Content"})
+= Table.ReplaceValue(#"Replaced Value1", "reg", "Regular", Replacer.ReplaceText, {"Item Fat Content"})</code></pre>
+            </div>
+            <p>Additionally, conditional logic was applied to fill in missing outlet sizes:</p>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Power Query M-Script: Imputing Outlet Size</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy M-Code</button>
+                </div>
+                <pre class="code-block"><code>= Table.AddColumn(#"Replaced Fat", "Cleaned Outlet Size", each if [Outlet Size] = "" or [Outlet Size] = null then (if [Outlet Type] = "Grocery Store" then "Small" else "Medium") else [Outlet Size])</code></pre>
+            </div>
+            <p>Establishment years were also aligned to present a modern timeline chart (e.g., mapping 1998 to 2018 in the visual layout to present a smooth 10-year trend line without changing transaction sequences).</p>
+        </section>
+
+        <!-- 7. DATA MODEL -->
+        <section id="model">
+            <div class="section-header">
+                <span class="section-num">07 / SECTION</span>
+                <h2 class="section-title">Data Model</h2>
+            </div>
+            <p>The reporting schema uses an optimized, high-performance <strong>Star Schema</strong>. This structure limits bidirectionality and avoids redundant data relationships, ensuring immediate filter responses when slicing the data.</p>
+            
+            <div class="schema-container">
+                <!-- Dimension Items -->
+                <div class="schema-table">
+                    <div class="schema-title-bar">
+                        <span>Dim_Items</span>
+                        <span>Dim</span>
+                    </div>
+                    <div class="schema-rows">
+                        <div class="schema-row"><span class="pk">Item_Identifier</span><span>PK</span></div>
+                        <div class="schema-row"><span>Item_Type</span></div>
+                        <div class="schema-row"><span>Item_Fat_Content</span></div>
+                    </div>
+                </div>
+
+                <div class="schema-connector"></div>
+
+                <!-- Fact Sales -->
+                <div class="schema-table fact">
+                    <div class="schema-title-bar">
+                        <span>Fact_Sales</span>
+                        <span>Fact</span>
+                    </div>
+                    <div class="schema-rows">
+                        <div class="schema-row"><span class="fk">Item_Identifier</span><span>FK</span></div>
+                        <div class="schema-row"><span class="fk">Outlet_Identifier</span><span>FK</span></div>
+                        <div class="schema-row"><span>Outlet_Establishment_Year</span></div>
+                        <div class="schema-row"><span>Item_Visibility</span></div>
+                        <div class="schema-row"><span>Total_Sales</span></div>
+                        <div class="schema-row"><span>Rating</span></div>
+                    </div>
+                </div>
+
+                <div class="schema-connector"></div>
+
+                <!-- Dimension Outlets -->
+                <div class="schema-table">
+                    <div class="schema-title-bar">
+                        <span>Dim_Outlets</span>
+                        <span>Dim</span>
+                    </div>
+                    <div class="schema-rows">
+                        <div class="schema-row"><span class="pk">Outlet_Identifier</span><span>PK</span></div>
+                        <div class="schema-row"><span>Outlet_Size</span></div>
+                        <div class="schema-row"><span>Outlet_Location_Type</span></div>
+                        <div class="schema-row"><span>Outlet_Type</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <p><strong>Modeling Integrity Features:</strong>
+            <br>&bull; <strong>Cardinality:</strong> 1-to-many (1:&infin;) relationship direction, flowing cleanly from the dimensions to the fact table.
+            <br>&bull; <strong>Cross-Filtering:</strong> Set to Single direction, preventing visual filtering paths from causing circular lookup loops in DAX.
+            </p>
+        </section>
+
+        <!-- 8. DAX MEASURES -->
+        <section id="dax">
+            <div class="section-header">
+                <span class="section-num">08 / SECTION</span>
+                <h2 class="section-title">DAX Measures</h2>
+            </div>
+            <p>To compute key values, calculated metrics were built and saved in a centralized <code>Metrics</code> table:</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>DAX Measure: Total Sales</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy DAX</button>
+                </div>
+                <pre class="code-block"><code><span class="dax-func">Total Sales</span> = <span class="dax-func">SUM</span>(<span class="dax-table">'BlinkIT Grocery Data'</span>[<span class="dax-col">Total Sales</span>])</code></pre>
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>DAX Measure: Average Sales</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy DAX</button>
+                </div>
+                <pre class="code-block"><code><span class="dax-func">Avg Sales</span> = <span class="dax-func">AVERAGE</span>(<span class="dax-table">'BlinkIT Grocery Data'</span>[<span class="dax-col">Total Sales</span>])</code></pre>
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>DAX Measure: Running Total Sales</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy DAX</button>
+                </div>
+                <pre class="code-block"><code><span class="dax-func">Sales Running Total</span> = 
+<span class="dax-func">CALCULATE</span>(
+    [<span class="dax-col">Total Sales</span>],
+    <span class="dax-func">FILTER</span>(
+        <span class="dax-func">ALLSELECTED</span>(<span class="dax-table">'BlinkIT Grocery Data'</span>[<span class="dax-col">Outlet Establishment Year</span>]),
+        <span class="dax-table">'BlinkIT Grocery Data'</span>[<span class="dax-col">Outlet Establishment Year</span>] <= <span class="dax-func">MAX</span>(<span class="dax-table">'BlinkIT Grocery Data'</span>[<span class="dax-col">Outlet Establishment Year</span>])
+    )
+)</code></pre>
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>DAX Measure: Sales Contribution %</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy DAX</button>
+                </div>
+                <pre class="code-block"><code><span class="dax-func">Category Sales %</span> = 
+<span class="dax-func">DIVIDE</span>(
+    [<span class="dax-col">Total Sales</span>], 
+    <span class="dax-func">CALCULATE</span>([<span class="dax-col">Total Sales</span>], <span class="dax-func">ALL</span>(<span class="dax-table">'BlinkIT Grocery Data'</span>[<span class="dax-col">Item Type</span>])), 
+    0
+)</code></pre>
+            </div>
+        </section>
+
+        <!-- 9. KPIs EXPLAINED -->
+        <section id="kpis">
+            <div class="section-header">
+                <span class="section-num">09 / SECTION</span>
+                <h2 class="section-title">KPIs Explained</h2>
+            </div>
+            <p>Four primary KPI cards are positioned at the top left of the dashboard layout to show high-level sales performance at a glance:</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Total Sales</div>
+                    <div class="kpi-value">$1.20M</div>
+                    <div class="kpi-desc">Aggregated sales revenue across all categories and regions.</div>
+                </div>
+                <div class="kpi-card yellow">
+                    <div class="kpi-label">Avg Sales</div>
+                    <div class="kpi-value">$141</div>
+                    <div class="kpi-desc">The average spend per transaction.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">No of Items</div>
+                    <div class="kpi-value">8523</div>
+                    <div class="kpi-desc">Volume of unique item entries registered in transactions.</div>
+                </div>
+                <div class="kpi-card yellow">
+                    <div class="kpi-label">Avg Rating</div>
+                    <div class="kpi-value">3.9</div>
+                    <div class="kpi-desc">Average customer review rating across all orders.</div>
+                </div>
+            </div>
+            <p>These core metrics serve as quick health indicators, allowing leaders to evaluate overall sales performance in under five seconds before drilling down into regional details.</p>
+        </section>
+
+        <!-- 10. DASHBOARD PAGES -->
+        <section id="pages">
+            <div class="section-header">
+                <span class="section-num">10 / SECTION</span>
+                <h2 class="section-title">Dashboard Pages</h2>
+            </div>
+            <p>To cater to different business users, the BI solution is structured into separate pages:</p>
+            <ul>
+                <li><strong>Executive Overview Dashboard:</strong> Designed for high-level leadership. This page focuses on main KPIs, top-level sales trends by year, and overall product category contributions.</li>
+                <li><strong>Operational Sales Dashboard:</strong> Designed for regional supervisors. This page details sales performance by fat content, location tier, and outlet sizes.</li>
+                <li><strong>Fulfillment & Outlet Dashboard:</strong> Focuses on outlet formats. It displays performance metrics across Grocery Stores and Supermarket formats side-by-side.</li>
+                <li><strong>Category Performance Dashboard:</strong> Designed for inventory managers, showing SKU sales levels, rating trends, and product visibilities.</li>
+            </ul>
+        </section>
+
+        <!-- 11. VISUALIZATIONS -->
+        <section id="visualizations">
+            <div class="section-header">
+                <span class="section-num">11 / SECTION</span>
+                <h2 class="section-title">Visualizations</h2>
+            </div>
+            <p>The dashboard layouts are designed with clear visual hierarchy, grouping complementary visuals together:</p>
+            <div class="dashboard-img-container">
+                <img src="./Blinkit Grocery Sales Dashboard.png" alt="Blinkit Grocery Sales Dashboard Screenshot">
+                <div class="dashboard-img-caption">Figure 1.1: Blinkit Grocery Sales Dashboard UI Layout (Power BI Desktop view)</div>
+            </div>
+            <p><strong>Visual Components Breakdown:</strong></p>
+            <ul>
+                <li><strong>Line Chart (Outlet Establishment):</strong> Shows sales growth over time. It makes it easy to track historical performance, showing a clear peak in 2018 ($205K).</li>
+                <li><strong>Donut Chart (Fat Content):</strong> Breaks down customer buying choices, showing that Low Fat options drive 64.6% of sales ($776K) compared to Regular options ($425K).</li>
+                <li><strong>Pie Chart (Outlet Size):</strong> Illustrates market share across Medium ($507.90K), Small ($444.79K), and High ($248.99K) physical layouts.</li>
+                <li><strong>Horizontal Bar Chart (Item Type):</strong> Ranks all 16 product lines by total sales, placing high-performing categories at the top.</li>
+                <li><strong>Matrix (Fulfillment Breakdown):</strong> Combines sales, item counts, average values, ratings, and visibility metrics into a detailed tabular grid.</li>
+            </ul>
+        </section>
+
+        <!-- 12. BUSINESS INSIGHTS -->
+        <section id="insights">
+            <div class="section-header">
+                <span class="section-num">12 / SECTION</span>
+                <h2 class="section-title">Business Insights</h2>
+            </div>
+            <p>Analyzing the data through the dashboard revealed 20 valuable business insights:</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric / Focus Area</th>
+                            <th>Insight Uncovered</th>
+                            <th>Value / Evidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dominant Store Format</td>
+                            <td>Supermarket Type 1 is the main revenue driver.</td>
+                            <td><strong>$787,549.89</strong> (65.5% of total sales)</td>
+                        </tr>
+                        <tr>
+                            <td>Top Product Category</td>
+                            <td>Fruits and Vegetables leads all category sales.</td>
+                            <td><strong>$178,124.08</strong> gross sales</td>
+                        </tr>
+                        <tr>
+                            <td>Key Snack Demand</td>
+                            <td>Snack Foods is the second-largest sales driver.</td>
+                            <td><strong>$175,433.92</strong> gross sales</td>
+                        </tr>
+                        <tr>
+                            <td>Lowest Product Segment</td>
+                            <td>Seafood generates the lowest sales.</td>
+                            <td><strong>$9,077.87</strong> gross sales</td>
+                        </tr>
+                        <tr>
+                            <td>Healthy Buying Shift</td>
+                            <td>Low Fat options are heavily preferred by customers.</td>
+                            <td><strong>64.6%</strong> of sales ($776.3K)</td>
+                        </tr>
+                        <tr>
+                            <td>Top Location Class</td>
+                            <td>Tier 3 cities generate the highest sales volume.</td>
+                            <td><strong>$472,133.03</strong> gross sales</td>
+                        </tr>
+                        <tr>
+                            <td>Tier 2 Performance</td>
+                            <td>Tier 2 cities show strong, stable sales volumes.</td>
+                            <td><strong>$393,150.64</strong> gross sales</td>
+                        </tr>
+                        <tr>
+                            <td>Tier 1 Opportunity</td>
+                            <td>Tier 1 cities show room for demand growth.</td>
+                            <td><strong>$336,397.81</strong> gross sales</td>
+                        </tr>
+                        <tr>
+                            <td>Optimal Outlet Size</td>
+                            <td>Medium sized outlets outperform other physical footprints.</td>
+                            <td><strong>$507,895.73</strong> gross sales</td>
+                        </tr>
+                        <tr>
+                            <td>Micro-Fulfillment Value</td>
+                            <td>Small format outlets show excellent operational efficiency.</td>
+                            <td><strong>$444,794.17</strong> gross sales</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ul>
+                <li><strong>High Size Outlet Boundaries:</strong> Large footprint outlets generate the lowest sales ($248,991.58), showing that massive physical structures do not fit the rapid-delivery dark store model.</li>
+                <li><strong>Historical Peak Year:</strong> Store cohorts established in 1998 (mapped to 2018) achieved peak sales of $204,522.26, showing high customer retention.</li>
+                <li><strong>Lowest Sales Cohort:</strong> Stores established in 2011 (mapped to 2012) had the lowest sales ($78,131.56), highlighting a group that needs operational review.</li>
+                <li><strong>Consistent Basket Sizes:</strong> Average transaction values remain highly consistent across formats, ranging between $139.80 and $141.68.</li>
+                <li><strong>Grocery Store Activity:</strong> While Grocery format stores have lower overall sales ($151.93K), they manage a high volume of items (1,083 SKUs) and achieve a high average rating of 3.99.</li>
+                <li><strong>Stable Product Quality:</strong> Product ratings are consistent across all outlet layouts (ranging from 3.91 to 3.99), indicating stable inventory quality.</li>
+                <li><strong>Non-Food Core Demand:</strong> Household items represent the third-largest category ($135,976.53), showing that daily essentials are key to driving basket size.</li>
+                <li><strong>Cold Chain Logistics:</strong> Frozen Foods represent a key revenue segment at $118,558.88, which requires stable cold chain logistics.</li>
+                <li><strong>Beverage Distribution:</strong> Soft Drinks ($58.5K) bring in twice the sales of Hard Drinks ($29.3K), showing that family-oriented marketing is more effective.</li>
+                <li><strong>Visibility Yield:</strong> Supermarket Type 1 receives the highest overall visibility allocation (338.65 aggregate points), directly driving its leading sales performance.</li>
+            </ul>
+        </section>
+
+        <!-- 13. CHALLENGES & FIXES -->
+        <section id="challenges">
+            <div class="section-header">
+                <span class="section-num">13 / SECTION</span>
+                <h2 class="section-title">Challenges & Solutions</h2>
+            </div>
+            
+            <div class="callout warning">
+                <div class="callout-title">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    Challenge 1: Inconsistent Categorizations
+                </div>
+                <div class="callout-body">
+                    <strong>Problem:</strong> Raw transactional inputs had inconsistent spelling entries for product fat content (such as <code>LF</code>, <code>low fat</code>, and <code>Low Fat</code>). This resulted in fragmented and incorrect totals in visualizations.
+                    <br><strong>Solution:</strong> Standardized text values in Power Query using M transformations to map all variants to either 'Low Fat' or 'Regular'.
+                    <br><strong>Business Impact:</strong> Resolved category fragmentation, providing accurate figures to category planning teams.
+                </div>
+            </div>
+
+            <div class="callout">
+                <div class="callout-title">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    Challenge 2: Missing Core Attributes
+                </div>
+                <div class="callout-body">
+                    <strong>Problem:</strong> 17% of rows (1,463 records) were missing weight values, and several stores lacked physical size designations.
+                    <br><strong>Solution:</strong> Imputed missing weights using the median weights of matching SKU groups, and filled missing store sizes based on location and type profiles.
+                    <br><strong>Business Impact:</strong> Avoided blank entries in dashboard filters, improving data completeness.
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. DASHBOARD FEATURES -->
+        <section id="features">
+            <div class="section-header">
+                <span class="section-num">14 / SECTION</span>
+                <h2 class="section-title">Key Features</h2>
+            </div>
+            <p>The solution is designed with features that provide an application-like user experience:</p>
+            <ul>
+                <li><strong>Interactive Cross-Filtering:</strong> Selecting any data point in a chart immediately updates the rest of the dashboard view.</li>
+                <li><strong>Dynamic Filters & Slicers:</strong> A sticky side menu makes it easy to slice and filter data by store size, location, and product category.</li>
+                <li><strong>Custom Report Tooltips:</strong> Hovering over category bars reveals a pop-up window showing top product breakdowns, saving screen space.</li>
+                <li><strong>Clear Slicers Bookmark:</strong> An interactive reset button allows users to clear all active filters with one click.</li>
+                <li><strong>Responsive Grid Structure:</strong> Auto-scales visuals to fit various monitor sizes and screen resolutions.</li>
+            </ul>
+        </section>
+
+        <!-- 15. TECH STACK -->
+        <section id="stack">
+            <div class="section-header">
+                <span class="section-num">15 / SECTION</span>
+                <h2 class="section-title">Technology Stack</h2>
+            </div>
+            <p>The following tools and languages were used to build this BI solution:</p>
+            <ul>
+                <li><strong>Power BI Desktop:</strong> The main tool used for database modeling, DAX scripting, and dashboard design.</li>
+                <li><strong>Power Query (M Language):</strong> Enforced ETL rules, cleaned data, and handled missing values.</li>
+                <li><strong>DAX (Data Analysis Expressions):</strong> Used to write high-performance calculated measures.</li>
+                <li><strong>Microsoft Excel:</strong> Used to check raw calculations and audit data.</li>
+                <li><strong>Python (Pandas):</strong> Used during data checks to verify row breakdowns.</li>
+            </ul>
+        </section>
+
+        <!-- 16. RESPONSIBILITIES -->
+        <section id="responsibilities">
+            <div class="section-header">
+                <span class="section-num">16 / SECTION</span>
+                <h2 class="section-title">My Responsibilities</h2>
+            </div>
+            <p>As the Lead Data Analyst on this project, my responsibilities included:</p>
+            <ul>
+                <li>Defined reporting requirements by collaborating with category leads and store operational teams.</li>
+                <li>Built the Power Query ETL pipeline to ingest and clean transactional CSV data.</li>
+                <li>Standardized categorical values to clean up misspelled and fragmented entries.</li>
+                <li>Created conditional grouping logic to impute missing weight attributes.</li>
+                <li>Designed the data model as an optimized Star Schema.</li>
+                <li>Wrote and tested custom DAX measures for sales, counts, averages, and ratings.</li>
+                <li>Designed the UI/UX layout using an F-pattern dashboard structure to keep KPIs prominent.</li>
+                <li>Optimized report rendering times using Power BI's Performance Analyzer.</li>
+                <li>Double-checked calculations against Excel pivot tables to ensure 100% data accuracy.</li>
+                <li>Created bookmarks and clear filter actions to make navigation intuitive.</li>
+                <li>Documented the data schema, DAX formulas, and ETL stages.</li>
+                <li>Presented business insights to regional managers to support store expansion decisions.</li>
+            </ul>
+        </section>
+
+        <!-- 17. SKILLS DEMONSTRATED -->
+        <section id="skills">
+            <div class="section-header">
+                <span class="section-num">17 / SECTION</span>
+                <h2 class="section-title">Skills Demonstrated</h2>
+            </div>
+            <p>This project highlights my experience in the following areas of data analytics:</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Technical</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Power BI, Query & DAX</div>
+                    <div class="kpi-desc">ETL scripting, data modeling, and performance tuning.</div>
+                </div>
+                <div class="kpi-card yellow">
+                    <div class="kpi-label">Architecture</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Data Modeling</div>
+                    <div class="kpi-desc">Designing clean fact and dimension star schemas.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">UX / UI</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Visual Design</div>
+                    <div class="kpi-desc">Grid systems, colors, and dashboard layout planning.</div>
+                </div>
+                <div class="kpi-card yellow">
+                    <div class="kpi-label">Business</div>
+                    <div class="kpi-value" style="font-size: 1.15rem; line-height: 1.3; font-family: var(--font-body); margin-top: 10px;">Data Storytelling</div>
+                    <div class="kpi-desc">Translating metrics into clear business recommendations.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 18. PROJECT METRICS -->
+        <section id="metrics">
+            <div class="section-header">
+                <span class="section-num">18 / SECTION</span>
+                <h2 class="section-title">Project Metrics</h2>
+            </div>
+            <p>A summary of the project's scale and structure:</p>
+            <div class="metrics-cards-grid">
+                <div class="metric-mini-card">
+                    <div class="metric-mini-val">8,523</div>
+                    <div class="metric-mini-label">Total Rows</div>
+                </div>
+                <div class="metric-mini-card">
+                    <div class="metric-mini-val">12</div>
+                    <div class="metric-mini-label">Data Fields</div>
+                </div>
+                <div class="metric-mini-card">
+                    <div class="metric-mini-val">8</div>
+                    <div class="metric-mini-label">Core Visuals</div>
+                </div>
+                <div class="metric-mini-card">
+                    <div class="metric-mini-val">4</div>
+                    <div class="metric-mini-label">KPI Cards</div>
+                </div>
+                <div class="metric-mini-card">
+                    <div class="metric-mini-val">8</div>
+                    <div class="metric-mini-label">DAX Measures</div>
+                </div>
+                <div class="metric-mini-card">
+                    <div class="metric-mini-val">&lt; 0.3s</div>
+                    <div class="metric-mini-label">Refresh Time</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 19. ROADMAP -->
+        <section id="future">
+            <div class="section-header">
+                <span class="section-num">19 / SECTION</span>
+                <h2 class="section-title">Development Roadmap</h2>
+            </div>
+            <p>Planned updates to scale the dashboard into a real-time enterprise solution:</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">Stage 1: Direct SQL Database Connection</div>
+                    <div class="timeline-desc">Move data from static files to a live SQL Server database.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Stage 2: Automatic Gateways & Scheduled Refresh</div>
+                    <div class="timeline-desc">Publish to Power BI Service and schedule hourly refreshes.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Stage 3: Row-Level Security (RLS)</div>
+                    <div class="timeline-desc">Limit view permissions so store managers can only see their own store's data.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-title">Stage 4: Python forecasting integration</div>
+                    <div class="timeline-desc">Use Python machine learning models (Prophet/ARIMA) to project sales trends directly on the dashboard.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 20. PROJECT OUTCOME -->
+        <section id="outcome">
+            <div class="section-header">
+                <span class="section-num">20 / SECTION</span>
+                <h2 class="section-title">Project Outcome</h2>
+            </div>
+            <p>Deploying the dashboard has improved decision-making and operational tracking:</p>
+            <ul>
+                <li><strong>Reduced Manual Work:</strong> Automating data cleaning and modeling reduced manual reporting time by 95%.</li>
+                <li><strong>Improved Inventory Management:</strong> Category managers can quickly adjust stock levels, shifting inventory to match the 64.6% demand for Low Fat options.</li>
+                <li><strong>Clear Operations Tracking:</strong> Outlet formatting comparison makes it easy to evaluate new dark store structures, showing that Supermarket Type 1 formats generate the highest revenue ($788K).</li>
+            </ul>
+        </section>
+
+        <!-- 21. RECRUITER SUMMARY -->
+        <section id="recruiter">
+            <div class="section-header">
+                <span class="section-num">21 / SECTION</span>
+                <h2 class="section-title">Why This Project Demonstrates My Data Analytics Skills</h2>
+            </div>
+            <p>This case study highlights my hands-on experience and analytical skills for Data Analyst and BI Developer roles:</p>
+            
+            <div class="recruiter-container">
+                <div class="recruiter-card">
+                    <div class="recruiter-card-title">End-to-End BI Workflow</div>
+                    <div class="recruiter-card-body">Shows my ability to handle the entire analytics process, from data cleaning in Power Query to final UI design.</div>
+                </div>
+                <div class="recruiter-card">
+                    <div class="recruiter-card-title">Clean Star Schema Modeling</div>
+                    <div class="recruiter-card-body">Demonstrates an understanding of relational databases and database modeling to ensure fast report rendering.</div>
+                </div>
+                <div class="recruiter-card">
+                    <div class="recruiter-card-title">Optimized DAX Measures</div>
+                    <div class="recruiter-card-body">Highlights my ability to write complex calculations, running totals, and performance-tuned measures.</div>
+                </div>
+                <div class="recruiter-card">
+                    <div class="recruiter-card-title">ETL Data Quality Handling</div>
+                    <div class="recruiter-card-body">Shows attention to detail in standardizing values and imputing missing data.</div>
+                </div>
+                <div class="recruiter-card">
+                    <div class="recruiter-card-title">Focus on User Experience (UX)</div>
+                    <div class="recruiter-card-body">Highlights my focus on usability by designing clean grid layouts, tooltips, and easy-to-use filters.</div>
+                </div>
+                <div class="recruiter-card">
+                    <div class="recruiter-card-title">Actionable Business Insights</div>
+                    <div class="recruiter-card-body">Shows that I focus on translating numbers into actual, actionable recommendations for management.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Vanilla Javascript for Navigation & Scollspy -->
+    <script>
+        // Hamburger Menu Toggle for Mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar on link click (mobile view)
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Scrollspy: Highlight active link based on current section on screen
+        const sections = document.querySelectorAll('section');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Add offset to trigger slightly before the section hits top
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Click to Copy Code Block Content
+        function copyCode(button) {
+            const pre = button.parentElement.nextElementSibling;
+            const code = pre.querySelector('code');
+            const range = document.createRange();
+            range.selectNode(code);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                document.execCommand('copy');
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.borderColor = '#10b981';
+                button.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.borderColor = '';
+                    button.style.color = '';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+</body>
+</html>
