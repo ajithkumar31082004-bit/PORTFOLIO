@@ -769,6 +769,34 @@
           </p>
         </div>
       </div>
+
+      <!-- Live AWS Console Evidence -->
+      <div style="margin-top: 2.5rem; border-top: 1px solid var(--bg-surface-border); padding-top: 2rem;">
+        <h3 style="color: var(--aws-orange); margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif;"><i class="fa-solid fa-camera"></i> Live AWS Console Execution Screenshots</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--bg-surface-border); border-radius: 12px; overflow: hidden;">
+            <img src="images/supermarket_pipeline.png" alt="AWS CodePipeline Execution" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1rem; font-size: 0.85rem; color: var(--text-secondary); font-family: monospace;">
+              <strong style="color: var(--text-primary);"><i class="fa-solid fa-circle-check" style="color:var(--success);"></i> AWS CodePipeline Succeeded</strong><br>
+              Source (GitHub) ➔ Build (CodeBuild) ➔ Deploy (Amazon ECS)
+            </div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--bg-surface-border); border-radius: 12px; overflow: hidden;">
+            <img src="images/supermarket_ecs_cluster.png" alt="AWS ECS Cluster Services" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1rem; font-size: 0.85rem; color: var(--text-secondary); font-family: monospace;">
+              <strong style="color: var(--text-primary);"><i class="fa-solid fa-circle-check" style="color:var(--success);"></i> ECS Cluster Active</strong><br>
+              supermarket-cluster • supermarket-service running on Fargate
+            </div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--bg-surface-border); border-radius: 12px; overflow: hidden;">
+            <img src="images/supermarket_app.png" alt="SuperMarketPro Live Web Application" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1rem; font-size: 0.85rem; color: var(--text-secondary); font-family: monospace;">
+              <strong style="color: var(--text-primary);"><i class="fa-solid fa-globe" style="color:var(--aws-blue);"></i> Deployed Web Storefront</strong><br>
+              SuperMarketPro application served via Application Load Balancer
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Problem & Solution -->
