@@ -593,9 +593,55 @@
       min-width: 800px;
       height: auto;
     }
+  /* Case study sticky top nav */
+  .case-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(11, 15, 25, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 153, 0, 0.2);
+    padding: 14px 0;
+  }
+  .case-nav-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: #FF9900; font-family: monospace; font-size: 13px; font-weight: 600;
+    text-decoration: none; transition: opacity .2s;
+  }
+  .back-link:hover { opacity: 0.8; }
+  .case-nav-actions { display: flex; gap: 10px; }
+  .case-nav-btn {
+    font-family: monospace; font-size: 12px; padding: 7px 14px; border-radius: 6px;
+    display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+    transition: all .2s ease;
+  }
+  .case-nav-btn.primary { background: #FF9900; color: #0B1120; font-weight: 700; }
+  .case-nav-btn.primary:hover { background: #e08800; }
+  .case-nav-btn.secondary { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #E7EDF6; }
+  .case-nav-btn.secondary:hover { border-color: #FF9900; color: #FF9900; }
   </style>
 </head>
 <body>
+
+  <!-- Sticky Case Study Navigation -->
+  <nav class="case-nav">
+    <div class="case-nav-inner">
+      <a href="index.html" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+      </a>
+      <div class="case-nav-actions">
+        <a href="https://github.com/ajithkumar31082004-bit/Restaurant-Order-System" target="_blank" rel="noopener" class="case-nav-btn secondary">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
+        <a href="Ajithkumar_M_Resume_CloudDevOps.docx" download class="case-nav-btn primary">
+          <i class="fa-solid fa-download"></i> Resume
+        </a>
+      </div>
+    </div>
+  </nav>
 
   <div class="container">
     

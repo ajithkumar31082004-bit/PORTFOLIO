@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ajithkumar M. — Cloud & DevOps Engineer</title>
 <meta name="description" content="Portfolio of Ajithkumar M. — AWS Cloud & DevOps Engineer specializing in scalable AWS infrastructure, Docker containerization, Kubernetes, Terraform, and CI/CD pipelines.">
+<!-- Open Graph / LinkedIn / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ajithkumar31082004-bit.github.io/PORTFOLIO/">
+<meta property="og:title" content="Ajithkumar M. — Cloud & DevOps Engineer">
+<meta property="og:description" content="AWS Cloud & DevOps Engineer — Docker, Kubernetes, Terraform, CI/CD. 3 internships, 15+ certifications, Top 20 AWS Hackathon Finalist.">
+<meta property="og:image" content="images/ajithkumar_profile.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ajithkumar M. — Cloud & DevOps Engineer">
+<meta name="twitter:description" content="AWS Cloud & DevOps Engineer — Docker, Kubernetes, Terraform, CI/CD.">
+<meta name="twitter:image" content="images/ajithkumar_profile.jpg">
+<link rel="canonical" href="https://ajithkumar31082004-bit.github.io/PORTFOLIO/">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -177,6 +188,55 @@
   }
   .stat-value { font-family: var(--display); font-size: 26px; font-weight: 700; color: var(--orange); }
   .stat-label { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
+
+  /* PROOF STRIP */
+  .proof-strip {
+    margin-top: 28px;
+    background: linear-gradient(135deg, rgba(255,153,0,0.06) 0%, rgba(79,209,197,0.04) 100%);
+    border: 1px solid rgba(255,153,0,0.2);
+    border-radius: var(--radius-lg); padding: 20px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  @media (max-width: 860px) { .proof-strip { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .proof-strip { grid-template-columns: 1fr; } }
+  .proof-item { display: flex; align-items: flex-start; gap: 12px; }
+  .proof-icon {
+    width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(255,153,0,0.12); border: 1px solid rgba(255,153,0,0.25);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--orange); font-size: 15px; margin-top: 2px;
+  }
+  .proof-text .proof-claim { font-family: var(--display); font-size: 13px; font-weight: 700; color: #FFF; line-height: 1.3; }
+  .proof-text .proof-evidence { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+  /* FEATURED FULL-WIDTH PROJECT CARD */
+  .featured-full {
+    background: var(--surface); border: 1px solid rgba(255,153,0,0.35); border-radius: var(--radius-lg);
+    overflow: hidden; margin-bottom: 24px; transition: border-color .2s ease;
+  }
+  .featured-full:hover { border-color: var(--orange); }
+  .featured-full-inner { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 768px) { .featured-full-inner { grid-template-columns: 1fr; } }
+  .featured-full-img { position: relative; min-height: 280px; background: var(--surface-2); overflow: hidden; border-right: 1px solid var(--border); }
+  @media (max-width: 768px) { .featured-full-img { border-right: none; border-bottom: 1px solid var(--border); min-height: 200px; } }
+  .featured-full-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+  .featured-full:hover .featured-full-img img { transform: scale(1.03); }
+  .featured-full-body { padding: 28px; display: flex; flex-direction: column; justify-content: space-between; }
+  .mini-pipeline { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 14px 0; }
+  .mini-pipe-step {
+    font-family: var(--mono); font-size: 11px; padding: 4px 10px; border-radius: 4px;
+    background: rgba(255,153,0,0.08); border: 1px solid rgba(255,153,0,0.25); color: var(--text);
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .mini-pipe-step i { color: var(--orange); font-size: 10px; }
+  .mini-pipe-arrow { color: var(--orange); font-size: 10px; font-weight: bold; }
+  .proof-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .proof-tag-item {
+    font-family: var(--mono); font-size: 11px; padding: 4px 10px; border-radius: 4px;
+    background: rgba(79,209,197,0.08); border: 1px solid rgba(79,209,197,0.2); color: var(--teal);
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .proof-tag-item i { font-size: 10px; }
 
   /* SECTION STYLING */
   section { padding: 64px 0; border-top: 1px solid rgba(37, 50, 83, 0.4); }
@@ -437,6 +497,38 @@
         <div class="stat-label">AWS Hackathon</div>
       </div>
     </div>
+
+    <!-- PROOF STRIP -->
+    <div class="proof-strip">
+      <div class="proof-item">
+        <div class="proof-icon"><i class="fa-brands fa-aws"></i></div>
+        <div class="proof-text">
+          <div class="proof-claim">Deployed on AWS — for real</div>
+          <div class="proof-evidence">EC2 · ECS Fargate · ECR · S3 · RDS · Lambda · CloudWatch</div>
+        </div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="proof-text">
+          <div class="proof-claim">Built a full CI/CD pipeline</div>
+          <div class="proof-evidence">GitHub → CodePipeline → CodeBuild → ECR → ECS Fargate</div>
+        </div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-icon"><i class="fa-brands fa-docker"></i></div>
+        <div class="proof-text">
+          <div class="proof-claim">Containerized, not just configured</div>
+          <div class="proof-evidence">Multi-stage Dockerfiles · ECR pushes · Fargate rolling deploys</div>
+        </div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-icon"><i class="fa-solid fa-trophy"></i></div>
+        <div class="proof-text">
+          <div class="proof-claim">Competed &amp; placed in AWS Hackathon</div>
+          <div class="proof-evidence">Top 20 Finalist · Institution Rank 14 · AWS PartyRock 2025</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -446,14 +538,52 @@
     <div class="section-head">
       <div class="num">01 // PROFILE</div>
       <h2>About Me</h2>
+      <div class="section-subtitle">ECE fresher → Cloud & DevOps Engineer. Here's what I can prove.</div>
     </div>
-    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px;">
-      <p style="color:var(--text); font-size:16px; line-height:1.7; max-width:85ch;">
-        AWS Cloud &amp; DevOps Engineer with practical experience in building containerized applications, configuring secure cloud infrastructure (EC2, S3, IAM, VPC, ECS Fargate), and automating software delivery pipelines with AWS CodePipeline, CodeBuild, Docker, and GitHub Actions. Skilled in Linux administration, Python scripting, SQL database operations, and serverless compute. Proven ability to design event-driven systems and present data-driven analytics. Actively seeking entry-level Cloud / DevOps opportunities to deploy high-availability systems.
-      </p>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px; display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+      <div style="border-right:1px solid var(--border); padding-right:24px;">
+        <p style="color:var(--muted); font-size:13px; font-family:var(--mono); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">My Story</p>
+        <p style="color:var(--text); font-size:15px; line-height:1.75;">
+          I'm an Electronics &amp; Communication Engineering student who pivoted into Cloud &amp; DevOps by <strong style="color:#FFF;">actually building things on AWS</strong> — not just completing courses. I've deployed containerized applications using ECS Fargate, built automated CI/CD pipelines with CodePipeline &amp; CodeBuild, and designed event-driven serverless systems using Lambda, SQS, SNS, and DynamoDB.
+        </p>
+        <p style="color:var(--muted); font-size:15px; line-height:1.75; margin-top:12px;">
+          Across 3 internships (Cloud, AI, Data), I've gone from theory to production — and every project on this portfolio has <span style="color:var(--orange); font-weight:600;">real AWS console screenshots to prove it</span>.
+        </p>
+      </div>
+      <div>
+        <p style="color:var(--muted); font-size:13px; font-family:var(--mono); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">What I Can Do</p>
+        <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:10px;">
+          <li style="display:flex; gap:10px; align-items:flex-start;">
+            <span style="color:var(--orange); font-family:var(--mono); font-size:13px; flex-shrink:0; margin-top:2px;">▹</span>
+            <span style="color:var(--text); font-size:14px;"><strong style="color:#FFF;">Containerize</strong> a full-stack app with Docker, push to ECR, and deploy to ECS Fargate with zero downtime</span>
+          </li>
+          <li style="display:flex; gap:10px; align-items:flex-start;">
+            <span style="color:var(--orange); font-family:var(--mono); font-size:13px; flex-shrink:0; margin-top:2px;">▹</span>
+            <span style="color:var(--text); font-size:14px;"><strong style="color:#FFF;">Automate</strong> source-to-production pipelines with GitHub → CodePipeline → CodeBuild → deploy</span>
+          </li>
+          <li style="display:flex; gap:10px; align-items:flex-start;">
+            <span style="color:var(--orange); font-family:var(--mono); font-size:13px; flex-shrink:0; margin-top:2px;">▹</span>
+            <span style="color:var(--text); font-size:14px;"><strong style="color:#FFF;">Design</strong> event-driven architectures using SQS queues, Lambda processors, and SNS notifications</span>
+          </li>
+          <li style="display:flex; gap:10px; align-items:flex-start;">
+            <span style="color:var(--orange); font-family:var(--mono); font-size:13px; flex-shrink:0; margin-top:2px;">▹</span>
+            <span style="color:var(--text); font-size:14px;"><strong style="color:#FFF;">Secure</strong> cloud infrastructure with least-privilege IAM, VPC isolation, and Security Groups</span>
+          </li>
+          <li style="display:flex; gap:10px; align-items:flex-start;">
+            <span style="color:var(--orange); font-family:var(--mono); font-size:13px; flex-shrink:0; margin-top:2px;">▹</span>
+            <span style="color:var(--text); font-size:14px;"><strong style="color:#FFF;">Script</strong> automation with Python, Bash, and write infrastructure-as-code with Terraform</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
+<style>
+  @media (max-width: 768px) {
+    #about .wrap > div[style*="grid"] { grid-template-columns: 1fr !important; }
+    #about .wrap > div > div[style*="border-right"] { border-right: none !important; padding-right: 0 !important; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 4px; }
+  }
+</style>
 
 <!-- RECRUITER-FRIENDLY TECH STACK SECTION -->
 <section id="skills">
@@ -651,34 +781,57 @@
     <!-- PROJECTS GRID -->
     <div class="projects-list">
 
-      <!-- PROJECT 01: SUPERMARKETPRO -->
-      <div class="project-card" data-category="aws devops">
-        <div class="project-img">
-          <img src="images/supermarket_pipeline.png" alt="AWS CodePipeline SuperMarketPRO Deployment Screenshot">
-        </div>
-        <div class="project-body">
-          <div>
-            <span class="featured-badge"><i class="fa-solid fa-star"></i> Featured DevOps Project</span>
-            <div class="project-num">01 — SuperMarketPRO</div>
-            <div class="project-title">AWS DevOps E-Commerce Platform</div>
+      <!-- PROJECT 01: SUPERMARKETPRO — FEATURED FULL WIDTH -->
+      <div class="featured-full" data-category="aws devops" style="grid-column: 1 / -1;">
+        <div class="featured-full-inner">
+          <div class="featured-full-img">
+            <img src="images/supermarket_pipeline.png" alt="AWS CodePipeline SuperMarketPRO Deployment Screenshot">
           </div>
-          <div class="project-desc">
-            Containerized a full-stack e-commerce web application using Docker and configured automated CI/CD deployment pipelines on AWS. Built source-to-deploy workflow triggered via GitHub commit.
-          </div>
-          <div class="project-metrics">
-            <i class="fa-solid fa-chart-simple"></i> 7 AWS Services • Docker Containerization • Automated CI/CD • ECS Fargate Deployment
-          </div>
-          <div class="project-tech">
-            <span class="tech-tag">AWS</span>
-            <span class="tech-tag">Docker</span>
-            <span class="tech-tag">ECR</span>
-            <span class="tech-tag">ECS Fargate</span>
-            <span class="tech-tag">CodeBuild</span>
-            <span class="tech-tag">CodePipeline</span>
-          </div>
-          <div class="project-actions">
-            <a class="btn primary" href="Super%20Market%20Pro.html" target="_blank" rel="noopener">View Case Study</a>
-            <a class="btn secondary" href="https://github.com/ajithkumar31082004-bit" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+          <div class="featured-full-body">
+            <div>
+              <span class="featured-badge"><i class="fa-solid fa-star"></i> Featured DevOps Project — #1 Case Study</span>
+              <div class="project-title" style="font-size:22px; margin-top:8px;">SuperMarketPRO</div>
+              <div style="font-family:var(--mono); font-size:13px; color:var(--teal); margin-top:2px; margin-bottom:12px;">AWS E-Commerce Platform with Automated CI/CD</div>
+              <p style="color:var(--muted); font-size:14px; line-height:1.6; margin-bottom:14px;">
+                I took a full-stack e-commerce app and containerized it with Docker, built a production CI/CD pipeline on AWS, and deployed it to ECS Fargate — all triggered automatically on every GitHub commit.
+              </p>
+
+              <!-- MINI PIPELINE -->
+              <div style="margin-bottom:14px;">
+                <div style="font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">What the pipeline does on every git push:</div>
+                <div class="mini-pipeline">
+                  <span class="mini-pipe-step"><i class="fa-brands fa-github"></i> GitHub</span>
+                  <span class="mini-pipe-arrow">→</span>
+                  <span class="mini-pipe-step"><i class="fa-solid fa-code-commit"></i> CodePipeline</span>
+                  <span class="mini-pipe-arrow">→</span>
+                  <span class="mini-pipe-step"><i class="fa-solid fa-hammer"></i> CodeBuild</span>
+                  <span class="mini-pipe-arrow">→</span>
+                  <span class="mini-pipe-step"><i class="fa-brands fa-docker"></i> Docker build</span>
+                  <span class="mini-pipe-arrow">→</span>
+                  <span class="mini-pipe-step"><i class="fa-solid fa-box"></i> ECR push</span>
+                  <span class="mini-pipe-arrow">→</span>
+                  <span class="mini-pipe-step"><i class="fa-solid fa-cubes"></i> ECS Fargate deploy</span>
+                </div>
+              </div>
+
+              <!-- WHAT WAS PROVED -->
+              <div style="margin-bottom:16px;">
+                <div style="font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">What this proves:</div>
+                <div class="proof-tags">
+                  <span class="proof-tag-item"><i class="fa-solid fa-check"></i> Real CI/CD pipeline built</span>
+                  <span class="proof-tag-item"><i class="fa-solid fa-check"></i> Docker containerization</span>
+                  <span class="proof-tag-item"><i class="fa-solid fa-check"></i> 7 AWS services configured</span>
+                  <span class="proof-tag-item"><i class="fa-solid fa-check"></i> Zero-downtime rolling deploy</span>
+                  <span class="proof-tag-item"><i class="fa-solid fa-check"></i> IAM least-privilege secured</span>
+                  <span class="proof-tag-item"><i class="fa-solid fa-camera"></i> AWS screenshots as evidence</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-actions">
+              <a class="btn primary" href="Super%20Market%20Pro.html" target="_blank" rel="noopener"><i class="fa-solid fa-book-open"></i> Full Case Study</a>
+              <a class="btn secondary" href="https://github.com/ajithkumar31082004-bit/Super-Market-Website" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub Repo</a>
+            </div>
           </div>
         </div>
       </div>
@@ -741,8 +894,8 @@
             <span class="tech-tag">Aurora MySQL</span>
           </div>
           <div class="project-actions">
-            <a class="btn primary" href="Restaurant%20Order%20System.html" target="_blank" rel="noopener">View Details</a>
-            <a class="btn secondary" href="https://github.com/ajithkumar31082004-bit" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a class="btn primary" href="Restaurant%20Order%20System.html" target="_blank" rel="noopener">View Case Study</a>
+            <a class="btn secondary" href="https://github.com/ajithkumar31082004-bit/Restaurant-Order-System" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
           </div>
         </div>
       </div>
@@ -891,7 +1044,7 @@
         <div class="cert-body">
           <div class="cert-title">AWS Cloud Practitioner Essentials</div>
           <div class="cert-issuer">Amazon Web Services</div>
-          <a class="cert-link" href="certs/AWS Cloud Practitioner Essentials.jpeg" target="_blank" rel="noopener">View Certificate ↗</a>
+          <a class="cert-link" href="certs/AWS Cloud Practitioner Essentials.jpeg" target="_blank" rel="noopener" title="Opens certificate image">View Certificate ↗</a>
         </div>
       </div>
 
@@ -927,7 +1080,7 @@
         <div class="cert-body">
           <div class="cert-title">Google Generative AI Specialization</div>
           <div class="cert-issuer">NASSCOM / SmartInternz</div>
-          <a class="cert-link" href="certs/Google Generative AI Intern.jpeg" target="_blank" rel="noopener">View Certificate ↗</a>
+          <a class="cert-link" href="https://drive.google.com/file/d/1LSKiX3r5ztqG484BQiEwEvqm98swf3I_/view?usp=drive_link" target="_blank" rel="noopener">View Credential ↗</a>
         </div>
       </div>
     </div>
