@@ -640,6 +640,99 @@
             line-height: 1.4;
         }
 
+        .delivery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+        }
+
+        .delivery-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+        }
+
+        .delivery-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--cyan);
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .delivery-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .delivery-list {
+            list-style: none;
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .delivery-list li {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .delivery-list li::before {
+            content: '>'; 
+            position: absolute;
+            left: 0;
+            color: var(--emerald);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+        }
+
+        .delivery-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(10, 15, 29, 0.7);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+        }
+
+        .delivery-step {
+            color: var(--text-main);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 0.55rem 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .delivery-arrow {
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        .delivery-note {
+            margin-top: 1.5rem;
+            padding: 1rem 1.25rem;
+            border-left: 3px solid var(--amber);
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+        }
+
+        @media (max-width: 640px) {
+            .delivery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* ── 4 AI Engines Grid ── */
         .ai-grid {
             display: grid;
@@ -1178,6 +1271,7 @@
             <ul class="nav-links">
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#delivery">Deployment</a></li>
                 <li><a href="#ai-engines">AI & ML</a></li>
                 <li><a href="#demos">Live Demos</a></li>
                 <li><a href="#tech-stack">Tech Stack</a></li>
@@ -1426,6 +1520,75 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ── Cloud & DevOps Delivery Section ── -->
+    <section class="section" id="delivery">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Cloud Operations & DevSecOps</span>
+                <h2 class="section-title">From Git Push to Healthy Production</h2>
+                <p class="section-desc">The deployment model packages the Node.js application with Docker, provisions repeatable AWS infrastructure, and keeps runtime health visible through metrics and centralized logs.</p>
+            </div>
+
+            <div class="delivery-grid">
+                <article class="delivery-card">
+                    <h3><i class="fa-brands fa-aws"></i> AWS Runtime Architecture</h3>
+                    <p>Users enter through an Application Load Balancer, which routes traffic to healthy EC2 instances in an Auto Scaling Group.</p>
+                    <ul class="delivery-list">
+                        <li>ALB listener on port 80 forwards to the target group</li>
+                        <li>EC2 instances run Nginx on port 80 and Node.js on port 5000</li>
+                        <li>Launch Template User Data installs dependencies and starts the application</li>
+                        <li>MySQL persistence and controlled Security Group traffic</li>
+                    </ul>
+                </article>
+
+                <article class="delivery-card">
+                    <h3><i class="fa-solid fa-code-branch"></i> CI/CD and DevSecOps</h3>
+                    <p>Jenkins automates the path from source control to a deployable, security-checked container image.</p>
+                    <ul class="delivery-list">
+                        <li>GitHub webhook triggers the Jenkins pipeline</li>
+                        <li>Checkout, tests, SonarQube analysis, and Docker image build</li>
+                        <li>Trivy scans the image before Docker Hub publication</li>
+                        <li>EC2 deployment updates the Nginx reverse-proxy runtime</li>
+                    </ul>
+                </article>
+
+                <article class="delivery-card">
+                    <h3><i class="fa-solid fa-mountain"></i> Infrastructure as Code</h3>
+                    <p>Terraform captures the infrastructure workflow so the environment can be reviewed, recreated, and versioned with the application.</p>
+                    <ul class="delivery-list">
+                        <li>terraform init prepares providers and state</li>
+                        <li>terraform validate checks configuration syntax</li>
+                        <li>terraform plan previews infrastructure changes</li>
+                        <li>terraform apply provisions the AWS resources</li>
+                    </ul>
+                </article>
+
+                <article class="delivery-card">
+                    <h3><i class="fa-solid fa-chart-line"></i> Monitoring and Logging</h3>
+                    <p>Operational signals make the deployment measurable and troubleshooting practical after release.</p>
+                    <ul class="delivery-list">
+                        <li>Prometheus collects application and host metrics</li>
+                        <li>Grafana visualizes health, CPU, memory, traffic, and uptime</li>
+                        <li>Loki centralizes Node.js, Nginx, and Docker logs</li>
+                        <li>Health checks keep unhealthy instances out of ALB traffic</li>
+                    </ul>
+                </article>
+            </div>
+
+            <div class="delivery-flow" aria-label="SmartPark AI deployment workflow">
+                <span class="delivery-step">GitHub</span><span class="delivery-arrow">-&gt;</span>
+                <span class="delivery-step">Jenkins</span><span class="delivery-arrow">-&gt;</span>
+                <span class="delivery-step">Test</span><span class="delivery-arrow">-&gt;</span>
+                <span class="delivery-step">SonarQube</span><span class="delivery-arrow">-&gt;</span>
+                <span class="delivery-step">Docker + Trivy</span><span class="delivery-arrow">-&gt;</span>
+                <span class="delivery-step">EC2 + Nginx</span><span class="delivery-arrow">-&gt;</span>
+                <span class="delivery-step">Prometheus / Grafana / Loki</span>
+            </div>
+
+            <div class="delivery-note"><strong>Real-world deployment lesson:</strong> Auto Scaling can create a healthy EC2 server without deploying the application. The Launch Template and User Data script must configure Docker, clone the repository, start the services, and make the app ready behind the load balancer.</div>
         </div>
     </section>
 
