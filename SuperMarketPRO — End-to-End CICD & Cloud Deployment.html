@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperMarketPRO — End-to-End CI/CD & Cloud Deployment Portfolio</title>
+  <meta name="description" content="SuperMarketPRO Portfolio: Full-stack grocery e-commerce deployed on AWS EC2 with GitHub Actions, SonarQube, Trivy, Docker, Nginx reverse proxy, and automated rollback." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-surface: #111726;
+      --bg-card: rgba(19, 27, 46, 0.7);
+      --bg-card-hover: rgba(28, 38, 64, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-bright: rgba(99, 102, 241, 0.4);
+      --primary: #6366f1;
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      --accent-cyan: #06b6d4;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.65;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 90% 90%, rgba(6, 182, 212, 0.09) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navbar */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 0;
+    }
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+    .brand-badge {
+      background: var(--primary-gradient);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
+    }
+    .nav-menu {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      list-style: none;
+    }
+    .nav-menu a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+    .nav-menu a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .btn-live-header {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+    }
+
+    /* Hero Header */
+    .hero {
+      padding: 70px 0 50px;
+      text-align: center;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 18px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid var(--border-bright);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 24px;
+    }
+    .dot-live {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.5; }
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 70%, #67e8f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 850px;
+      margin: 0 auto 34px;
+    }
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-main {
+      background: var(--primary-gradient);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+    }
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+    }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Live Demo Bar */
+    .demo-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 60px;
+      backdrop-filter: blur(12px);
+    }
+    .demo-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .demo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .demo-info span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .demo-info a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-family: var(--font-code);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .demo-info a:hover {
+      text-decoration: underline;
+    }
+
+    /* Section Global */
+    section {
+      padding: 40px 0;
+    }
+    .section-head {
+      margin-bottom: 30px;
+    }
+    .section-tag {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: #fff;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 6px;
+    }
+
+    /* Content Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ASCII / Architecture Diagrams */
+    .diagram-box {
+      background: #060911;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+      font-family: var(--font-code);
+      font-size: 0.86rem;
+      color: #a5b4fc;
+      line-height: 1.45;
+      white-space: pre;
+      margin: 20px 0;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .arch-visual {
+      background: #f3f7fb;
+      border: 2px solid rgba(75, 117, 184, 0.6);
+      border-radius: 20px;
+      padding: 24px 18px 16px;
+      margin-top: 18px;
+      overflow-x: auto;
+    }
+    .arch-layout {
+      min-width: 1180px;
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 1.25fr 1.2fr 1.2fr 1.1fr;
+      gap: 22px;
+      align-items: end;
+      padding: 8px 4px 0;
+    }
+    .arch-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .arch-card {
+      background: rgba(255, 255, 255, 0.55);
+      border: 2px solid rgba(66, 133, 244, 0.7);
+      border-radius: 18px;
+      box-shadow: 0 3px 0 rgba(31, 41, 55, 0.08);
+      padding: 18px 12px 14px;
+      text-align: center;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .arch-card--light {
+      background: rgba(255, 255, 255, 0.45);
+      border-color: rgba(96, 165, 250, 0.8);
+    }
+    .arch-card--green {
+      border-color: rgba(16, 185, 129, 0.7);
+    }
+    .arch-card--orange {
+      border-color: rgba(249, 115, 22, 0.8);
+    }
+    .arch-card--teal {
+      border-color: rgba(59, 130, 246, 0.8);
+    }
+    .arch-card .arch-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(96, 165, 250, 0.12);
+      color: #1d4ed8;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+    .arch-card h3 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+    }
+    .arch-card p {
+      font-size: 0.72rem;
+      color: #475569;
+      margin: 6px 0 0;
+      line-height: 1.45;
+    }
+    .arch-card--small {
+      min-height: 120px;
+      padding: 14px 10px 12px;
+    }
+    .arch-card--small .arch-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .arch-pipeline {
+      background: rgba(255, 255, 255, 0.55);
+      border: 2px solid rgba(96, 165, 250, 0.8);
+      border-radius: 18px;
+      padding: 14px 12px 18px;
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .arch-pipeline-header {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .arch-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .arch-step {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(148,163,184,0.5);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .arch-step .arch-step-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(59,130,246,0.13);
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .arch-step--pass {
+      border-color: rgba(34,197,94,0.6);
+      color: #065f46;
+    }
+    .arch-step--pass .arch-step-icon {
+      background: rgba(34,197,94,0.13);
+      color: #16a34a;
+    }
+    .arch-step--danger {
+      border-color: rgba(239,68,68,0.5);
+      color: #991b1b;
+    }
+    .arch-step--danger .arch-step-icon {
+      background: rgba(239,68,68,0.1);
+      color: #dc2626;
+    }
+    .arch-connectors {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #56657d;
+      font-size: 1.1rem;
+      margin: 12px auto 10px;
+    }
+    .arch-connectors::before,
+    .arch-connectors::after {
+      content: "";
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: rgba(148,163,184,0.8);
+      border-radius: 999px;
+    }
+    .arch-card strong {
+      display: block;
+      font-size: 0.78rem;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .arch-bottom-bar {
+      margin-top: 22px;
+      border-top: 2px dashed rgba(96, 165, 250, 0.7);
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: #1f2937;
+      font-weight: 700;
+    }
+    .arch-endflow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(139, 92, 246, 0.11);
+      border: 1px solid rgba(139, 92, 246, 0.45);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 0.8rem;
+    }
+    .arch-flow-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.75);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+      font-size: 0.72rem;
+      color: #334155;
+    }
+
+    /* Pipeline Step Sequence */
+    .workflow-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .wf-node {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e2e8f0;
+    }
+    .wf-arrow {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .evidence-card {
+      background: rgba(10, 15, 26, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .evidence-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      background: #060911;
+    }
+    .evidence-card figcaption {
+      padding: 14px 16px 16px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+    .evidence-card strong {
+      display: block;
+      color: #fff;
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    /* Quality Gate Badge */
+    .badge-passed {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Code Blocks */
+    .code-box {
+      background: #060911;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: var(--font-code);
+      font-size: 0.84rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+
+    /* Tech Matrix Lists */
+    .tech-group {
+      background: rgba(10, 15, 26, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .tech-group h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tech-group ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tech-group li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tech-group li i {
+      color: var(--accent-cyan);
+      font-size: 0.75rem;
+    }
+
+    /* Copyable Snippet Boxes */
+    .copy-panel {
+      background: #090e1a;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .copy-panel-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .copy-panel-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-copy-action {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid var(--border-subtle);
+      padding: 7px 15px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-copy-action:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    .copy-text-area {
+      font-family: var(--font-code);
+      font-size: 0.86rem;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+
+    /* Roadmap Card */
+    .roadmap-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .roadmap-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    /* Toast Notification */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 9999;
+      animation: toastIn 0.3s ease;
+    }
+    @keyframes toastIn {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="top-nav">
+    <div class="container nav-flex">
+      <a href="#" class="brand">
+        <div class="brand-badge"><i class="fa-solid fa-server"></i></div>
+        <span>SuperMarket<span style="color: var(--accent-cyan)">PRO</span></span>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+        <li><a href="#ci-pipeline">CI Pipeline</a></li>
+        <li><a href="#rollback">Rollback</a></li>
+        <li><a href="#portfolio-assets">Resume & LinkedIn</a></li>
+        <li><a href="http://supermarketpro.crabdance.com" target="_blank" class="btn-live-header"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <div class="badge-pill">
+        <span class="dot-live"></span>
+        <span>🚀 SuperMarketPRO — End-to-End CI/CD & Cloud Deployment</span>
+      </div>
+      <h1>Production Deployment & DevOps Showcase</h1>
+      <p>
+        A full-stack grocery e-commerce application deployed on AWS EC2 using Docker, featuring an automated GitHub Actions CI/CD pipeline with SonarQube code quality gating, Trivy container vulnerability scanning, Nginx reverse proxying, and automated self-healing rollback.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="http://supermarketpro.crabdance.com" target="_blank" class="btn btn-main">
+          <i class="fa-solid fa-globe"></i> Visit Live Application
+        </a>
+        <a href="https://github.com/ajithkumar31082004-bit/Super-Market-Website" target="_blank" class="btn btn-ghost">
+          <i class="fa-brands fa-github"></i> GitHub Repository
+        </a>
+      </div>
+
+      <!-- Live Demo Info Box -->
+      <div class="demo-bar">
+        <div class="demo-item">
+          <div class="demo-icon"><i class="fa-solid fa-link"></i></div>
+          <div class="demo-info">
+            <span>Website Domain</span>
+            <a href="http://supermarketpro.crabdance.com" target="_blank">http://supermarketpro.crabdance.com</a>
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <div class="demo-icon"><i class="fa-brands fa-github"></i></div>
+          <div class="demo-info">
+            <span>Source Code</span>
+            <a href="https://github.com/ajithkumar31082004-bit/Super-Market-Website" target="_blank">github.com/ajithkumar31082004-bit/Super-Market-Website</a>
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <div class="demo-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <div class="demo-info">
+            <span>Public DNS Mapping</span>
+            <span style="color: #cbd5e1; font-family: var(--font-code); font-size: 0.92rem;">A Record &rarr; 43.204.148.225</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 📌 Project Overview -->
+    <section id="overview">
+      <div class="section-head">
+        <div class="section-tag">Overview</div>
+        <h2 class="section-title">📌 Project Overview</h2>
+        <p class="section-subtitle">How changes seamlessly progress from a local Git commit to live production.</p>
+      </div>
+
+      <div class="card">
+        <p style="font-size: 1.05rem; margin-bottom: 20px; color: #e2e8f0;">
+          <strong>SuperMarketPRO</strong> is a full-stack grocery e-commerce application deployed on AWS EC2 using Docker, with an automated CI/CD pipeline using GitHub Actions.
+        </p>
+
+        <h4 style="color: #fff; margin-bottom: 14px;">The project demonstrates how source-code changes automatically go through:</h4>
+
+        <div class="workflow-flow">
+          <div class="wf-node"><i class="fa-solid fa-user-gear"></i> Developer</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-brands fa-github"></i> GitHub</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-solid fa-play"></i> GitHub Actions</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-solid fa-magnifying-glass-chart"></i> SonarQube Code Quality</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-brands fa-docker"></i> Docker Build</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-solid fa-shield-virus"></i> Trivy Security Scan</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-brands fa-aws"></i> EC2 Deployment</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-brands fa-docker"></i> Docker Container</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-solid fa-route"></i> Nginx Reverse Proxy</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node"><i class="fa-solid fa-globe"></i> Custom Domain</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node" style="border-color: var(--accent-green); color: #34d399;"><i class="fa-solid fa-circle-check"></i> Live Application</div>
+        </div>
+
+        <p style="color: var(--text-muted); margin-top: 18px; font-size: 0.95rem;">
+          The deployment also includes <strong>automatic rollback</strong> when the newly deployed application fails its health check.
+        </p>
+      </div>
+    </section>
+
+    <!-- 🏗️ Architecture -->
+    <section id="architecture">
+      <div class="section-head">
+        <div class="section-tag">Infrastructure</div>
+        <h2 class="section-title">🏗️ Architecture Diagram</h2>
+        <p class="section-subtitle">Complete end-to-end pipeline flow and AWS runtime environment.</p>
+      </div>
+
+      <div class="card">
+        <div class="arch-visual">
+          <div class="arch-layout">
+            <div class="arch-stack">
+              <div class="arch-card arch-card--light arch-card--small">
+                <div class="arch-icon"><i class="fa-solid fa-user"></i></div>
+                <div>
+                  <h3>1. Developer</h3>
+                  <p>Write Code<br>git push</p>
+                </div>
+              </div>
+              <div class="arch-card arch-card--light arch-card--small">
+                <div class="arch-icon"><i class="fa-brands fa-github"></i></div>
+                <div>
+                  <h3>2. GitHub</h3>
+                  <p>Source Code</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-pipeline">
+              <div class="arch-pipeline-header">3. CI Pipeline — GitHub Actions</div>
+              <div class="arch-steps">
+                <div class="arch-step"><span class="arch-step-icon"><i class="fa-solid fa-download"></i></span>1. Checkout Code</div>
+                <div class="arch-step"><span class="arch-step-icon"><i class="fa-solid fa-code"></i></span>2. Node.js Setup</div>
+                <div class="arch-step"><span class="arch-step-icon"><i class="fa-solid fa-terminal"></i></span>3. npm ci</div>
+                <div class="arch-step arch-step--pass"><span class="arch-step-icon"><i class="fa-solid fa-check"></i></span>4. Syntax Check</div>
+                <div class="arch-step"><span class="arch-step-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></span>5. SonarQube Analysis</div>
+                <div class="arch-step arch-step--pass"><span class="arch-step-icon"><i class="fa-solid fa-check"></i></span>6. Quality Gate <strong>PASSED</strong></div>
+                <div class="arch-step"><span class="arch-step-icon"><i class="fa-brands fa-docker"></i></span>7. Docker Build</div>
+                <div class="arch-step"><span class="arch-step-icon"><i class="fa-solid fa-shield-halved"></i></span>8. Trivy Security Scan</div>
+                <div class="arch-step arch-step--pass"><span class="arch-step-icon"><i class="fa-solid fa-check"></i></span>9. CI Passed</div>
+              </div>
+            </div>
+
+            <div class="arch-stack">
+              <div class="arch-card arch-card--orange">
+                <div class="arch-icon"><i class="fa-brands fa-aws"></i></div>
+                <div>
+                  <h3>4. CD / Deployment — AWS EC2</h3>
+                  <p><strong>AWS EC2</strong><br>Ubuntu Server</p>
+                </div>
+              </div>
+              <div class="arch-card arch-card--green arch-card--small">
+                <div class="arch-icon"><i class="fa-brands fa-docker"></i></div>
+                <div>
+                  <h3>Docker</h3>
+                  <p>supermarket-app<br>:5000</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-stack">
+              <div class="arch-card arch-card--green">
+                <div class="arch-icon"><i class="fa-solid fa-route"></i></div>
+                <div>
+                  <h3>5. Nginx Reverse Proxy</h3>
+                  <p>server_name<br>supermarketpro.crabdance.com</p>
+                </div>
+              </div>
+              <div class="arch-card arch-card--teal arch-card--small">
+                <div class="arch-icon"><i class="fa-solid fa-globe"></i></div>
+                <div>
+                  <h3>6. Custom Domain</h3>
+                  <p>DNS A Record<br>43.204.148.225</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-stack">
+              <div class="arch-card arch-card--teal">
+                <div class="arch-icon"><i class="fa-solid fa-users"></i></div>
+                <div>
+                  <h3>7. Internet Users</h3>
+                  <p>Access Application<br>https://supermarketpro.crabdance.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-bottom-bar">
+            <div class="arch-endflow"><i class="fa-solid fa-arrow-right"></i> End-to-End Flow</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-code"></i> Code Push</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-arrow-right"></i> CI Pipeline</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-shield-halved"></i> Code Quality</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-shield-virus"></i> Security Scan</div>
+            <div class="arch-flow-item"><i class="fa-brands fa-docker"></i> Docker Build</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-cloud-upload-alt"></i> Deploy to EC2</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-route"></i> Reverse Proxy</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-globe"></i> Custom Domain</div>
+            <div class="arch-flow-item"><i class="fa-solid fa-user-group"></i> Users</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🛠️ Technology Stack -->
+    <section id="tech-stack">
+      <div class="section-head">
+        <div class="section-tag">Stack</div>
+        <h2 class="section-title">🛠️ Technology Stack</h2>
+        <p class="section-subtitle">Tools and services categorized across each layer of the solution.</p>
+      </div>
+
+      <div class="grid-4">
+        <!-- Application -->
+        <div class="tech-group">
+          <h4><i class="fa-solid fa-code" style="color: #60a5fa;"></i> Application</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> HTML</li>
+            <li><i class="fa-solid fa-circle"></i> CSS</li>
+            <li><i class="fa-solid fa-circle"></i> JavaScript</li>
+            <li><i class="fa-solid fa-circle"></i> Node.js</li>
+            <li><i class="fa-solid fa-circle"></i> Express.js</li>
+            <li><i class="fa-solid fa-circle"></i> MySQL / AWS RDS</li>
+            <li><i class="fa-solid fa-circle"></i> DynamoDB</li>
+            <li><i class="fa-solid fa-circle"></i> AWS S3</li>
+            <li><i class="fa-solid fa-circle"></i> AWS Lambda</li>
+            <li><i class="fa-solid fa-circle"></i> AWS SNS</li>
+          </ul>
+        </div>
+
+        <!-- DevOps -->
+        <div class="tech-group">
+          <h4><i class="fa-solid fa-infinity" style="color: #a78bfa;"></i> DevOps</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Git</li>
+            <li><i class="fa-solid fa-circle"></i> GitHub</li>
+            <li><i class="fa-solid fa-circle"></i> GitHub Actions</li>
+            <li><i class="fa-solid fa-circle"></i> Docker</li>
+            <li><i class="fa-solid fa-circle"></i> Nginx</li>
+            <li><i class="fa-solid fa-circle"></i> SonarQube</li>
+            <li><i class="fa-solid fa-circle"></i> Trivy</li>
+          </ul>
+        </div>
+
+        <!-- Cloud -->
+        <div class="tech-group">
+          <h4><i class="fa-brands fa-aws" style="color: #fbbf24;"></i> Cloud</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> AWS EC2</li>
+            <li><i class="fa-solid fa-circle"></i> AWS RDS</li>
+            <li><i class="fa-solid fa-circle"></i> AWS DynamoDB</li>
+            <li><i class="fa-solid fa-circle"></i> AWS S3</li>
+            <li><i class="fa-solid fa-circle"></i> AWS Lambda</li>
+            <li><i class="fa-solid fa-circle"></i> AWS SNS</li>
+            <li><i class="fa-solid fa-circle"></i> IAM</li>
+          </ul>
+        </div>
+
+        <!-- Networking -->
+        <div class="tech-group">
+          <h4><i class="fa-solid fa-network-wired" style="color: #34d399;"></i> Networking</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> DNS</li>
+            <li><i class="fa-solid fa-circle"></i> HTTP</li>
+            <li><i class="fa-solid fa-circle"></i> Nginx Reverse Proxy</li>
+            <li><i class="fa-solid fa-circle"></i> EC2 Security Groups</li>
+            <li><i class="fa-solid fa-circle"></i> Custom Domain</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🔄 CI Pipeline & SonarQube -->
+    <section id="ci-pipeline">
+      <div class="section-head">
+        <div class="section-tag">Continuous Integration</div>
+        <h2 class="section-title">🔄 CI Pipeline</h2>
+        <p class="section-subtitle">Automated build and code inspection whenever code is pushed to main.</p>
+      </div>
+
+      <div class="card">
+        <div class="workflow-flow">
+          <div class="wf-node">git push</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">GitHub Actions</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Checkout</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Node.js 22</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">npm ci</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Node.js syntax check</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">SonarQube analysis</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Quality Gate</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Docker image build</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Trivy vulnerability scan</div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 24px;">
+          <div style="background: rgba(10, 15, 26, 0.6); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 20px;">
+            <h4 style="color: #fff; margin-bottom: 12px;"><i class="fa-solid fa-magnifying-glass-chart" style="color: #60a5fa;"></i> SonarQube Inspection</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 12px;">SonarQube is used to check:</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; color: #cbd5e1; font-size: 0.9rem; margin-bottom: 16px;">
+              <li><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> Code quality</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> Bugs</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> Code smells</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> Security issues</li>
+              <li><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> Maintainability</li>
+            </ul>
+            <div class="badge-passed">
+              <i class="fa-solid fa-circle-check"></i> Quality Gate: PASSED
+            </div>
+          </div>
+
+          <div style="background: rgba(10, 15, 26, 0.6); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 20px;">
+            <h4 style="color: #fff; margin-bottom: 12px;"><i class="fa-solid fa-shield-halved" style="color: #f43f5e;"></i> 🔐 Container Security (Trivy)</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 12px;">
+              The pipeline uses Trivy to scan the Docker image, preventing deployment when serious vulnerabilities are detected:
+            </p>
+            <div class="code-box">
+- name: Scan Docker image with Trivy
+  uses: aquasecurity/trivy-action@master
+  with:
+    image-ref: supermarket-app:${{ github.sha }}
+    format: table
+    exit-code: 1
+    ignore-unfixed: true
+    severity: CRITICAL,HIGH
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🚀 Continuous Deployment -->
+    <section id="cd-pipeline">
+      <div class="section-head">
+        <div class="section-tag">Continuous Deployment</div>
+        <h2 class="section-title">🚀 Continuous Deployment</h2>
+        <p class="section-subtitle">Automated release to AWS EC2 with full Git commit traceability.</p>
+      </div>
+
+      <div class="card">
+        <h4 style="color: #fff; margin-bottom: 14px;">After CI succeeds:</h4>
+        <div class="workflow-flow">
+          <div class="wf-node">CI Passed</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">SSH to EC2</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">git pull</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Save previous Docker image</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Build new image</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Tag image</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Stop old container</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Start new container</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node" style="border-color: var(--accent-green); color: #34d399;">Health Check</div>
+        </div>
+
+        <div style="margin-top: 20px; background: #060911; border: 1px solid var(--border-subtle); border-radius: 10px; padding: 18px;">
+          <p style="color: #94a3b8; font-size: 0.92rem; margin-bottom: 6px;">The application is deployed as:</p>
+          <code style="color: #38bdf8; font-family: var(--font-code); font-size: 0.95rem; display: block; margin-bottom: 8px;">supermarket-app:&lt;GitHub-Commit-SHA&gt;</code>
+          <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 6px;">For example:</p>
+          <code style="color: #a5b4fc; font-family: var(--font-code); font-size: 0.88rem;">supermarket-app:b886427efa556df9484c14bb02980e903d626dea</code>
+          <p style="color: #64748b; font-size: 0.85rem; margin-top: 10px;">This provides complete traceability between a running deployment and the exact Git commit.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🔄 Automatic Rollback -->
+    <section id="rollback">
+      <div class="section-head">
+        <div class="section-tag">High Availability</div>
+        <h2 class="section-title">🔄 Automatic Rollback</h2>
+        <p class="section-subtitle">Automated self-healing recovery when a release fails validation.</p>
+      </div>
+
+      <div class="card" style="border-color: rgba(244, 63, 94, 0.25);">
+        <p style="color: #e2e8f0; font-size: 1rem; margin-bottom: 16px;">
+          One of the strongest features of the project is the <strong>rollback mechanism</strong>. After deployment, the pipeline validates:
+        </p>
+        <div class="code-box" style="margin-bottom: 16px;">
+curl --fail --silent http://localhost:5000/health
+        </div>
+
+        <div class="grid-2">
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 20px;">
+            <h4 style="color: #34d399; margin-bottom: 8px;"><i class="fa-solid fa-circle-check"></i> If Successful:</h4>
+            <div class="code-box" style="color: #34d399; font-weight: 700;">
+DEPLOYMENT SUCCESSFUL
+            </div>
+          </div>
+
+          <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.3); border-radius: 12px; padding: 20px;">
+            <h4 style="color: #fb7185; margin-bottom: 8px;"><i class="fa-solid fa-triangle-exclamation"></i> If Health Check Fails:</h4>
+            <div class="workflow-flow" style="margin: 8px 0;">
+              <div class="wf-node" style="font-size: 0.78rem;">Deployment Failed</div>
+              <span class="wf-arrow">&rarr;</span>
+              <div class="wf-node" style="font-size: 0.78rem;">Stop New Container</div>
+              <span class="wf-arrow">&rarr;</span>
+              <div class="wf-node" style="font-size: 0.78rem;">Remove New Container</div>
+              <span class="wf-arrow">&rarr;</span>
+              <div class="wf-node" style="font-size: 0.78rem;">Start Previous Image</div>
+              <span class="wf-arrow">&rarr;</span>
+              <div class="wf-node" style="font-size: 0.78rem;">Health Check</div>
+              <span class="wf-arrow">&rarr;</span>
+              <div class="wf-node" style="border-color: var(--accent-rose); color: #fb7185; font-size: 0.78rem;">ROLLBACK SUCCESSFUL</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🐳 Docker & Nginx Deployment -->
+    <section id="docker-nginx">
+      <div class="section-head">
+        <div class="section-tag">Container & Proxy</div>
+        <h2 class="section-title">🐳 Docker Deployment & 🌐 Nginx Reverse Proxy</h2>
+        <p class="section-subtitle">Container runtime topology and ingress traffic routing.</p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Docker Card -->
+        <div class="card">
+          <h3 style="color: #fff; margin-bottom: 14px;"><i class="fa-brands fa-docker" style="color: #38bdf8;"></i> Docker Containerization</h3>
+          <div class="diagram-box" style="font-size: 0.8rem;">
+Host: AWS EC2 Ubuntu
+             │
+             ▼
+      Docker Container
+             │
+             ▼
+     Node.js Application
+             │
+             ▼
+          Port 5000
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;"><strong>Current Container:</strong> <code>supermarket-app</code> | <strong>Status:</strong> Up (healthy) | <strong>Port:</strong> 5000</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;"><strong>Health Endpoint:</strong> <code>/health</code></p>
+          <div class="code-box">
+{
+  "status": "OK",
+  "message": "SuperMarket API running with AWS RDS, DynamoDB, Lambda, S3, & SNS services!"
+}
+          </div>
+        </div>
+
+        <!-- Nginx Card -->
+        <div class="card">
+          <h3 style="color: #fff; margin-bottom: 14px;"><i class="fa-solid fa-route" style="color: #34d399;"></i> Nginx Reverse Proxy</h3>
+          <div class="diagram-box" style="font-size: 0.8rem;">
+Internet
+    ↓
+Port 80
+    ↓
+Nginx
+    ↓
+127.0.0.1:5000
+    ↓
+Docker
+          </div>
+          <div class="code-box" style="font-size: 0.8rem;">
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name supermarketpro.crabdance.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
+            Users seamlessly access <code>http://supermarketpro.crabdance.com</code> instead of exposing port 5000 publicly.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🌍 DNS & ☁️ AWS Architecture -->
+    <section id="dns-aws">
+      <div class="section-head">
+        <div class="section-tag">DNS & Cloud Backend</div>
+        <h2 class="section-title">🌍 DNS & ☁️ AWS Architecture</h2>
+        <p class="section-subtitle">Public domain validation and connected AWS cloud backend services.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="color: #fff; margin-bottom: 14px;"><i class="fa-solid fa-globe" style="color: #38bdf8;"></i> Public DNS Resolution</h3>
+          <p style="color: var(--text-muted); font-size: 0.92rem;"><strong>Type:</strong> A Record | <strong>Host:</strong> <code>supermarketpro.crabdance.com</code> &rarr; <code>43.204.148.225</code></p>
+          <div class="diagram-box" style="font-size: 0.8rem;">
+8.8.8.8
+      ↓
+supermarketpro.crabdance.com
+      ↓
+43.204.148.225
+
+And:
+
+1.1.1.1
+      ↓
+supermarketpro.crabdance.com
+      ↓
+43.204.148.225
+          </div>
+          <p style="color: #34d399; font-size: 0.9rem; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Domain is fully and publicly resolvable.</p>
+        </div>
+
+        <div class="card">
+          <h3 style="color: #fff; margin-bottom: 14px;"><i class="fa-brands fa-aws" style="color: #fbbf24;"></i> AWS Cloud Services</h3>
+          <div class="diagram-box" style="font-size: 0.8rem;">
+                     AWS
+                      │
+        ┌─────────────┼─────────────┐
+        │             │             │
+       EC2           RDS        DynamoDB
+        │
+      Docker
+        │
+      Node.js
+        │
+   ┌────┼────┐
+   │    │    │
+  S3 Lambda SNS
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">
+            Demonstrates real-world cloud engineering experience beyond single-container deployments.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence & Output Screenshots -->
+    <section id="evidence">
+      <div class="section-head">
+        <div class="section-tag">Project Evidence</div>
+        <h2 class="section-title">Evidence &amp; Output</h2>
+        <p class="section-subtitle">Screenshots documenting the application output, pipeline, and AWS runtime environment.</p>
+      </div>
+
+      <div class="evidence-grid">
+        <figure class="evidence-card">
+          <img src="images/supermarket_app.png" alt="SuperMarketPRO live grocery shopping application">
+          <figcaption><strong>Live Application Output</strong>Grocery storefront served through the deployed application.</figcaption>
+        </figure>
+        <figure class="evidence-card">
+          <img src="images/supermarket_pipeline.png" alt="SuperMarketPRO automated CI/CD pipeline">
+          <figcaption><strong>CI/CD Pipeline</strong>Automated build and deployment workflow triggered by source changes.</figcaption>
+        </figure>
+        <figure class="evidence-card">
+          <img src="images/supermarket_ecs_cluster.png" alt="SuperMarketPRO AWS ECS cluster deployment">
+          <figcaption><strong>AWS Runtime Deployment</strong>Containerized SuperMarketPRO workload running in AWS.</figcaption>
+        </figure>
+        <figure class="evidence-card">
+          <img src="images/supermarket_cluster_overview.png" alt="SuperMarketPRO AWS cluster overview">
+          <figcaption><strong>Cloud Infrastructure Overview</strong>Supporting AWS infrastructure used by the deployment.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 📊 DevOps Skills Demonstrated -->
+    <section id="devops-skills">
+      <div class="section-head">
+        <div class="section-tag">Competencies</div>
+        <h2 class="section-title">📊 DevOps Skills Demonstrated</h2>
+        <p class="section-subtitle">Core capabilities showcased throughout this deployment.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="tech-group">
+          <h4><i class="fa-brands fa-linux" style="color: #f97316;"></i> Linux</h4>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Ubuntu</li>
+            <li><i class="fa-solid fa-check"></i> SSH</li>
+            <li><i class="fa-solid fa-check"></i> systemctl</li>
+            <li><i class="fa-solid fa-check"></i> networking commands</li>
+            <li><i class="fa-solid fa-check"></i> process management</li>
+            <li><i class="fa-solid fa-check"></i> Nginx configuration</li>
+          </ul>
+        </div>
+
+        <div class="tech-group">
+          <h4><i class="fa-brands fa-git-alt" style="color: #ef4444;"></i> Git</h4>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Git workflow</li>
+            <li><i class="fa-solid fa-check"></i> GitHub repository</li>
+            <li><i class="fa-solid fa-check"></i> branches & commits</li>
+            <li><i class="fa-solid fa-check"></i> automated deployment triggers</li>
+          </ul>
+        </div>
+
+        <div class="tech-group">
+          <h4><i class="fa-brands fa-docker" style="color: #0284c7;"></i> Docker</h4>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Dockerfile</li>
+            <li><i class="fa-solid fa-check"></i> Docker image</li>
+            <li><i class="fa-solid fa-check"></i> Docker container</li>
+            <li><i class="fa-solid fa-check"></i> container health checks</li>
+            <li><i class="fa-solid fa-check"></i> image tagging & rollback</li>
+          </ul>
+        </div>
+
+        <div class="tech-group">
+          <h4><i class="fa-solid fa-infinity" style="color: #6366f1;"></i> CI/CD & DevSecOps</h4>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> GitHub Actions</li>
+            <li><i class="fa-solid fa-check"></i> CI / CD pipeline</li>
+            <li><i class="fa-solid fa-check"></i> automated rollback</li>
+            <li><i class="fa-solid fa-check"></i> SonarQube Quality Gate</li>
+            <li><i class="fa-solid fa-check"></i> Trivy vulnerability scanning</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 📄 Resume & 💼 LinkedIn Assets -->
+    <section id="portfolio-assets">
+      <div class="section-head">
+        <div class="section-tag">Portfolio Copy Assets</div>
+        <h2 class="section-title">📄 Resume & 💼 LinkedIn Project Descriptions</h2>
+        <p class="section-subtitle">Click below to copy ready-to-use text for your profile and applications.</p>
+      </div>
+
+      <!-- Resume Description -->
+      <div class="copy-panel">
+        <div class="copy-panel-top">
+          <div class="copy-panel-title">
+            <i class="fa-solid fa-file-lines" style="color: var(--accent-cyan);"></i> 📄 Resume Description
+          </div>
+          <button class="btn-copy-action" onclick="copySnippet('resume-text', this)">
+            <i class="fa-solid fa-copy"></i> Copy Resume Text
+          </button>
+        </div>
+        <pre id="resume-text" class="copy-text-area">SuperMarketPRO — End-to-End CI/CD & AWS Deployment
+Developed and containerized a full-stack grocery e-commerce application using Node.js, Express.js, HTML, CSS and JavaScript.
+Built an automated CI/CD pipeline with GitHub Actions, including dependency installation, syntax validation, SonarQube code-quality analysis and Trivy Docker vulnerability scanning.
+Deployed the application on AWS EC2 using Docker, with Nginx configured as a reverse proxy for public access through a custom DNS domain.
+Implemented automated deployment with health checks and Docker image rollback, enabling recovery when a new release fails validation.
+Integrated AWS services including RDS, DynamoDB, S3, Lambda and SNS for backend functionality.
+Achieved a passed SonarQube Quality Gate and implemented container security scanning as part of the deployment pipeline.</pre>
+      </div>
+
+      <!-- LinkedIn Project Description -->
+      <div class="copy-panel">
+        <div class="copy-panel-top">
+          <div class="copy-panel-title">
+            <i class="fa-brands fa-linkedin" style="color: #38bdf8;"></i> 💼 LinkedIn Project Description
+          </div>
+          <button class="btn-copy-action" onclick="copySnippet('linkedin-text', this)">
+            <i class="fa-solid fa-copy"></i> Copy LinkedIn Post
+          </button>
+        </div>
+        <pre id="linkedin-text" class="copy-text-area">🚀 Completed an End-to-End CI/CD & DevSecOps Project — SuperMarketPRO
+
+I recently completed a real-world deployment project where I implemented an automated CI/CD pipeline for a full-stack grocery application.
+
+🔹 GitHub → source control
+🔹 GitHub Actions → CI/CD automation
+🔹 SonarQube → code quality analysis
+🔹 Trivy → Docker vulnerability scanning
+🔹 Docker → application containerization
+🔹 AWS EC2 → application hosting
+🔹 Nginx → reverse proxy
+🔹 DNS → custom domain
+🔹 AWS RDS / DynamoDB / S3 / Lambda / SNS → cloud services
+
+The pipeline automatically builds, scans and deploys the application whenever changes are pushed to the main branch.
+
+I also implemented health checks and automatic Docker rollback, allowing the system to restore the previous working version when a deployment fails.
+
+🌐 Live Demo: http://supermarketpro.crabdance.com
+
+This project helped me gain hands-on experience with AWS, Linux, Docker, GitHub Actions, CI/CD, DevSecOps, Nginx, DNS and production-style deployment practices.
+
+#AWS #DevOps #Docker #GitHubActions #CICD #DevSecOps #SonarQube #Trivy #Linux #Nginx #CloudComputing #AWSCloud</pre>
+      </div>
+    </section>
+
+    <!-- ⭐ Roadmap & Next Steps -->
+    <section id="roadmap">
+      <div class="roadmap-card">
+        <div class="section-tag" style="color: #fbbf24;">Future Roadmap</div>
+        <h2 style="color: #fff; font-size: 1.8rem; margin-bottom: 12px;">⭐ What You Should Do Next</h2>
+        <p style="color: var(--text-muted);">
+          To advance this deployment from HTTP to an enterprise-grade secure domain:
+        </p>
+
+        <div class="roadmap-step">
+          <div class="wf-node">HTTP</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">Let's Encrypt (Certbot)</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">SSL Certificate</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node">HTTPS (:443)</div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node" style="border-color: #34d399; color: #34d399;"><i class="fa-solid fa-lock"></i> 🔒 supermarketpro.crabdance.com</div>
+        </div>
+
+        <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 18px;">
+          Next enhancements include AWS CloudWatch log streaming, centralized metrics monitoring, and automated container alarms.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 SuperMarketPRO. Designed for Cloud & DevOps Portfolio Showcase.</p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast-box">
+    <i class="fa-solid fa-circle-check"></i>
+    <span>Copied to clipboard!</span>
+  </div>
+
+  <script>
+    function copySnippet(elementId, btn) {
+      const text = document.getElementById(elementId).innerText.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'flex';
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => {
+          toast.style.display = 'none';
+          btn.innerHTML = originalHtml;
+        }, 2200);
+      });
+    }
+  </script>
+</body>
+</html>

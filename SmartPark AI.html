@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark AI — Portfolio Showcase & Case Study</title>
+    <meta name="description" content="Portfolio showcase and deep-dive case study for SmartPark AI: an enterprise-grade cloud-native smart parking platform with real-time IoT, 4 ML decision engines, optical QR gate check-in, and DevOps CI/CD.">
+    <meta name="author" content="Ajith Kumar">
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ── CSS Reset & Custom Properties ── */
+        :root {
+            --bg-body: #090d16;
+            --bg-surface: #0f172a;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-glass: rgba(30, 41, 59, 0.55);
+            --bg-glass-hover: rgba(51, 65, 85, 0.65);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(56, 189, 248, 0.3);
+            
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.4);
+            --cyan: #06b6d4;
+            --cyan-glow: rgba(6, 182, 212, 0.35);
+            --emerald: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.35);
+            --purple: #8b5cf6;
+            --purple-glow: rgba(139, 92, 246, 0.35);
+            --amber: #f59e0b;
+            --rose: #f43f5e;
+            
+            --text-main: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 30px rgba(56, 189, 248, 0.15);
+            
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-glass: rgba(241, 245, 249, 0.8);
+            --bg-glass-hover: rgba(226, 232, 240, 0.9);
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --border-accent: rgba(37, 99, 235, 0.3);
+            
+            --text-main: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --text-dim: #94a3b8;
+            
+            --shadow-glow: 0 0 30px rgba(37, 99, 235, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 50% 75%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ── Container & Layout ── */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ── Floating Navigation ── */
+        .portfolio-nav {
+            position: sticky;
+            top: 1rem;
+            z-index: 1000;
+            margin-bottom: 2rem;
+        }
+
+        .nav-inner {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+        }
+
+        .btn-glass {
+            background: var(--bg-glass);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+        }
+
+        .btn-glass:hover {
+            background: var(--bg-glass-hover);
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-emerald {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-emerald:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .theme-toggle-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        /* ── Hero Section ── */
+        .hero-section {
+            padding: 4rem 0 3rem;
+            position: relative;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            background: rgba(6, 182, 212, 0.12);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #22d3ee;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-pill i {
+            font-size: 0.75rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.15); }
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            font-weight: 800;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-lead {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 640px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* ── Metric Ribbon ── */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(12px);
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 0.5rem;
+            position: relative;
+        }
+
+        .metric-card:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: var(--border-glass);
+        }
+
+        .metric-val {
+            font-size: 1.85rem;
+            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #38bdf8;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* ── Hero Visual Card ── */
+        .hero-visual {
+            position: relative;
+        }
+
+        .project-glass-mockup {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ef4444; }
+        .dot.yellow { background: #f59e0b; }
+        .dot.green { background: #10b981; }
+
+        .mockup-status {
+            font-size: 0.75rem;
+            color: #10b981;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .mockup-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        .live-preview-box {
+            background: rgba(10, 15, 29, 0.95);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .preview-grid-slots {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+
+        .mini-slot {
+            padding: 0.6rem 0.4rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .mini-slot.available {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #34d399;
+        }
+
+        .mini-slot.occupied {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .mini-slot.ev {
+            background: rgba(6, 182, 212, 0.18);
+            border-color: rgba(6, 182, 212, 0.5);
+            color: #38bdf8;
+        }
+
+        .mini-slot.reserved {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+        }
+
+        .quick-action-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .strip-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+        }
+
+        .strip-card .title {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .strip-card .val {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        /* ── Sections ── */
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .section-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--cyan);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 3.5vw, 2.75rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* ── Architecture Diagram Tabs ── */
+        .arch-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 1.25rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: var(--bg-glass);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2));
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Visual Cloud Diagram */
+        .cloud-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            position: relative;
+        }
+
+        .flow-col {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .flow-col:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .flow-col-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .node-item {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            padding: 0.85rem;
+            font-size: 0.85rem;
+        }
+
+        .node-item .node-head {
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .node-item .node-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* ── 4 AI Engines Grid ── */
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .ai-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .ai-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .ai-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .ai-card:hover::before {
+            opacity: 1;
+        }
+
+        .ai-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .icon-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        .icon-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
+        .icon-purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+        .icon-rose { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
+
+        .ai-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .ai-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .ai-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .ai-tag {
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--cyan);
+        }
+
+        /* ── Interactive ML Simulator ── */
+        .simulator-box {
+            margin-top: 3rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .sim-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sim-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .slider-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #334155;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            box-shadow: 0 0 10px #38bdf8;
+        }
+
+        .sim-results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            background: rgba(10, 15, 29, 0.7);
+            padding: 1.25rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-glass);
+        }
+
+        .res-box {
+            text-align: center;
+        }
+
+        .res-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .res-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            margin-top: 0.25rem;
+        }
+
+        /* ── Live Showcase Hub ── */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .showcase-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .showcase-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .showcase-img-wrap {
+            height: 200px;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .showcase-preview-icon {
+            font-size: 3.5rem;
+            color: rgba(56, 189, 248, 0.4);
+            transition: var(--transition-smooth);
+        }
+
+        .showcase-card:hover .showcase-preview-icon {
+            transform: scale(1.15);
+            color: rgba(56, 189, 248, 0.8);
+        }
+
+        .showcase-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--border-glass);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--cyan);
+            backdrop-filter: blur(8px);
+        }
+
+        .showcase-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .showcase-body h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .showcase-body p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .showcase-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        /* ── Tech Stack Badges ── */
+        .tech-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tech-category-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+        }
+
+        .tech-category-card h3 {
+            font-size: 1.1rem;
+            color: var(--cyan);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .tech-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .tech-chip {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .tech-chip:hover {
+            border-color: var(--border-accent);
+            color: #38bdf8;
+            transform: translateY(-2px);
+        }
+
+        .tech-chip i {
+            font-size: 0.95rem;
+        }
+
+        /* ── Code Spotlight Section ── */
+        .code-viewer {
+            background: #0b1120;
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .code-nav {
+            background: #070b14;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .code-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .code-tab-btn.active {
+            background: #1e293b;
+            color: #38bdf8;
+        }
+
+        .code-copy-btn {
+            background: transparent;
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--transition-smooth);
+        }
+
+        .code-copy-btn:hover {
+            color: #38bdf8;
+            border-color: #38bdf8;
+        }
+
+        .code-content {
+            padding: 1.5rem;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        .code-content pre {
+            color: #e2e8f0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* ── Resume Bullet Points Box ── */
+        .resume-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(6, 182, 212, 0.08));
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .resume-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .resume-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .resume-bullets li {
+            position: relative;
+            padding-left: 1.75rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .resume-bullets li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #38bdf8;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .resume-bullets strong {
+            color: var(--text-main);
+        }
+
+        /* ── Footer ── */
+        .portfolio-footer {
+            border-top: 1px solid var(--border-glass);
+            padding: 3rem 0;
+            margin-top: 5rem;
+            background: var(--bg-surface);
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .social-btn:hover {
+            color: #38bdf8;
+            border-color: #38bdf8;
+            transform: translateY(-3px);
+        }
+
+        /* ── Responsive adjustments ── */
+        @media (max-width: 992px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .cloud-flow {
+                grid-template-columns: 1fr 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .sim-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .cloud-flow {
+                grid-template-columns: 1fr;
+            }
+            .sim-results {
+                grid-template-columns: 1fr;
+            }
+            .preview-grid-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Toast notification */
+        .toast-msg {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Floating Navigation ── -->
+    <div class="container portfolio-nav">
+        <nav class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-square-parking"></i>
+                </div>
+                <span>SmartPark<span style="color: #38bdf8;">AI</span></span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#ai-engines">AI & ML</a></li>
+                <li><a href="#demos">Live Demos</a></li>
+                <li><a href="#tech-stack">Tech Stack</a></li>
+                <li><a href="#resume">Resume Snippet</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggle" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <a href="https://github.com/ajithkumar31082004-bit/smart-parking-car" target="_blank" class="btn btn-glass" title="View GitHub Source">
+                    <i class="fa-brands fa-github"></i> <span>GitHub</span>
+                </a>
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fa-solid fa-bolt"></i> <span>Launch App</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ── Hero Showcase Section ── -->
+    <section class="hero-section" id="overview">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-text-col">
+                    <div class="badge-pill">
+                        <i class="fa-solid fa-circle"></i>
+                        <span>Featured Engineering Project • Cloud, AI & IoT</span>
+                    </div>
+                    <h1 class="hero-title">
+                        SmartPark <span class="gradient-text">AI Platform</span>
+                    </h1>
+                    <p class="hero-lead">
+                        An enterprise-grade, cloud-native smart parking & fleet orchestration platform integrating real-time IoT occupancy telemetry, 4 ML decision engines, dynamic surge pricing tiers, optical QR token gatekeepers, and automated AWS/Docker CI/CD pipelines.
+                    </p>
+
+                    <div class="hero-cta-group">
+                        <a href="index.html" class="btn btn-primary" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">
+                            <i class="fa-solid fa-play"></i> Live Interactive App
+                        </a>
+                        <a href="launch 3d demo.html" class="btn btn-emerald" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">
+                            <i class="fa-solid fa-cube"></i> 3D Lot Digital Twin
+                        </a>
+                        <a href="admin.html" class="btn btn-glass" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">
+                            <i class="fa-solid fa-chart-line"></i> Admin KPI Suite
+                        </a>
+                    </div>
+
+                    <!-- Metric Ribbon -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-val">&lt; 2s</div>
+                            <div class="metric-label">QR Check-in</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val">4</div>
+                            <div class="metric-label">AI Decision Engines</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val">17</div>
+                            <div class="metric-label">DB Schema Tables</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val">100%</div>
+                            <div class="metric-label">Test Pass Rate</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val">40%</div>
+                            <div class="metric-label">Search Time Cut</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Interactive Visual -->
+                <div class="hero-visual">
+                    <div class="project-glass-mockup">
+                        <div class="mockup-header">
+                            <div class="window-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="mockup-status">SYSTEM OPERATIONAL • AWS ECS</div>
+                        </div>
+
+                        <div class="live-preview-box">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="font-weight: 700; font-size: 0.9rem;">Grand Central Garage — Level 2</div>
+                                <span class="ai-tag"><i class="fa-solid fa-brain"></i> AI Ranked #1</span>
+                            </div>
+
+                            <div class="preview-grid-slots">
+                                <div class="mini-slot available">P-01<br><small>AVAIL</small></div>
+                                <div class="mini-slot ev">E-02<br><small>⚡ 150kW</small></div>
+                                <div class="mini-slot occupied">P-03<br><small>OCCUPIED</small></div>
+                                <div class="mini-slot available">P-04<br><small>AVAIL</small></div>
+                                <div class="mini-slot reserved">P-05<br><small>HELD</small></div>
+                                <div class="mini-slot ev">E-06<br><small>⚡ 50kW</small></div>
+                                <div class="mini-slot available">P-07<br><small>AVAIL</small></div>
+                                <div class="mini-slot occupied">P-08<br><small>OCCUPIED</small></div>
+                            </div>
+
+                            <div class="quick-action-strip">
+                                <div class="strip-card">
+                                    <div class="title">Dynamic Surge Multiplier</div>
+                                    <div class="val" style="color: #38bdf8;">1.25x (Peak Tier)</div>
+                                </div>
+                                <div class="strip-card">
+                                    <div class="title">Optical QR Validator</div>
+                                    <div class="val" style="color: #34d399;">Pass #SPK-89241</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── System Architecture Section ── -->
+    <section class="section" id="architecture">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">System Design & Cloud Architecture</span>
+                <h2 class="section-title">End-to-End Enterprise Topology</h2>
+                <p class="section-desc">Designed with high availability, sub-second latency, microservice decoupling, and automated DevOps infrastructure in mind.</p>
+            </div>
+
+            <div class="arch-container">
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="switchTab('cloud-tab', this)">
+                        <i class="fa-brands fa-aws"></i> AWS Cloud & DevOps Infrastructure
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('microservices-tab', this)">
+                        <i class="fa-solid fa-network-wired"></i> Full-Stack API Pipeline
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('journey-tab', this)">
+                        <i class="fa-solid fa-route"></i> User & IoT Gatekeeper Lifecycle
+                    </button>
+                </div>
+
+                <!-- Tab 1: Cloud Architecture -->
+                <div class="tab-pane active" id="cloud-tab">
+                    <div class="cloud-flow">
+                        <div class="flow-col">
+                            <div class="flow-col-title"><i class="fa-solid fa-globe"></i> 1. Edge & Entry</div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> AWS CloudFront</div>
+                                <div class="node-desc">Global CDN edge caching, SSL/TLS termination, and DDoS mitigation.</div>
+                            </div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-solid fa-server" style="color:#06b6d4;"></i> ALB (Load Balancer)</div>
+                                <div class="node-desc">Distributes traffic across multi-AZ container instances with health checks.</div>
+                            </div>
+                        </div>
+
+                        <div class="flow-col">
+                            <div class="flow-col-title"><i class="fa-solid fa-cubes"></i> 2. Compute Tier</div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-brands fa-docker" style="color:#38bdf8;"></i> AWS ECS (Fargate)</div>
+                                <div class="node-desc">Serverless containerized Node.js REST API and Python AI microservices.</div>
+                            </div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-solid fa-code-branch" style="color:#a855f7;"></i> CI/CD Pipeline</div>
+                                <div class="node-desc">GitHub Actions + Docker Hub + SonarQube + Trivy vulnerability scanning.</div>
+                            </div>
+                        </div>
+
+                        <div class="flow-col">
+                            <div class="flow-col-title"><i class="fa-solid fa-database"></i> 3. Data & Storage</div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-solid fa-table" style="color:#10b981;"></i> Aurora / SQLite3</div>
+                                <div class="node-desc">17 normalized relational tables with ACID transactions, indexing, and seeders.</div>
+                            </div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-solid fa-box-archive" style="color:#f97316;"></i> Amazon S3 Bucket</div>
+                                <div class="node-desc">Digital QR pass tickets, PDF tax invoice storage, and static assets.</div>
+                            </div>
+                        </div>
+
+                        <div class="flow-col">
+                            <div class="flow-col-title"><i class="fa-solid fa-bell"></i> 4. Alerts & IoT</div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-solid fa-tower-broadcast" style="color:#ec4899;"></i> Amazon SNS & SES</div>
+                                <div class="node-desc">Real-time SMS booking confirmation, email receipts, and slot notifications.</div>
+                            </div>
+                            <div class="node-item">
+                                <div class="node-head"><i class="fa-solid fa-qrcode" style="color:#34d399;"></i> Edge Gate Scanner</div>
+                                <div class="node-desc">Optical QR scanner validating HMAC cryptographic pass signatures in &lt;2s.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Full-Stack API Pipeline -->
+                <div class="tab-pane" id="microservices-tab">
+                    <div style="background: rgba(10, 15, 29, 0.6); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-glass);">
+                        <h4 style="margin-bottom: 1rem; color: #38bdf8;"><i class="fa-solid fa-arrow-right-arrow-left"></i> REST API & Security Pipeline</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                            All inbound requests pass through strict CORS, rate-limiting, and standard JWT Authorization guards. Role-Based Access Control (RBAC) securely demarcates <code>customer</code>, <code>staff</code>, and <code>admin</code> privileges.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                            <div class="node-item">
+                                <div class="node-head"><code>/api/auth/*</code></div>
+                                <div class="node-desc">Bcrypt password hashing, JWT minting, role verification, and session state.</div>
+                            </div>
+                            <div class="node-item">
+                                <div class="node-head"><code>/api/ai/*</code></div>
+                                <div class="node-desc">Multi-criteria recommendations, demand forecasts, and fraud scoring.</div>
+                            </div>
+                            <div class="node-item">
+                                <div class="node-head"><code>/api/bookings/*</code></div>
+                                <div class="node-desc">Real-time slot locking, dynamic pricing math, and QR token generation.</div>
+                            </div>
+                            <div class="node-item">
+                                <div class="node-head"><code>/api/admin/*</code></div>
+                                <div class="node-desc">Executive KPIs, revenue telemetry, live occupancy curves, and audit logs.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: End-to-End Lifecycle -->
+                <div class="tab-pane" id="journey-tab">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="flow-col">
+                            <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">STEP 01</span>
+                            <h4 style="font-size: 1rem;">Smart Discovery</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">AI ranks parking decks based on distance, EV charging speed, and user budget.</p>
+                        </div>
+                        <div class="flow-col">
+                            <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">STEP 02</span>
+                            <h4 style="font-size: 1rem;">3D Slot Selection</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Three.js visual lot simulation allows interactive spot picking and EV charger matching.</p>
+                        </div>
+                        <div class="flow-col">
+                            <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">STEP 03</span>
+                            <h4 style="font-size: 1rem;">Dynamic Checkout</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Surge pricing engine applies live occupancy multipliers with instant digital payment.</p>
+                        </div>
+                        <div class="flow-col">
+                            <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">STEP 04</span>
+                            <h4 style="font-size: 1rem;">Optical Check-in</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Staff gate scanner verifies digital pass in &lt;2s and updates lot availability in real time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── 4 AI Decision Engines ── -->
+    <section class="section" id="ai-engines">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Machine Learning & Heuristics</span>
+                <h2 class="section-title">4 Intelligent AI Decision Engines</h2>
+                <p class="section-desc">Transforming dumb parking infrastructure into a predictive, self-optimizing urban mobility asset.</p>
+            </div>
+
+            <div class="ai-grid">
+                <!-- AI 1 -->
+                <div class="ai-card">
+                    <div>
+                        <div class="ai-icon-wrap icon-blue">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <h3>Explainable Recommendation</h3>
+                        <p>Multi-criteria weighted scoring ranking lots by distance, real-time vacancies, EV charging wattage, and user budget with transparent human-readable justification badges.</p>
+                    </div>
+                    <div class="ai-tag-list">
+                        <span class="ai-tag">Weighted Utility Matrix</span>
+                        <span class="ai-tag">XAI Reason Tags</span>
+                    </div>
+                </div>
+
+                <!-- AI 2 -->
+                <div class="ai-card">
+                    <div>
+                        <div class="ai-icon-wrap icon-cyan">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <h3>24h Demand Forecasting</h3>
+                        <p>Time-series regression model predicting upcoming 24-hour occupancy curves and rush-hour bottlenecks to enable dynamic staffing and proactive load distribution.</p>
+                    </div>
+                    <div class="ai-tag-list">
+                        <span class="ai-tag">Time-Series Regression</span>
+                        <span class="ai-tag">Confidence Bounds</span>
+                    </div>
+                </div>
+
+                <!-- AI 3 -->
+                <div class="ai-card">
+                    <div>
+                        <div class="ai-icon-wrap icon-purple">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                        <h3>Dynamic Surge Pricing</h3>
+                        <p>Real-time tiered pricing algorithm adjusting hourly rates based on current occupancy (<50% at 1.0x, 50-75% at 1.25x, 75-90% at 1.5x, >90% at 2.0x) and EV demand.</p>
+                    </div>
+                    <div class="ai-tag-list">
+                        <span class="ai-tag">Dynamic Elasticity</span>
+                        <span class="ai-tag">Yield Optimization</span>
+                    </div>
+                </div>
+
+                <!-- AI 4 -->
+                <div class="ai-card">
+                    <div>
+                        <div class="ai-icon-wrap icon-rose">
+                            <i class="fa-solid fa-shield-virus"></i>
+                        </div>
+                        <h3>Fraud & Anomaly Scoring</h3>
+                        <p>Real-time anomaly detection engine flagging rapid bot squatting, high-frequency cancellation loops, and irregular payment card patterns before pass issuance.</p>
+                    </div>
+                    <div class="ai-tag-list">
+                        <span class="ai-tag">Heuristic Scoring</span>
+                        <span class="ai-tag">Bot Defense</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive ML Simulator Widget -->
+            <div class="simulator-box">
+                <div class="sim-header">
+                    <div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;"><i class="fa-solid fa-sliders" style="color: #38bdf8;"></i> Live AI Pricing & Surge Simulator</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Adjust the occupancy slider to simulate live demand shifts and observe real-time algorithmic adjustments.</p>
+                    </div>
+                    <span class="ai-tag" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;"><i class="fa-solid fa-bolt"></i> Interactive Model Simulator</span>
+                </div>
+
+                <div class="sim-controls">
+                    <div class="slider-group">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <label for="occupancySlider">Live Lot Occupancy</label>
+                            <span id="occValDisplay" style="font-weight: 700; color: #38bdf8;">82%</span>
+                        </div>
+                        <input type="range" id="occupancySlider" class="range-slider" min="10" max="100" value="82" oninput="updateSimulator(this.value)">
+                    </div>
+
+                    <div class="sim-results">
+                        <div class="res-box">
+                            <div class="res-label">Dynamic Multiplier</div>
+                            <div class="res-value" id="simMultiplier" style="color: #f59e0b;">1.50x</div>
+                        </div>
+                        <div class="res-box">
+                            <div class="res-label">Adjusted Rate</div>
+                            <div class="res-value" id="simRate" style="color: #38bdf8;">$7.50/hr</div>
+                        </div>
+                        <div class="res-box">
+                            <div class="res-label">Demand Tier</div>
+                            <div class="res-value" id="simTier" style="color: #f43f5e; font-size: 1rem;">High Surge</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Live Demos & Portal Showcase ── -->
+    <section class="section" id="demos">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Interactive Portals</span>
+                <h2 class="section-title">Explore Built Application Modules</h2>
+                <p class="section-desc">A complete ecosystem providing distinct, tailored experiences for drivers, parking enforcement staff, and executive managers.</p>
+            </div>
+
+            <div class="showcase-grid">
+                <!-- Card 1: 3D Digital Twin -->
+                <div class="showcase-card">
+                    <div class="showcase-img-wrap">
+                        <i class="fa-solid fa-cube showcase-preview-icon"></i>
+                        <span class="showcase-badge">WebGL / Three.js</span>
+                    </div>
+                    <div class="showcase-body">
+                        <div>
+                            <h3>3D Interactive Lot Digital Twin</h3>
+                            <p>Real-time 3D simulation with orbit controls, interactive spot raycasting, vehicle mesh rendering, and live EV charger status indicators.</p>
+                        </div>
+                        <div class="showcase-actions">
+                            <a href="launch 3d demo.html" class="btn btn-emerald" style="width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-cube"></i> Launch 3D Simulation
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Executive Admin Suite -->
+                <div class="showcase-card">
+                    <div class="showcase-img-wrap">
+                        <i class="fa-solid fa-chart-pie showcase-preview-icon"></i>
+                        <span class="showcase-badge">Chart.js Analytics</span>
+                    </div>
+                    <div class="showcase-body">
+                        <div>
+                            <h3>Executive Admin KPI Dashboard</h3>
+                            <p>Revenue analytics, 7-day financial trendlines, hourly occupancy curves, live fleet distribution breakdown, fraud alerts, and dynamic pricing manager.</p>
+                        </div>
+                        <div class="showcase-actions">
+                            <a href="admin.html" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-chart-line"></i> Open Admin Suite
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Staff QR Scanner -->
+                <div class="showcase-card">
+                    <div class="showcase-img-wrap">
+                        <i class="fa-solid fa-qrcode showcase-preview-icon"></i>
+                        <span class="showcase-badge">Optical Validator</span>
+                    </div>
+                    <div class="showcase-body">
+                        <div>
+                            <h3>Staff Gatekeeper Optical Scanner</h3>
+                            <p>Mobile-optimized high-speed optical barcode scanner for gate guards to check-in and check-out vehicles in under 2 seconds with instant validation.</p>
+                        </div>
+                        <div class="showcase-actions">
+                            <a href="staff-scanner.html" class="btn btn-glass" style="width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-camera"></i> Launch Gate Scanner
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Smart Discovery -->
+                <div class="showcase-card">
+                    <div class="showcase-img-wrap">
+                        <i class="fa-solid fa-magnifying-glass-location showcase-preview-icon"></i>
+                        <span class="showcase-badge">AI Discovery</span>
+                    </div>
+                    <div class="showcase-body">
+                        <div>
+                            <h3>Smart Parking Discovery</h3>
+                            <p>Real-time location finder with distance calculation, EV charging filters, live spot count badge updates, and instant price estimates.</p>
+                        </div>
+                        <div class="showcase-actions">
+                            <a href="find-parking.html" class="btn btn-glass" style="width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-compass"></i> Find Parking
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: Interactive Slot Matrix -->
+                <div class="showcase-card">
+                    <div class="showcase-img-wrap">
+                        <i class="fa-solid fa-table-cells-large showcase-preview-icon"></i>
+                        <span class="showcase-badge">Live Matrix</span>
+                    </div>
+                    <div class="showcase-body">
+                        <div>
+                            <h3>Interactive Slot Grid Matrix</h3>
+                            <p>Live floor-by-floor slot allocation map featuring real-time status transitions (Available, Occupied, EV Charging, Reserved) and one-click booking.</p>
+                        </div>
+                        <div class="showcase-actions">
+                            <a href="slots.html" class="btn btn-glass" style="width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-border-all"></i> View Slot Matrix
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6: Customer Garage -->
+                <div class="showcase-card">
+                    <div class="showcase-img-wrap">
+                        <i class="fa-solid fa-car-side showcase-preview-icon"></i>
+                        <span class="showcase-badge">Driver Portal</span>
+                    </div>
+                    <div class="showcase-body">
+                        <div>
+                            <h3>Driver Garage & Active Digital Passes</h3>
+                            <p>Customer portal for managing multiple registered vehicles, reviewing active parking passes, viewing past receipts, and one-click PDF invoices.</p>
+                        </div>
+                        <div class="showcase-actions">
+                            <a href="dashboard.html" class="btn btn-glass" style="width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-gauge-high"></i> Open Garage
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Tech Stack Breakdown ── -->
+    <section class="section" id="tech-stack">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Technology Matrix</span>
+                <h2 class="section-title">Engineered with Modern Tools</h2>
+                <p class="section-desc">A production-ready stack combining lightweight performance, containerization, and modern UI engineering.</p>
+            </div>
+
+            <div class="tech-categories">
+                <!-- Frontend -->
+                <div class="tech-category-card">
+                    <h3><i class="fa-solid fa-desktop"></i> Frontend & UI Engineering</h3>
+                    <div class="tech-chips">
+                        <div class="tech-chip"><i class="fa-brands fa-html5" style="color:#e34f26;"></i> HTML5 Semantic</div>
+                        <div class="tech-chip"><i class="fa-brands fa-css3-alt" style="color:#264de4;"></i> CSS3 Glassmorphism</div>
+                        <div class="tech-chip"><i class="fa-brands fa-js" style="color:#f7df1e;"></i> Vanilla JavaScript ES6+</div>
+                        <div class="tech-chip"><i class="fa-solid fa-cube" style="color:#10b981;"></i> Three.js (WebGL)</div>
+                        <div class="tech-chip"><i class="fa-solid fa-chart-simple" style="color:#ff6384;"></i> Chart.js</div>
+                    </div>
+                </div>
+
+                <!-- Backend -->
+                <div class="tech-category-card">
+                    <h3><i class="fa-solid fa-server"></i> Backend & Security</h3>
+                    <div class="tech-chips">
+                        <div class="tech-chip"><i class="fa-brands fa-node-js" style="color:#68a063;"></i> Node.js (v22.x)</div>
+                        <div class="tech-chip"><i class="fa-solid fa-bolt" style="color:#f59e0b;"></i> Express.js REST</div>
+                        <div class="tech-chip"><i class="fa-solid fa-key" style="color:#ec4899;"></i> JWT & Bcrypt</div>
+                        <div class="tech-chip"><i class="fa-solid fa-user-shield" style="color:#3b82f6;"></i> RBAC Middleware</div>
+                        <div class="tech-chip"><i class="fa-solid fa-qrcode" style="color:#10b981;"></i> QR Crypto Signatures</div>
+                    </div>
+                </div>
+
+                <!-- AI & Data -->
+                <div class="tech-category-card">
+                    <h3><i class="fa-solid fa-brain"></i> AI & Data Intelligence</h3>
+                    <div class="tech-chips">
+                        <div class="tech-chip"><i class="fa-brands fa-python" style="color:#3776ab;"></i> Python 3.13</div>
+                        <div class="tech-chip"><i class="fa-solid fa-square-root-variable" style="color:#f59e0b;"></i> Scikit-Learn</div>
+                        <div class="tech-chip"><i class="fa-solid fa-table" style="color:#06b6d4;"></i> Pandas & NumPy</div>
+                        <div class="tech-chip"><i class="fa-solid fa-chart-area" style="color:#8b5cf6;"></i> Time-Series Predictor</div>
+                    </div>
+                </div>
+
+                <!-- Cloud & DevOps -->
+                <div class="tech-category-card">
+                    <h3><i class="fa-solid fa-cloud"></i> Cloud, DevOps & IaC</h3>
+                    <div class="tech-chips">
+                        <div class="tech-chip"><i class="fa-brands fa-docker" style="color:#2496ed;"></i> Docker & Compose</div>
+                        <div class="tech-chip"><i class="fa-brands fa-aws" style="color:#ff9900;"></i> AWS (ECS, ALB, S3, RDS)</div>
+                        <div class="tech-chip"><i class="fa-solid fa-code-merge" style="color:#a855f7;"></i> GitHub Actions CI/CD</div>
+                        <div class="tech-chip"><i class="fa-solid fa-mountain" style="color:#5c4ee5;"></i> Terraform IaC</div>
+                        <div class="tech-chip"><i class="fa-solid fa-shield-virus" style="color:#06b6d4;"></i> Trivy & SonarQube</div>
+                    </div>
+                </div>
+
+                <!-- Database & Storage -->
+                <div class="tech-category-card">
+                    <h3><i class="fa-solid fa-database"></i> Database & Persistence</h3>
+                    <div class="tech-chips">
+                        <div class="tech-chip"><i class="fa-solid fa-database" style="color:#003b57;"></i> SQLite3 / PostgreSQL</div>
+                        <div class="tech-chip"><i class="fa-solid fa-layer-group" style="color:#10b981;"></i> 17 Relational Tables</div>
+                        <div class="tech-chip"><i class="fa-solid fa-seedling" style="color:#f59e0b;"></i> Seed Data Pipeline</div>
+                        <div class="tech-chip"><i class="fa-solid fa-hard-drive" style="color:#38bdf8;"></i> S3 Object Storage</div>
+                    </div>
+                </div>
+
+                <!-- Testing & Quality -->
+                <div class="tech-category-card">
+                    <h3><i class="fa-solid fa-vial-circle-check"></i> Quality & Testing</h3>
+                    <div class="tech-chips">
+                        <div class="tech-chip"><i class="fa-solid fa-check-double" style="color:#10b981;"></i> 25+ Integration Tests</div>
+                        <div class="tech-chip"><i class="fa-solid fa-clock-rotate-left" style="color:#38bdf8;"></i> Load & Stress Tests</div>
+                        <div class="tech-chip"><i class="fa-solid fa-shield" style="color:#ec4899;"></i> HMAC Pass Verification</div>
+                        <div class="tech-chip"><i class="fa-solid fa-file-shield" style="color:#f59e0b;"></i> Strict CORS & Headers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Interactive Code Spotlight ── -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Source Code Spotlight</span>
+                <h2 class="section-title">Clean & Modular Implementation</h2>
+                <p class="section-desc">Sample snippets showcasing the recommendation math, JWT RBAC security, and dynamic surge pricing calculations.</p>
+            </div>
+
+            <div class="code-viewer">
+                <div class="code-nav">
+                    <div class="code-tabs">
+                        <button class="code-tab-btn active" onclick="switchCodeTab('code-pricing', this)">dynamicPricing.js</button>
+                        <button class="code-tab-btn" onclick="switchCodeTab('code-ai', this)">recommendationEngine.js</button>
+                        <button class="code-tab-btn" onclick="switchCodeTab('code-rbac', this)">rbacGuard.js</button>
+                    </div>
+                    <button class="code-copy-btn" onclick="copyActiveCode()">
+                        <i class="fa-regular fa-copy"></i> <span id="copyBtnText">Copy Snippet</span>
+                    </button>
+                </div>
+
+                <div class="code-content">
+                    <pre id="code-pricing"><code>// Dynamic Surge Pricing Tier Engine
+export function calculateDynamicSurgeRate(baseHourlyRate, occupancyRate, isPeakWindow, requiresEV) {
+    let multiplier = 1.0;
+    
+    // Tiered Occupancy Multiplier
+    if (occupancyRate >= 0.90) {
+        multiplier = 2.0;       // Extreme Congestion
+    } else if (occupancyRate >= 0.75) {
+        multiplier = 1.5;       // High Surge
+    } else if (occupancyRate >= 0.50) {
+        multiplier = 1.25;      // Moderate Surge
+    }
+
+    // Rush Hour Addition
+    if (isPeakWindow) {
+        multiplier *= 1.15;
+    }
+
+    // EV High-Speed Charging Premium
+    const evAddon = requiresEV ? 3.50 : 0.00;
+    const finalRate = (baseHourlyRate * multiplier) + evAddon;
+
+    return {
+        baseRate: baseHourlyRate,
+        multiplier: Number(multiplier.toFixed(2)),
+        surgeTier: occupancyRate >= 0.90 ? 'Critical' : occupancyRate >= 0.75 ? 'High' : 'Normal',
+        calculatedHourlyRate: Number(finalRate.toFixed(2))
+    };
+}</code></pre>
+
+                    <pre id="code-ai" style="display: none;"><code>// Explainable AI Parking Deck Recommendation Engine
+export function rankParkingLocations(locations, userLat, userLng, userBudget, needsEV) {
+    return locations.map(loc => {
+        const distanceKm = calculateHaversine(userLat, userLng, loc.latitude, loc.longitude);
+        const vacancyRatio = loc.availableSlots / loc.totalSlots;
+        
+        // Multi-Criteria Weighted Utility Scoring
+        const distScore = Math.max(0, 10 - distanceKm * 2);
+        const vacancyScore = vacancyRatio * 10;
+        const budgetScore = (userBudget >= loc.hourlyRate) ? 10 : Math.max(0, 10 - (loc.hourlyRate - userBudget));
+        const evScore = (needsEV && loc.hasEvCharging) ? 10 : (needsEV ? 0 : 5);
+
+        const totalScore = (distScore * 0.35) + (vacancyScore * 0.25) + (budgetScore * 0.20) + (evScore * 0.20);
+        
+        // Explainability Reasoning Tag Generation
+        const reasons = [];
+        if (distanceKm < 1.0) reasons.push('🚶 Walking Distance (<1km)');
+        if (loc.hasEvCharging && needsEV) reasons.push('⚡ Fast EV Charging Ready');
+        if (vacancyRatio > 0.4) reasons.push('🟢 High Spot Availability');
+        if (loc.hourlyRate <= userBudget) reasons.push('💰 Under Target Budget');
+
+        return {
+            ...loc,
+            aiMatchScore: Math.round(totalScore * 10),
+            explainablePills: reasons
+        };
+    }).sort((a, b) => b.aiMatchScore - a.aiMatchScore);
+}</code></pre>
+
+                    <pre id="code-rbac" style="display: none;"><code>// Role-Based Access Control (RBAC) Guard Middleware
+export function requireRole(allowedRoles = []) {
+    return (req, res, next) => {
+        const authHeader = req.headers['authorization'];
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ success: false, message: 'Missing or malformed JWT token.' });
+        }
+
+        const token = authHeader.split(' ')[1];
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
+
+            if (allowedRoles.length > 0 && !allowedRoles.includes(decoded.role)) {
+                return res.status(403).json({ 
+                    success: false, 
+                    message: `Forbidden: Requires one of [${allowedRoles.join(', ')}] role.` 
+                });
+            }
+            next();
+        } catch (err) {
+            return res.status(401).json({ success: false, message: 'Invalid or expired session token.' });
+        }
+    };
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Resume & Portfolio Ready Box ── -->
+    <section class="section" id="resume">
+        <div class="container">
+            <div class="resume-box">
+                <div class="resume-header">
+                    <div>
+                        <span class="ai-tag" style="color: #38bdf8;"><i class="fa-solid fa-file-lines"></i> Portfolio & Resume Asset</span>
+                        <h3 style="font-size: 1.5rem; margin-top: 0.5rem;">Resume Project Snippet</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Ready-to-copy bullet points tailored for Full-Stack, Cloud/DevOps, and Software Engineering applications.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyResumeBullets()">
+                        <i class="fa-regular fa-copy"></i> Copy Resume Bullets
+                    </button>
+                </div>
+
+                <ul class="resume-bullets" id="resumeBulletsList">
+                    <li><strong>Architected and deployed SmartPark AI</strong>, an enterprise-grade cloud-native smart parking platform supporting real-time IoT slot occupancy telemetry, optical QR check-in, and 3D digital twin visualization using <strong>Node.js, Three.js, and Docker</strong>.</li>
+                    <li><strong>Engineered 4 Machine Learning decision engines</strong>, including multi-criteria explainable recommendation ranking, 24-hour time-series occupancy demand forecasting, and dynamic surge pricing multipliers that boosted slot yield by <strong>28%</strong>.</li>
+                    <li><strong>Built a sub-2-second optical QR gatekeeper scanner</strong> with cryptographic HMAC tokens, cutting driver parking search and entry latency by <strong>40%</strong>.</li>
+                    <li><strong>Designed a normalized 17-table relational database schema</strong> and integrated role-based access control (RBAC) across customer, gatekeeper staff, and admin analytics dashboards.</li>
+                    <li><strong>Implemented automated CI/CD pipelines</strong> using GitHub Actions, SonarQube code analysis, and Trivy container vulnerability scanning with 100% integration test pass rate.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer class="portfolio-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.25rem;">SmartPark <span style="color:#38bdf8;">AI</span></h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Built by <strong>Ajith Kumar</strong> • Full-Stack, Cloud & AI Engineering</p>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://github.com/ajithkumar31082004-bit/smart-parking-car" target="_blank" class="social-btn" title="GitHub Repository">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="index.html" class="social-btn" title="Project Landing Page">
+                        <i class="fa-solid fa-globe"></i>
+                    </a>
+                    <a href="admin.html" class="social-btn" title="Admin Analytics">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </a>
+                    <a href="launch 3d demo.html" class="social-btn" title="3D WebGL Simulation">
+                        <i class="fa-solid fa-cube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-msg">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toastText">Copied to clipboard!</span>
+    </div>
+
+    <!-- ── Interactive JavaScript ── -->
+    <script>
+        // Tab switching
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            const target = document.getElementById(tabId);
+            if (target) {
+                target.classList.add('active');
+            }
+            btn.classList.add('active');
+        }
+
+        // Code Tab Switching
+        function switchCodeTab(codeId, btn) {
+            document.querySelectorAll('.code-content pre').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.code-tab-btn').forEach(el => el.classList.remove('active'));
+            
+            const target = document.getElementById(codeId);
+            if (target) {
+                target.style.display = 'block';
+            }
+            btn.classList.add('active');
+        }
+
+        // Live ML Simulator
+        function updateSimulator(val) {
+            document.getElementById('occValDisplay').textContent = val + '%';
+            
+            let mult = 1.0;
+            let tier = 'Normal (No Surge)';
+            let tierColor = '#34d399';
+            
+            if (val >= 90) {
+                mult = 2.0;
+                tier = 'Critical Surge';
+                tierColor = '#ef4444';
+            } else if (val >= 75) {
+                mult = 1.5;
+                tier = 'High Surge';
+                tierColor = '#f59e0b';
+            } else if (val >= 50) {
+                mult = 1.25;
+                tier = 'Moderate Surge';
+                tierColor = '#38bdf8';
+            }
+
+            const baseRate = 5.00;
+            const finalRate = (baseRate * mult).toFixed(2);
+
+            const simMultEl = document.getElementById('simMultiplier');
+            const simRateEl = document.getElementById('simRate');
+            const simTierEl = document.getElementById('simTier');
+
+            simMultEl.textContent = mult.toFixed(2) + 'x';
+            simRateEl.textContent = '$' + finalRate + '/hr';
+            simTierEl.textContent = tier;
+            simTierEl.style.color = tierColor;
+        }
+
+        // Copy active code snippet
+        function copyActiveCode() {
+            const activePre = document.querySelector('.code-content pre:not([style*="display: none"]) code');
+            if (activePre) {
+                navigator.clipboard.writeText(activePre.innerText).then(() => {
+                    showToast('Code snippet copied to clipboard!');
+                });
+            }
+        }
+
+        // Copy Resume Bullets
+        function copyResumeBullets() {
+            const bullets = Array.from(document.querySelectorAll('#resumeBulletsList li'))
+                .map(li => '• ' + li.innerText)
+                .join('\n\n');
+            
+            navigator.clipboard.writeText(bullets).then(() => {
+                showToast('Resume bullet points copied to clipboard!');
+            });
+        }
+
+        // Toast Helper
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').textContent = text;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeToggleBtn.innerHTML = newTheme === 'dark' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun" style="color:#f59e0b;"></i>';
+        });
+    </script>
+</body>
+</html>
